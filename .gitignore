@@ -17,6 +17,14 @@ wp-content/themes/twenty*/
 # ignore node dependency directories
 node_modules/
 
+# ignore all files starting with . or ~
+.*
+~*
+
+#ignore specific project files
+koala-config.json
+*.css.map
+
 # ignore log files and databases
 *.log
 *.sql
