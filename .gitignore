@@ -1,4 +1,5 @@
 # ignore everything in the root except the "wp-content" directory.
+/*
 !wp-content/
 
 # ignore everything in the "wp-content" directory, except:
@@ -10,9 +11,11 @@ wp-content/*
 
 # ignore these plugins
 wp-content/plugins/hello.php
+wp-content/plugins/akismet/*
 
-# ignore specific themes
-wp-content/themes/twenty*/
+# ignore everything in themes folder except for specific themes
+wp-content/themes/*
+!wp-content/themes/abertoir2022/
 
 # ignore node dependency directories
 node_modules/
@@ -29,3 +32,22 @@ koala-config.json
 *.log
 *.sql
 *.sqlite
+
+# -------------------------
+# BEGIN Whitelisted Files
+# -------------------------
+
+# track these files, if they exist
+!.gitignore
+!README.md
+!CHANGELOG.md
+
+# track favicon files, if they exist
+!android-chrome-*.png
+!apple-touch-icon*.png
+!browserconfig.xml
+!favicon*.png
+!favicon*.ico
+!manifest.json
+!mstile-*.png
+!safari-pinned-tab.svg
