@@ -16,14 +16,14 @@ class PLL_OLT_Manager {
 	/**
 	 * Singleton instance
 	 *
-	 * @var PLL_OLT_Manager
+	 * @var PLL_OLT_Manager|null
 	 */
 	protected static $instance;
 
 	/**
 	 * Stores the default site locale before it is modified.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $default_locale;
 
@@ -93,9 +93,9 @@ class PLL_OLT_Manager {
 	 */
 	public function load_textdomains() {
 		// Our load_textdomain_mofile filter has done its job. let's remove it before calling load_textdomain
-		remove_filter( 'load_textdomain_mofile', array( $this, 'load_textdomain_mofile' ), 10, 2 );
-		remove_filter( 'gettext', array( $this, 'gettext' ), 10, 3 );
-		remove_filter( 'gettext_with_context', array( $this, 'gettext_with_context' ), 10, 4 );
+		remove_filter( 'load_textdomain_mofile', array( $this, 'load_textdomain_mofile' ) );
+		remove_filter( 'gettext', array( $this, 'gettext' ) );
+		remove_filter( 'gettext_with_context', array( $this, 'gettext_with_context' ) );
 		$new_locale = get_locale();
 
 		// Don't try to save time for en_US as some users have theme written in another language
@@ -158,8 +158,10 @@ class PLL_OLT_Manager {
 		 */
 		do_action_ref_array( 'pll_translate_labels', array( &$this->labels ) );
 
-		// Free memory
-		unset( $this->default_locale, $this->list_textdomains, $this->labels );
+		// Free memory.
+		$this->default_locale   = null;
+		$this->list_textdomains = array();
+		$this->labels           = array();
 	}
 
 	/**

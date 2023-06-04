@@ -10,8 +10,8 @@
  * Plugin Name:       Polylang
  * Plugin URI:        https://polylang.pro
  * Description:       Adds multilingual capability to WordPress
- * Version:           3.2.6
- * Requires at least: 5.6
+ * Version:           3.4.2
+ * Requires at least: 5.8
  * Requires PHP:      5.6
  * Author:            WP SYNTEX
  * Author URI:        https://polylang.pro
@@ -21,7 +21,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
  *
  * Copyright 2011-2019 Frédéric Demarle
- * Copyright 2019-2022 WP SYNTEX
+ * Copyright 2019-2023 WP SYNTEX
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,8 +53,8 @@ if ( defined( 'POLYLANG_VERSION' ) ) {
 	}
 } else {
 	// Go on loading the plugin
-	define( 'POLYLANG_VERSION', '3.2.6' );
-	define( 'PLL_MIN_WP_VERSION', '5.6' );
+	define( 'POLYLANG_VERSION', '3.4.2' );
+	define( 'PLL_MIN_WP_VERSION', '5.8' );
 	define( 'PLL_MIN_PHP_VERSION', '5.6' );
 
 	define( 'POLYLANG_FILE', __FILE__ );

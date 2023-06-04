@@ -33,7 +33,7 @@ class PLL_License {
 	/**
 	 * License data, obtained from the API request.
 	 *
-	 * @var stdClass
+	 * @var stdClass|null
 	 */
 	public $license_data;
 
@@ -91,8 +91,7 @@ class PLL_License {
 		}
 
 		// Updater
-		add_action( 'admin_init', array( $this, 'auto_updater' ), 0 );
-		add_action( 'cli_init', array( $this, 'auto_updater' ), 0 ); // For WP CLI.
+		$this->auto_updater();
 
 		// Register settings
 		add_filter( 'pll_settings_licenses', array( $this, 'settings' ) );
@@ -149,8 +148,8 @@ class PLL_License {
 		$this->license_key = $license_key;
 		$this->api_request( 'activate_license' );
 
-		// Tell WordPress to look for updates
-		set_site_transient( 'update_plugins', null );
+		// Tell WordPress to look for updates.
+		delete_site_transient( 'update_plugins' );
 		return $this;
 	}
 
@@ -172,11 +171,10 @@ class PLL_License {
 	 *
 	 * @since 1.9
 	 *
-	 * @return PLL_License Updated PLL_License object.
+	 * @return void
 	 */
 	public function check_license() {
 		$this->api_request( 'check_license' );
-		return $this;
 	}
 
 	/**

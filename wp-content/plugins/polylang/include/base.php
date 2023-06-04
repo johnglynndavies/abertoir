@@ -8,6 +8,7 @@
  *
  * @since 1.2
  */
+#[AllowDynamicProperties]
 abstract class PLL_Base {
 	/**
 	 * Stores the plugin options.
@@ -31,14 +32,14 @@ abstract class PLL_Base {
 	/**
 	 * Registers hooks on insert / update post related actions and filters.
 	 *
-	 * @var PLL_CRUD_Posts
+	 * @var PLL_CRUD_Posts|null
 	 */
 	public $posts;
 
 	/**
 	 * Registers hooks on insert / update term related action and filters.
 	 *
-	 * @var PLL_CRUD_Terms
+	 * @var PLL_CRUD_Terms|null
 	 */
 	public $terms;
 
@@ -76,7 +77,7 @@ abstract class PLL_Base {
 	 * @return void
 	 */
 	public function init() {
-		if ( $this->model->get_languages_list() ) {
+		if ( $this->model->has_languages() ) {
 			$this->posts = new PLL_CRUD_Posts( $this );
 			$this->terms = new PLL_CRUD_Terms( $this );
 
@@ -187,7 +188,13 @@ abstract class PLL_Base {
 		}
 
 		$customize_register_hooks = count( array_merge( ...array_values( $wp_filter['customize_register']->callbacks ) ) );
-		if ( $customize_register_hooks > 1 ) {
+
+		/*
+		 * 'customize_register' is hooked by:
+		 * @see PLL_Nav_Menu::create_nav_menu_locations()
+		 * @see PLL_Frontend_Static_Pages::filter_customizer()
+		 */
+		if ( $customize_register_hooks > 1 + (int) ( 'page' === get_option( 'show_on_front' ) ) ) { // Are there other hooks than our own?
 			return false;
 		}
 

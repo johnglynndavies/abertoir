@@ -102,10 +102,55 @@ const initializeLanguageOldValue = () => {
 	languagesList.attr( 'data-old-value', languagesList.children( ':selected' ).first().val() );
 };
 
+;// CONCATENATED MODULE: ./js/src/lib/metabox-autocomplete.js
+/**
+ * @package Polylang
+ */
+
+// Translations autocomplete input box.
+function initMetaboxAutoComplete() {
+	jQuery('.tr_lang').each(
+		function () {
+			var tr_lang = jQuery(this).attr('id').substring(8);
+			var td = jQuery(this).parent().parent().siblings('.pll-edit-column');
+
+			jQuery(this).autocomplete(
+				{
+					minLength: 0,
+					source: ajaxurl + '?action=pll_posts_not_translated' +
+						'&post_language=' + jQuery('.post_lang_choice').val() +
+						'&translation_language=' + tr_lang +
+						'&post_type=' + jQuery('#post_type').val() +
+						'&_pll_nonce=' + jQuery('#_pll_nonce').val(),
+					select: function (event, ui) {
+						jQuery('#htr_lang_' + tr_lang).val(ui.item.id);
+						// ui.item.link is built and come from server side and is well escaped when necessary
+						td.html(ui.item.link); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.html
+					},
+				}
+			);
+
+			// when the input box is emptied
+			jQuery(this).on(
+				'blur',
+				function () {
+					if ( ! jQuery(this).val()  ) {
+						jQuery('#htr_lang_' + tr_lang).val(0);
+						// Value is retrieved from HTML already generated server side
+						td.html(td.siblings('.hidden').children().clone()); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.html
+					}
+				}
+			);
+		}
+	);
+}
+
 ;// CONCATENATED MODULE: ./js/src/block-editor.js
 /**
  * @package Polylang
  */
+
+
 
 
 
@@ -131,14 +176,20 @@ wp.apiFetch.use(
 );
 
 /**
- * Get the language from the HTML form
+ * Gets the language of the currently edited post, fallback to default language if none is found.
  *
  * @since 2.5
  *
  * @return {Element.value}
  */
 function getCurrentLanguage() {
-	return document.querySelector( '[name=post_lang_choice]' ).value;
+	const lang = document.querySelector( '[name=post_lang_choice]' );
+
+	if ( null === lang ) {
+		return pllDefaultLanguage;
+	}
+
+	return lang.value;
 }
 
 /**
@@ -165,20 +216,18 @@ jQuery(
 		$( '.post_lang_choice' ).on(
 			'change',
 			function( event ) {
-				const select = wp.data.select;
-				const dispatch = wp.data.dispatch;
-				const subscribe = wp.data.subscribe;
-				const emptyPost = isEmptyPost();
+				const { select, dispatch, subscribe } = wp.data;
+				const emptyPost                       = isEmptyPost();
+				const { addQueryArgs }                = wp.url;
 
 				// Initialize the confirmation dialog box.
-				const confirmationModal = initializeConfimationModal();
+				const confirmationModal            = initializeConfimationModal();
 				const { dialogContainer : dialog } = confirmationModal;
-				let { dialogResult } = confirmationModal;
-				// The selected option in the dropdown list.
-				const selectedOption = event.target;
+				let { dialogResult }               = confirmationModal;
+				const selectedOption               = event.target; // The selected option in the dropdown list.
 
 				// Specific case for empty posts.
-				// Place at the beginning because window.location changing triggers automatically page reloading.
+				// Place at the beginning because window.location change triggers automatically page reloading.
 				if ( location.pathname.match( /post-new.php/gi ) && emptyPost ) {
 					reloadPageForEmptyPost( selectedOption.value );
 				}
@@ -189,7 +238,7 @@ jQuery(
 				if ( $( this ).data( 'old-value' ) !== selectedOption.value && ! emptyPost ) {
 					dialog.dialog( 'open' );
 				} else {
-					// Update the old language with the new one to be able to compare it in the next changing.
+					// Update the old language with the new one to be able to compare it in the next change.
 					// Because the page isn't reloaded in this case.
 					initializeLanguageOldValue();
 					dialogResult = Promise.resolve();
@@ -197,7 +246,7 @@ jQuery(
 
 				dialogResult.then(
 					() => {
-						var data = { // phpcs:ignore PEAR.Functions.FunctionCallSignature.Indent
+						let data = { // phpcs:ignore PEAR.Functions.FunctionCallSignature.Indent
 							action:     'post_lang_choice',
 							lang:       selectedOption.value,
 							post_type:  $( '#post_type' ).val(),
@@ -205,28 +254,12 @@ jQuery(
 							_pll_nonce: $( '#_pll_nonce' ).val()
 						}
 
+						// Update post language in database as soon as possible.
+						// Because, in addition of the block editor save process, the legacy metabox uses a post.php process to update the language and is too late compared to the page reload.
 						$.post(
 							ajaxurl,
 							data,
-							function( response ) {
-								// Target a non existing WP HTML id to avoid a conflict with WP ajax requests.
-								var res = wpAjax.parseAjaxResponse( response, 'pll-ajax-response' );
-								$.each(
-									res.responses,
-									function() {
-										switch ( this.what ) {
-											case 'translations': // Translations fields
-												// Data is built and come from server side and is well escaped when necessary
-												$( '.translations' ).html( this.data ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.html
-												init_translations();
-											break;
-											case 'flag': // Flag in front of the select dropdown
-												// Data is built and come from server side and is well escaped when necessary
-												$( '.pll-select-flag' ).html( this.data ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.html
-											break;
-										}
-									}
-								);
+							function() {
 								blockEditorSavePostAndReloadPage();
 							}
 						);
@@ -235,8 +268,8 @@ jQuery(
 				);
 
 				function isEmptyPost() {
-					const editor = wp.data.select( 'core/editor' );
-					const title = editor.getEditedPostAttribute( 'title' ).trim();
+					const editor  = select( 'core/editor' );
+					const title   = editor.getEditedPostAttribute( 'title' ).trim();
 					const content = editor.getEditedPostAttribute( 'content' ).trim();
 					const excerpt = editor.getEditedPostAttribute( 'excerpt' ).trim();
 
@@ -266,21 +299,37 @@ jQuery(
 				 */
 				function blockEditorSavePostAndReloadPage() {
 
-					let unsubscribe = null;
+					let unsubscribe    = null;
+					const previousPost = select( 'core/editor').getCurrentPost();
 
 					// Listen if the savePost is completely done by subscribing to its events.
 					const savePostIsDone = new Promise(
 						function( resolve, reject ) {
 							unsubscribe = subscribe(
 								function() {
-									const isSavePostSucceeded = select( 'core/editor' ).didPostSaveRequestSucceed();
-									const isSavePostFailed = select( 'core/editor' ).didPostSaveRequestFail();
-									if ( isSavePostSucceeded || isSavePostFailed ) {
-										if ( isSavePostFailed ) {
-											reject();
-										} else {
-											resolve();
+									const post                 = select( 'core/editor').getCurrentPost();
+									const { id, status, type } = post;
+									const error                = select( 'core' )
+										.getLastEntitySaveError(
+											'postType',
+											type,
+											id
+										);
+
+									if ( error ) {
+										reject();
+									}
+
+									if ( previousPost.modified !== post.modified ) {
+
+										if ( location.pathname.match( /post-new.php/gi ) && status !== 'auto-draft' && id ) {
+											window.history.replaceState(
+												{ id },
+												'Post ' + id,
+												addQueryArgs( 'post.php', { post: id, action: 'edit' } )
+											);
 										}
+										resolve();
 									}
 								}
 							);
@@ -310,47 +359,7 @@ jQuery(
 			}
 		);
 
-		// Translations autocomplete input box
-		function init_translations() {
-			$( '.tr_lang' ).each(
-				function(){
-					var tr_lang = $( this ).attr( 'id' ).substring( 8 );
-					var td = $( this ).parent().parent().siblings( '.pll-edit-column' );
-
-					$( this ).autocomplete(
-						{
-							minLength: 0,
-
-							source: ajaxurl + '?action=pll_posts_not_translated' +
-								'&post_language=' + $( '.post_lang_choice' ).val() +
-								'&translation_language=' + tr_lang +
-								'&post_type=' + $( '#post_type' ).val() +
-								'&_pll_nonce=' + $( '#_pll_nonce' ).val(),
-
-							select: function( event, ui ) {
-								$( '#htr_lang_' + tr_lang ).val( ui.item.id );
-								// ui.item.link is built and come from server side and is well escaped when necessary
-								td.html( ui.item.link ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.html
-							},
-						}
-					);
-
-					// When the input box is emptied
-					$( this ).on(
-						'blur',
-						function() {
-							if ( ! $( this ).val() ) {
-								$( '#htr_lang_' + tr_lang ).val( 0 );
-								// Value is retrieved from HTML already generated server side
-								td.html( td.siblings( '.hidden' ).children().clone() );  // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.html
-							}
-						}
-					);
-				}
-			);
-		}
-
-		init_translations();
+		initMetaboxAutoComplete();
 	}
 );
 

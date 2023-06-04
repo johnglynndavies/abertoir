@@ -27,7 +27,7 @@ class PLL_Switcher {
 	);
 
 	/**
-	 * @var PLL_Links
+	 * @var PLL_Links|null
 	 */
 	protected $links;
 
@@ -249,6 +249,11 @@ class PLL_Switcher {
 			$walker = new PLL_Walker_Dropdown();
 		} else {
 			$walker = new PLL_Walker_List();
+		}
+
+		// Cast each element to stdClass because $walker::walk() expects an array of objects.
+		foreach ( $elements as $i => $element ) {
+			$elements[ $i ] = (object) $element;
 		}
 
 		/**

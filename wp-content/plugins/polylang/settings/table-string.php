@@ -125,8 +125,12 @@ class PLL_Table_String extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_translations( $item ) {
-		$languages = array_combine( wp_list_pluck( $this->languages, 'slug' ), wp_list_pluck( $this->languages, 'name' ) );
-		$out = '';
+		$out       = '';
+		$languages = array();
+
+		foreach ( $this->languages as $language ) {
+			$languages[ $language->slug ] = $language->name;
+		}
 
 		foreach ( $item['translations'] as $key => $translation ) {
 			$input_type = $item['multiline'] ?
@@ -288,7 +292,7 @@ class PLL_Table_String extends WP_List_Table {
 			array(
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
-				'total_pages' => ceil( $total_items / $per_page ),
+				'total_pages' => (int) ceil( $total_items / $per_page ),
 			)
 		);
 
@@ -382,7 +386,7 @@ class PLL_Table_String extends WP_List_Table {
 					continue;
 				}
 
-				$translations = array_map( 'trim', wp_unslash( $_POST['translation'][ $language->slug ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$translations = array_map( 'trim', (array) wp_unslash( $_POST['translation'][ $language->slug ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				$mo = new PLL_MO();
 				$mo->import_from_db( $language );
