@@ -1,0 +1,201 @@
+{
+    "version": 3,
+    "settings": {
+        "color": {
+            "custom": false,
+            "link": true,
+            "customDuotone": false,
+            "customGradient": false,
+            "duotone": [],
+            "gradients": [],
+            "palette": [
+                {
+                    "slug": "black-night",
+                    "color": "#020202",
+                    "name": "Black as the night"
+                },
+                {
+                    "slug": "dark-background-shade",
+                    "color": "#171414",
+                    "name": "Shady night"
+                },
+                {
+                    "slug": "white-bone",
+                    "color": "#ffffeb",
+                    "name": "Bone white"
+                },
+                {
+                    "slug": "light-background-shade",
+                    "color": "#171414",
+                    "name": "Shady day"
+                },
+                {
+                    "slug": "primary",
+                    "color": "#FF0000",
+                    "name": "Blood red"
+                },
+                {
+                    "slug": "text-subtle",
+                    "color": "#AEB39A",
+                    "name": "Bone dry"
+                }
+              ]
+        },
+        "typography": {
+            "dropCap": false,
+            "customFontSize": false,
+            "customLineHeight": false,
+            "customFontStyle": true,
+            "customFontWeight": true,
+            "customTextDecorations": false,
+            "customTextTransforms": true,
+            "fontSizes": [
+                {
+                    "slug": "x-small",
+                    "size": "0.844rem",
+                    "name": "X-Small"
+                },
+                {
+                    "slug": "small",
+                    "size": "1rem",
+                    "name": "Small"
+                },
+                {
+                    "slug": "medium",
+                    "size": "1.125rem",
+                    "name": "Medium"
+                }
+            ],
+            "fontFamilies": [
+                {
+                    "fontFamily": "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif",
+                    "name": "System Font",
+                    "slug": "system-font"
+                },
+                {
+                    "fontFamily": "\"Alegreya\", serif;",
+                    "name": "Alegreya",
+                    "slug": "alegreya",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Alegreya",
+                            "fontWeight": "400 700",
+                            "fontStyle": "normal",
+                            "fontStretch": "normal",
+                            "src": [ "file:./assets/fonts/alegreya/Alegreya-VariableFont_wght.ttf" ]
+                        }
+                    ]
+                },
+                {
+                    "fontFamily": "\"Poppins\", sans-serif;",
+                    "name": "Poppins",
+                    "slug": "poppins",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Poppins",
+                            "fontWeight": "300",
+                            "fontStyle": "normal",
+                            "fontStretch": "normal",
+                            "src": [ "file:./assets/fonts/poppins/Poppins-Light.ttf" ]
+                        },
+                        {
+                            "fontFamily": "Poppins",
+                            "fontWeight": "600",
+                            "fontStyle": "normal",
+                            "fontStretch": "normal",
+                            "src": [ "file:./assets/fonts/poppins/Poppins-SemiBold.ttf" ]
+                        },
+                        {
+                            "fontFamily": "Poppins",
+                            "fontWeight": "800",
+                            "fontStyle": "normal",
+                            "fontStretch": "normal",
+                            "src": [ "file:./assets/fonts/poppins/Poppins-ExtraBold.ttf" ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "layout": {
+            "contentSize": "610px",
+            "wideSize": "1240px"
+        }
+    },
+    "styles": {
+        "blocks": {
+            "core/post-title": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--poppins)",
+                    "fontWeight": "800",
+                    "lineHeight": "var(--wp--custom--typography--line-height--tiny)",
+                    "fontSize": "var(--wp--custom--typography--font-size--colossal)",
+                    "textTransform": "uppercase"
+                }
+            },
+            "core/site-title": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--poppins)",
+                    "fontWeight": "600",
+                    "lineHeight": "var(--wp--custom--typography--line-height--normal)",
+                    "fontSize": "var(--wp--preset--font-size--medium)"
+                }
+            }
+        },
+        "color": {
+            "background": "var(--wp--preset--color--white-bone)",
+            "text": "var(--wp--preset--color--black-night)"
+        },
+        "elements": {
+            "h1": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--alegreya)",
+                    "fontWeight": "700",
+                    "lineHeight": "var(--wp--custom--typography--line-height--tiny)",
+                    "fontSize": "var(--wp--custom--typography--font-size--colossal)"
+                }
+            },
+            "h2": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--poppins)",
+                    "fontWeight": "700",
+                    "lineHeight": "var(--wp--custom--typography--line-height--small)",
+                    "fontSize": "var(--wp--custom--typography--font-size--gigantic)"
+                }
+            },
+            "h3": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--poppins)",
+                    "fontWeight": "700",
+                    "lineHeight": "var(--wp--custom--typography--line-height--tiny)",
+                    "fontSize": "var(--wp--custom--typography--font-size--huge)"
+                }
+            },
+            "h4": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--poppins)",
+                    "fontWeight": "700",
+                    "lineHeight": "var(--wp--custom--typography--line-height--tiny)",
+                    "fontSize": "var(--wp--preset--font-size--x-large)"
+                }
+            },
+            "h5": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--system-font)",
+                    "fontWeight": "700",
+                    "textTransform": "uppercase",
+                    "lineHeight": "var(--wp--custom--typography--line-height--normal)",
+                    "fontSize": "var(--wp--preset--font-size--medium)"
+                }
+            },
+            "h6": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--system-font)",
+                    "fontWeight": "400",
+                    "textTransform": "uppercase",
+                    "lineHeight": "var(--wp--custom--typography--line-height--normal)",
+                    "fontSize": "var(--wp--preset--font-size--medium)"
+                }
+            }
+        }
+    }
+}
