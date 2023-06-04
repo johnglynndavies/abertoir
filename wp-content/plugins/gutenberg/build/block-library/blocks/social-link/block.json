@@ -16,15 +16,21 @@
 		},
 		"label": {
 			"type": "string"
+		},
+		"rel": {
+			"type": "string"
 		}
 	},
 	"usesContext": [
 		"openInNewTab",
 		"showLabels",
+		"iconColor",
 		"iconColorValue",
+		"iconBackgroundColor",
 		"iconBackgroundColorValue"
 	],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false
 	},

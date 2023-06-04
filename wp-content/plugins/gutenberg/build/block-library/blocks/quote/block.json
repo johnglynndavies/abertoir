@@ -29,7 +29,7 @@
 	},
 	"supports": {
 		"anchor": true,
-		"__experimentalSlashInserter": true,
+		"html": false,
 		"__experimentalOnEnter": true,
 		"typography": {
 			"fontSize": true,

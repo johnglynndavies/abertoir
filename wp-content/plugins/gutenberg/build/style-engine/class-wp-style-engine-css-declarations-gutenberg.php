@@ -12,12 +12,11 @@ if ( class_exists( 'WP_Style_Engine_CSS_Declarations_Gutenberg' ) ) {
 }
 
 /**
- * Holds, sanitizes, processes and prints CSS declarations for the style engine.
+ * Holds, sanitizes, processes and prints CSS declarations for the Style Engine.
  *
  * @access private
  */
 class WP_Style_Engine_CSS_Declarations_Gutenberg {
-
 	/**
 	 * An array of CSS declarations (property => value pairs).
 	 *
@@ -125,6 +124,7 @@ class WP_Style_Engine_CSS_Declarations_Gutenberg {
 	 */
 	protected static function filter_declaration( $property, $value, $spacer = '' ) {
 		$filtered_value = wp_strip_all_tags( $value, true );
+
 		if ( '' !== $filtered_value ) {
 			return safecss_filter_attr( "{$property}:{$spacer}{$filtered_value}" );
 		}

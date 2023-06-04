@@ -248,13 +248,13 @@ function setDefaults(scope, defaults) {
 }
 /** @typedef {() => Promise<Object>} WPPreferencesPersistenceLayerGet */
 
-/** @typedef {(*) => void} WPPreferencesPersistenceLayerSet */
+/** @typedef {(Object) => void} WPPreferencesPersistenceLayerSet */
 
 /**
  * @typedef WPPreferencesPersistenceLayer
  *
  * @property {WPPreferencesPersistenceLayerGet} get An async function that gets data from the persistence layer.
- * @property {WPPreferencesPersistenceLayerSet} set A  function that sets data in the persistence layer.
+ * @property {WPPreferencesPersistenceLayerSet} set A function that sets data in the persistence layer.
  */
 
 /**
@@ -360,7 +360,9 @@ function PreferenceToggleMenuItem(_ref) {
     info,
     messageActivated,
     messageDeactivated,
-    shortcut
+    shortcut,
+    onToggle = () => null,
+    disabled = false
   } = _ref;
   const isActive = (0,external_wp_data_namespaceObject.useSelect)(select => !!select(store).get(scope, name), [name]);
   const {
@@ -385,12 +387,14 @@ function PreferenceToggleMenuItem(_ref) {
     icon: isActive && library_check,
     isSelected: isActive,
     onClick: () => {
+      onToggle();
       toggle(scope, name);
       speakMessage();
     },
     role: "menuitemcheckbox",
     info: info,
-    shortcut: shortcut
+    shortcut: shortcut,
+    disabled: disabled
   }, label);
 }
 

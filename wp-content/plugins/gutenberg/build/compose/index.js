@@ -2157,10 +2157,13 @@ __webpack_require__.d(__webpack_exports__, {
   "__experimentalUseDropZone": () => (/* reexport */ useDropZone),
   "__experimentalUseFixedWindowList": () => (/* reexport */ useFixedWindowList),
   "__experimentalUseFocusOutside": () => (/* reexport */ useFocusOutside),
-  "compose": () => (/* reexport */ compose),
+  "compose": () => (/* reexport */ higher_order_compose),
   "createHigherOrderComponent": () => (/* reexport */ createHigherOrderComponent),
+  "debounce": () => (/* reexport */ debounce),
   "ifCondition": () => (/* reexport */ if_condition),
+  "pipe": () => (/* reexport */ higher_order_pipe),
   "pure": () => (/* reexport */ higher_order_pure),
+  "throttle": () => (/* reexport */ throttle),
   "useAsyncList": () => (/* reexport */ use_async_list),
   "useConstrainedTabbing": () => (/* reexport */ use_constrained_tabbing),
   "useCopyOnClick": () => (/* reexport */ useCopyOnClick),
@@ -2170,7 +2173,7 @@ __webpack_require__.d(__webpack_exports__, {
   "useFocusOnMount": () => (/* reexport */ useFocusOnMount),
   "useFocusReturn": () => (/* reexport */ use_focus_return),
   "useFocusableIframe": () => (/* reexport */ useFocusableIframe),
-  "useInstanceId": () => (/* reexport */ useInstanceId),
+  "useInstanceId": () => (/* reexport */ use_instance_id),
   "useIsomorphicLayoutEffect": () => (/* reexport */ use_isomorphic_layout_effect),
   "useKeyboardShortcut": () => (/* reexport */ use_keyboard_shortcut),
   "useMediaQuery": () => (/* reexport */ useMediaQuery),
@@ -2539,8 +2542,8 @@ function pascalCase(input, options) {
  * Given a function mapping a component to an enhanced component and modifier
  * name, returns the enhanced component augmented with a generated displayName.
  *
- * @param  mapComponent Function mapping component to enhanced component.
- * @param  modifierName Seed name from which to generated display name.
+ * @param mapComponent Function mapping component to enhanced component.
+ * @param modifierName Seed name from which to generated display name.
  *
  * @return Component class with generated display name assigned.
  */
@@ -2558,8 +2561,8 @@ function createHigherOrderComponent(mapComponent, modifierName) {
  *     hocName( 'MyMemo', Widget ) === 'MyMemo(Widget)';
  *     hocName( 'MyMemo', <div /> ) === 'MyMemo(Component)';
  *
- * @param  name  Name assigned to higher-order component's wrapper component.
- * @param  Inner Wrapped component inside higher-order component.
+ * @param name  Name assigned to higher-order component's wrapper component.
+ * @param Inner Wrapped component inside higher-order component.
  * @return       Wrapped name of higher-order component.
  */
 
@@ -2569,23 +2572,419 @@ const hocName = (name, Inner) => {
   return `${outer}(${inner})`;
 };
 
-;// CONCATENATED MODULE: external "lodash"
-const external_lodash_namespaceObject = window["lodash"];
+;// CONCATENATED MODULE: ./packages/compose/build-module/utils/debounce/index.js
+/**
+ * Parts of this source were derived and modified from lodash,
+ * released under the MIT license.
+ *
+ * https://github.com/lodash/lodash
+ *
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
+ *
+ * Based on Underscore.js, copyright Jeremy Ashkenas,
+ * DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals. For exact contribution history, see the revision history
+ * available at https://github.com/lodash/lodash
+ *
+ * The following license applies to all parts of this software except as
+ * documented below:
+ *
+ * ====
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/**
+ * A simplified and properly typed version of lodash's `debounce`, that
+ * always uses timers instead of sometimes using rAF.
+ *
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel delayed
+ * `func` invocations and a `flush` method to immediately invoke them. Provide
+ * `options` to indicate whether `func` should be invoked on the leading and/or
+ * trailing edge of the `wait` timeout. The `func` is invoked with the last
+ * arguments provided to the debounced function. Subsequent calls to the debounced
+ * function return the result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * @param {Function}                   func             The function to debounce.
+ * @param {number}                     wait             The number of milliseconds to delay.
+ * @param {Partial< DebounceOptions >} options          The options object.
+ * @param {boolean}                    options.leading  Specify invoking on the leading edge of the timeout.
+ * @param {number}                     options.maxWait  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean}                    options.trailing Specify invoking on the trailing edge of the timeout.
+ *
+ * @return Returns the new debounced function.
+ */
+const debounce = (func, wait, options) => {
+  let lastArgs;
+  let lastThis;
+  let maxWait = 0;
+  let result;
+  let timerId;
+  let lastCallTime;
+  let lastInvokeTime = 0;
+  let leading = false;
+  let maxing = false;
+  let trailing = true;
+
+  if (options) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+
+    if (options.maxWait !== undefined) {
+      maxWait = Math.max(options.maxWait, wait);
+    }
+
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    const args = lastArgs;
+    const thisArg = lastThis;
+    lastArgs = undefined;
+    lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function startTimer(pendingFunc, waitTime) {
+    timerId = setTimeout(pendingFunc, waitTime);
+  }
+
+  function cancelTimer() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time; // Start the timer for the trailing edge.
+
+    startTimer(timerExpired, wait); // Invoke the leading edge.
+
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function getTimeSinceLastCall(time) {
+    return time - (lastCallTime || 0);
+  }
+
+  function remainingWait(time) {
+    const timeSinceLastCall = getTimeSinceLastCall(time);
+    const timeSinceLastInvoke = time - lastInvokeTime;
+    const timeWaiting = wait - timeSinceLastCall;
+    return maxing ? Math.min(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting;
+  }
+
+  function shouldInvoke(time) {
+    const timeSinceLastCall = getTimeSinceLastCall(time);
+    const timeSinceLastInvoke = time - lastInvokeTime; // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+
+    return lastCallTime === undefined || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
+  }
+
+  function timerExpired() {
+    const time = Date.now();
+
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    } // Restart the timer.
+
+
+    startTimer(timerExpired, remainingWait(time));
+    return undefined;
+  }
+
+  function clearTimer() {
+    timerId = undefined;
+  }
+
+  function trailingEdge(time) {
+    clearTimer(); // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    cancelTimer();
+    lastInvokeTime = 0;
+    clearTimer();
+    lastArgs = lastCallTime = lastThis = undefined;
+  }
+
+  function flush() {
+    return pending() ? trailingEdge(Date.now()) : result;
+  }
+
+  function pending() {
+    return timerId !== undefined;
+  }
+
+  function debounced() {
+    const time = Date.now();
+    const isInvoking = shouldInvoke(time);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    lastArgs = args;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (!pending()) {
+        return leadingEdge(lastCallTime);
+      }
+
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        startTimer(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+
+    if (!pending()) {
+      startTimer(timerExpired, wait);
+    }
+
+    return result;
+  }
+
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  debounced.pending = pending;
+  return debounced;
+};
+
+;// CONCATENATED MODULE: ./packages/compose/build-module/utils/throttle/index.js
+/**
+ * Parts of this source were derived and modified from lodash,
+ * released under the MIT license.
+ *
+ * https://github.com/lodash/lodash
+ *
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
+ *
+ * Based on Underscore.js, copyright Jeremy Ashkenas,
+ * DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals. For exact contribution history, see the revision history
+ * available at https://github.com/lodash/lodash
+ *
+ * The following license applies to all parts of this software except as
+ * documented below:
+ *
+ * ====
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * A simplified and properly typed version of lodash's `throttle`, that
+ * always uses timers instead of sometimes using rAF.
+ *
+ * Creates a throttled function that only invokes `func` at most once per
+ * every `wait` milliseconds. The throttled function comes with a `cancel`
+ * method to cancel delayed `func` invocations and a `flush` method to
+ * immediately invoke them. Provide `options` to indicate whether `func`
+ * should be invoked on the leading and/or trailing edge of the `wait`
+ * timeout. The `func` is invoked with the last arguments provided to the
+ * throttled function. Subsequent calls to the throttled function return
+ * the result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the throttled function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * @param {Function}                   func             The function to throttle.
+ * @param {number}                     wait             The number of milliseconds to throttle invocations to.
+ * @param {Partial< ThrottleOptions >} options          The options object.
+ * @param {boolean}                    options.leading  Specify invoking on the leading edge of the timeout.
+ * @param {boolean}                    options.trailing Specify invoking on the trailing edge of the timeout.
+ * @return Returns the new throttled function.
+ */
+const throttle = (func, wait, options) => {
+  let leading = true;
+  let trailing = true;
+
+  if (options) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  return debounce(func, wait, {
+    leading,
+    trailing,
+    maxWait: wait
+  });
+};
+
+;// CONCATENATED MODULE: ./packages/compose/build-module/higher-order/pipe.js
+/**
+ * Parts of this source were derived and modified from lodash,
+ * released under the MIT license.
+ *
+ * https://github.com/lodash/lodash
+ *
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
+ *
+ * Based on Underscore.js, copyright Jeremy Ashkenas,
+ * DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals. For exact contribution history, see the revision history
+ * available at https://github.com/lodash/lodash
+ *
+ * The following license applies to all parts of this software except as
+ * documented below:
+ *
+ * ====
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/**
+ * Creates a pipe function.
+ *
+ * Allows to choose whether to perform left-to-right or right-to-left composition.
+ *
+ * @see https://docs-lodash.com/v4/flow/
+ *
+ * @param {boolean} reverse True if right-to-left, false for left-to-right composition.
+ */
+const basePipe = function () {
+  let reverse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  return function () {
+    for (var _len = arguments.length, funcs = new Array(_len), _key = 0; _key < _len; _key++) {
+      funcs[_key] = arguments[_key];
+    }
+
+    return function () {
+      const functions = funcs.flat();
+
+      if (reverse) {
+        functions.reverse();
+      }
+
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return functions.reduce((prev, func) => [func(...prev)], args)[0];
+    };
+  };
+};
+/**
+ * Composes multiple higher-order components into a single higher-order component. Performs left-to-right function
+ * composition, where each successive invocation is supplied the return value of the previous.
+ *
+ * This is inspired by `lodash`'s `flow` function.
+ *
+ * @see https://docs-lodash.com/v4/flow/
+ */
+
+
+const pipe = basePipe();
+
+/* harmony default export */ const higher_order_pipe = (pipe);
+
 ;// CONCATENATED MODULE: ./packages/compose/build-module/higher-order/compose.js
 /**
- * External dependencies
+ * Internal dependencies
  */
 
 /**
  * Composes multiple higher-order components into a single higher-order component. Performs right-to-left function
  * composition, where each successive invocation is supplied the return value of the previous.
  *
- * This is just a re-export of `lodash`'s `flowRight` function.
+ * This is inspired by `lodash`'s `flowRight` function.
  *
  * @see https://docs-lodash.com/v4/flow-right/
  */
 
-/* harmony default export */ const compose = (external_lodash_namespaceObject.flowRight);
+const compose = basePipe(true);
+/* harmony default export */ const higher_order_compose = (compose);
 
 ;// CONCATENATED MODULE: external ["wp","element"]
 const external_wp_element_namespaceObject = window["wp"]["element"];
@@ -2613,7 +3012,7 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
  * <ConditionalComponent foo="bar" />; // => <div>bar</div>;
  * ```
  *
- * @param  predicate Function to test condition.
+ * @param predicate Function to test condition.
  *
  * @return Higher-order component.
  */
@@ -2701,15 +3100,10 @@ const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: ./packages/compose/build-module/higher-order/with-global-events/listener.js
 /**
- * External dependencies
- */
-
-/**
  * Class responsible for orchestrating event handling on the global window,
  * binding a single event to be shared across all handling instances, and
  * removing the handler when no instances are listening for the event.
  */
-
 class Listener {
   constructor() {
     /** @type {any} */
@@ -2736,7 +3130,13 @@ class Listener {
   eventType,
   /** @type {any} */
   instance) {
-    this.listeners[eventType] = (0,external_lodash_namespaceObject.without)(this.listeners[eventType], instance);
+    if (!this.listeners[eventType]) {
+      return;
+    }
+
+    this.listeners[eventType] = this.listeners[eventType].filter((
+    /** @type {any} */
+    listener) => listener !== instance);
 
     if (!this.listeners[eventType].length) {
       // Removing last listener for this type, so unbind event.
@@ -2875,25 +3275,16 @@ function withGlobalEvents(eventTypesToHandlers) {
 }
 
 ;// CONCATENATED MODULE: ./packages/compose/build-module/hooks/use-instance-id/index.js
-// Disable reason: Object and object are distinctly different types in TypeScript and we mean the lowercase object in thise case
-// but eslint wants to force us to use `Object`. See https://stackoverflow.com/questions/49464634/difference-between-object-and-object-in-typescript
-
-/* eslint-disable jsdoc/check-types */
-
 /**
  * WordPress dependencies
- */
-
-/**
- * @type {WeakMap<object, number>}
  */
 
 const instanceMap = new WeakMap();
 /**
  * Creates a new id for a given object.
  *
- * @param {object} object Object reference to create an id for.
- * @return {number} The instance id (index).
+ * @param object Object reference to create an id for.
+ * @return The instance id (index).
  */
 
 function createId(object) {
@@ -2902,24 +3293,36 @@ function createId(object) {
   return instances;
 }
 /**
- * Provides a unique instance ID.
+ * Specify the useInstanceId *function* signatures.
  *
- * @param {object}          object           Object reference to create an id for.
- * @param {string}          [prefix]         Prefix for the unique id.
- * @param {string | number} [preferredId=''] Default ID to use.
- * @return {string | number} The unique instance id.
+ * More accurately, useInstanceId distinguishes between three different
+ * signatures:
+ *
+ * 1. When only object is given, the returned value is a number
+ * 2. When object and prefix is given, the returned value is a string
+ * 3. When preferredId is given, the returned value is the type of preferredId
+ *
+ * @param object Object reference to create an id for.
  */
 
 
-function useInstanceId(object, prefix) {
-  let preferredId = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+/**
+ * Provides a unique instance ID.
+ *
+ * @param object        Object reference to create an id for.
+ * @param [prefix]      Prefix for the unique id.
+ * @param [preferredId] Default ID to use.
+ * @return The unique instance id.
+ */
+function useInstanceId(object, prefix, preferredId) {
   return (0,external_wp_element_namespaceObject.useMemo)(() => {
     if (preferredId) return preferredId;
     const id = createId(object);
     return prefix ? `${prefix}-${id}` : id;
-  }, [object]);
+  }, [object, preferredId, prefix]);
 }
-/* eslint-enable jsdoc/check-types */
+
+/* harmony default export */ const use_instance_id = (useInstanceId);
 
 ;// CONCATENATED MODULE: ./packages/compose/build-module/higher-order/with-instance-id/index.js
 
@@ -2937,7 +3340,7 @@ function useInstanceId(object, prefix) {
  */
 const withInstanceId = createHigherOrderComponent(WrappedComponent => {
   return props => {
-    const instanceId = useInstanceId(WrappedComponent); // @ts-ignore
+    const instanceId = use_instance_id(WrappedComponent); // @ts-ignore
 
     return (0,external_wp_element_namespaceObject.createElement)(WrappedComponent, _extends({}, props, {
       instanceId: instanceId
@@ -2951,13 +3354,8 @@ const withInstanceId = createHigherOrderComponent(WrappedComponent => {
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 /**
  * Internal dependencies
@@ -3001,7 +3399,7 @@ const withSafeTimeout = createHigherOrderComponent(OriginalComponent => {
 
     clearTimeout(id) {
       clearTimeout(id);
-      this.timeouts = (0,external_lodash_namespaceObject.without)(this.timeouts, id);
+      this.timeouts = this.timeouts.filter(timeoutId => timeoutId !== id);
     }
 
     render() {
@@ -3095,8 +3493,8 @@ const external_wp_dom_namespaceObject = window["wp"]["dom"];
  * to be removed. It *is* necessary if you add dependencies because the ref
  * callback will be called multiple times for the same node.
  *
- * @param  callback     Callback with ref as argument.
- * @param  dependencies Dependencies of the callback.
+ * @param callback     Callback with ref as argument.
+ * @param dependencies Dependencies of the callback.
  *
  * @return Ref callback.
  */
@@ -3149,9 +3547,6 @@ function useConstrainedTabbing() {
   return useRefEffect((
   /** @type {HTMLElement} */
   node) => {
-    /** @type {number|undefined} */
-    let timeoutId;
-
     function onKeyDown(
     /** @type {KeyboardEvent} */
     event) {
@@ -3168,14 +3563,33 @@ function useConstrainedTabbing() {
       const action = shiftKey ? 'findPrevious' : 'findNext';
       const nextElement = external_wp_dom_namespaceObject.focus.tabbable[action](
       /** @type {HTMLElement} */
-      target) || null; // If the element that is about to receive focus is outside the
+      target) || null; // When the target element contains the element that is about to
+      // receive focus, for example when the target is a tabbable
+      // container, browsers may disagree on where to move focus next.
+      // In this case we can't rely on native browsers behavior. We need
+      // to manage focus instead.
+      // See https://github.com/WordPress/gutenberg/issues/46041.
+
+      if (
+      /** @type {HTMLElement} */
+      target.contains(nextElement)) {
+        event.preventDefault();
+        /** @type {HTMLElement} */
+
+        nextElement === null || nextElement === void 0 ? void 0 : nextElement.focus();
+        return;
+      } // If the element that is about to receive focus is inside the
+      // area, rely on native browsers behavior and let tabbing follow
+      // the native tab sequence.
+
+
+      if (node.contains(nextElement)) {
+        return;
+      } // If the element that is about to receive focus is outside the
       // area, move focus to a div and insert it at the start or end of
       // the area, depending on the direction. Without preventing default
       // behaviour, the browser will then move focus to the next element.
 
-      if (node.contains(nextElement)) {
-        return;
-      }
 
       const domAction = shiftKey ? 'append' : 'prepend';
       const {
@@ -3183,16 +3597,15 @@ function useConstrainedTabbing() {
       } = node;
       const trap = ownerDocument.createElement('div');
       trap.tabIndex = -1;
-      node[domAction](trap);
-      trap.focus(); // Remove after the browser moves focus to the next element.
+      node[domAction](trap); // Remove itself when the trap loses focus.
 
-      timeoutId = setTimeout(() => node.removeChild(trap));
+      trap.addEventListener('blur', () => node.removeChild(trap));
+      trap.focus();
     }
 
     node.addEventListener('keydown', onKeyDown);
     return () => {
       node.removeEventListener('keydown', onKeyDown);
-      clearTimeout(timeoutId);
     };
   }, []);
 }
@@ -3389,9 +3802,35 @@ function useCopyToClipboard(text, onSuccess) {
 function useFocusOnMount() {
   let focusOnMount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'firstElement';
   const focusOnMountRef = (0,external_wp_element_namespaceObject.useRef)(focusOnMount);
+  /**
+   * Sets focus on a DOM element.
+   *
+   * @param {HTMLElement} target The DOM element to set focus to.
+   * @return {void}
+   */
+
+  const setFocus = target => {
+    target.focus({
+      // When focusing newly mounted dialogs,
+      // the position of the popover is often not right on the first render
+      // This prevents the layout shifts when focusing the dialogs.
+      preventScroll: true
+    });
+  };
+  /** @type {import('react').MutableRefObject<ReturnType<setTimeout> | undefined>} */
+
+
+  const timerId = (0,external_wp_element_namespaceObject.useRef)();
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     focusOnMountRef.current = focusOnMount;
   }, [focusOnMount]);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    return () => {
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
+    };
+  }, []);
   return (0,external_wp_element_namespaceObject.useCallback)(node => {
     var _node$ownerDocument$a, _node$ownerDocument;
 
@@ -3403,24 +3842,20 @@ function useFocusOnMount() {
       return;
     }
 
-    let target = node;
-
     if (focusOnMountRef.current === 'firstElement') {
-      const firstTabbable = external_wp_dom_namespaceObject.focus.tabbable.find(node)[0];
+      timerId.current = setTimeout(() => {
+        const firstTabbable = external_wp_dom_namespaceObject.focus.tabbable.find(node)[0];
 
-      if (firstTabbable) {
-        target =
-        /** @type {HTMLElement} */
-        firstTabbable;
-      }
+        if (firstTabbable) {
+          setFocus(
+          /** @type {HTMLElement} */
+          firstTabbable);
+        }
+      }, 0);
+      return;
     }
 
-    target.focus({
-      // When focusing newly mounted dialogs,
-      // the position of the popover is often not right on the first render
-      // This prevents the layout shifts when focusing the dialogs.
-      preventScroll: true
-    });
+    setFocus(node);
   }, []);
 }
 
@@ -3510,21 +3945,17 @@ function useFocusReturn(onFocusReturn) {
  * WordPress dependencies
  */
 
-
 /**
  * Input types which are classified as button types, for use in considering
  * whether element is a (focus-normalized) button.
- *
- * @type {string[]}
  */
 
 const INPUT_BUTTON_TYPES = ['button', 'submit'];
 /**
- * @typedef {HTMLButtonElement | HTMLLinkElement | HTMLInputElement} FocusNormalizedButton
+ * List of HTML button elements subject to focus normalization
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
  */
-// Disable reason: Rule doesn't support predicate return types.
-
-/* eslint-disable jsdoc/valid-types */
 
 /**
  * Returns true if the given element is a button element subject to focus
@@ -3532,11 +3963,10 @@ const INPUT_BUTTON_TYPES = ['button', 'submit'];
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
  *
- * @param {EventTarget} eventTarget The target from a mouse or touch event.
+ * @param eventTarget The target from a mouse or touch event.
  *
- * @return {eventTarget is FocusNormalizedButton} Whether element is a button.
+ * @return Whether the element is a button element subject to focus normalization.
  */
-
 function isFocusNormalizedButton(eventTarget) {
   if (!(eventTarget instanceof window.HTMLElement)) {
     return false;
@@ -3548,66 +3978,28 @@ function isFocusNormalizedButton(eventTarget) {
       return true;
 
     case 'INPUT':
-      return (0,external_lodash_namespaceObject.includes)(INPUT_BUTTON_TYPES,
-      /** @type {HTMLInputElement} */
-      eventTarget.type);
+      return INPUT_BUTTON_TYPES.includes(eventTarget.type);
   }
 
   return false;
 }
-/* eslint-enable jsdoc/valid-types */
-
-/**
- * @typedef {import('react').SyntheticEvent} SyntheticEvent
- */
-
-/**
- * @callback EventCallback
- * @param {SyntheticEvent} event input related event.
- */
-
-/**
- * @typedef FocusOutsideReactElement
- * @property {EventCallback} handleFocusOutside callback for a focus outside event.
- */
-
-/**
- * @typedef {import('react').MutableRefObject<FocusOutsideReactElement | undefined>} FocusOutsideRef
- */
-
-/**
- * @typedef {Object} FocusOutsideReturnValue
- * @property {EventCallback} onFocus      An event handler for focus events.
- * @property {EventCallback} onBlur       An event handler for blur events.
- * @property {EventCallback} onMouseDown  An event handler for mouse down events.
- * @property {EventCallback} onMouseUp    An event handler for mouse up events.
- * @property {EventCallback} onTouchStart An event handler for touch start events.
- * @property {EventCallback} onTouchEnd   An event handler for touch end events.
- */
 
 /**
  * A react hook that can be used to check whether focus has moved outside the
  * element the event handlers are bound to.
  *
- * @param {EventCallback} onFocusOutside A callback triggered when focus moves outside
- *                                       the element the event handlers are bound to.
+ * @param onFocusOutside A callback triggered when focus moves outside
+ *                       the element the event handlers are bound to.
  *
- * @return {FocusOutsideReturnValue} An object containing event handlers. Bind the event handlers
- *                                   to a wrapping element element to capture when focus moves
- *                                   outside that element.
+ * @return An object containing event handlers. Bind the event handlers to a
+ * wrapping element element to capture when focus moves outside that element.
  */
-
-
 function useFocusOutside(onFocusOutside) {
   const currentOnFocusOutside = (0,external_wp_element_namespaceObject.useRef)(onFocusOutside);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     currentOnFocusOutside.current = onFocusOutside;
   }, [onFocusOutside]);
   const preventBlurCheck = (0,external_wp_element_namespaceObject.useRef)(false);
-  /**
-   * @type {import('react').MutableRefObject<number | undefined>}
-   */
-
   const blurCheckTimeoutId = (0,external_wp_element_namespaceObject.useRef)();
   /**
    * Cancel a blur check timeout.
@@ -3633,9 +4025,8 @@ function useFocusOutside(onFocusOutside) {
    * button elements when clicked, while others do. The logic here
    * intends to normalize this as treating click on buttons as focus.
    *
+   * @param event
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
-   *
-   * @param {SyntheticEvent} event Event for mousedown or mouseup.
    */
 
   const normalizeButtonFocus = (0,external_wp_element_namespaceObject.useCallback)(event => {
@@ -3643,7 +4034,7 @@ function useFocusOutside(onFocusOutside) {
       type,
       target
     } = event;
-    const isInteractionEnd = (0,external_lodash_namespaceObject.includes)(['mouseup', 'touchend'], type);
+    const isInteractionEnd = ['mouseup', 'touchend'].includes(type);
 
     if (isInteractionEnd) {
       preventBlurCheck.current = false;
@@ -3657,16 +4048,29 @@ function useFocusOutside(onFocusOutside) {
    *
    * Calls the `onFocusOutside` callback in an immediate timeout if focus has
    * move outside the bound element and is still within the document.
-   *
-   * @param {SyntheticEvent} event Blur event.
    */
 
   const queueBlurCheck = (0,external_wp_element_namespaceObject.useCallback)(event => {
+    var _event$relatedTarget;
+
     // React does not allow using an event reference asynchronously
     // due to recycling behavior, except when explicitly persisted.
     event.persist(); // Skip blur check if clicking button. See `normalizeButtonFocus`.
 
     if (preventBlurCheck.current) {
+      return;
+    } // The usage of this attribute should be avoided. The only use case
+    // would be when we load modals that are not React components and
+    // therefore don't exist in the React tree. An example is opening
+    // the Media Library modal from another dialog.
+    // This attribute should contain a selector of the related target
+    // we want to ignore, because we still need to trigger the blur event
+    // on all other cases.
+
+
+    const ignoreForRelatedTarget = event.target.getAttribute('data-unstable-ignore-focus-outside-for-relatedtarget');
+
+    if (ignoreForRelatedTarget && (_event$relatedTarget = event.relatedTarget) !== null && _event$relatedTarget !== void 0 && _event$relatedTarget.closest(ignoreForRelatedTarget)) {
       return;
     }
 
@@ -3773,6 +4177,7 @@ function assignRef(ref, value) {
 
 function useMergeRefs(refs) {
   const element = (0,external_wp_element_namespaceObject.useRef)();
+  const isAttached = (0,external_wp_element_namespaceObject.useRef)(false);
   const didElementChange = (0,external_wp_element_namespaceObject.useRef)(false);
   /* eslint-disable jsdoc/no-undefined-types */
 
@@ -3789,7 +4194,7 @@ function useMergeRefs(refs) {
   // which case the ref callbacks will already have been called.
 
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
-    if (didElementChange.current === false) {
+    if (didElementChange.current === false && isAttached.current === true) {
       refs.forEach((ref, index) => {
         const previousRef = previousRefs.current[index];
 
@@ -3813,7 +4218,8 @@ function useMergeRefs(refs) {
     // Update the element so it can be used when calling ref callbacks on a
     // dependency change.
     assignRef(element, value);
-    didElementChange.current = true; // When an element changes, the current ref callback should be called
+    didElementChange.current = true;
+    isAttached.current = value !== null; // When an element changes, the current ref callback should be called
     // with the new element and the previous one with `null`.
 
     const refsToAssign = value ? currentRefs.current : previousRefs.current; // Update the latest refs.
@@ -3851,7 +4257,7 @@ function useMergeRefs(refs) {
  *  - return focus on unmount.
  *  - focus outside.
  *
- * @param  options Dialog Options.
+ * @param options Dialog Options.
  */
 function useDialog(options) {
   const currentOptions = (0,external_wp_element_namespaceObject.useRef)();
@@ -3896,34 +4302,16 @@ function useDialog(options) {
 
 ;// CONCATENATED MODULE: ./packages/compose/build-module/hooks/use-disabled/index.js
 /**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-/**
  * Internal dependencies
  */
 
 
 /**
- * Names of control nodes which qualify for disabled behavior.
- *
- * See WHATWG HTML Standard: 4.10.18.5: "Enabling and disabling form controls: the disabled attribute".
- *
- * @see https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#enabling-and-disabling-form-controls:-the-disabled-attribute
- *
- * @type {string[]}
- */
-
-const DISABLED_ELIGIBLE_NODE_NAMES = ['BUTTON', 'FIELDSET', 'INPUT', 'OPTGROUP', 'OPTION', 'SELECT', 'TEXTAREA'];
-/**
  * In some circumstances, such as block previews, all focusable DOM elements
  * (input fields, links, buttons, etc.) need to be disabled. This hook adds the
  * behavior to disable nested DOM elements to the returned ref.
+ *
+ * If you can, prefer the use of the inert HTML attribute.
  *
  * @param {Object}   config            Configuration object.
  * @param {boolean=} config.isDisabled Whether the element should be disabled.
@@ -3932,6 +4320,7 @@ const DISABLED_ELIGIBLE_NODE_NAMES = ['BUTTON', 'FIELDSET', 'INPUT', 'OPTGROUP',
  * @example
  * ```js
  * import { useDisabled } from '@wordpress/compose';
+ *
  * const DisabledExample = () => {
  * 	const disabledRef = useDisabled();
  *	return (
@@ -3949,96 +4338,32 @@ function useDisabled() {
     isDisabled: isDisabledProp = false
   } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   return useRefEffect(node => {
+    var _node$ownerDocument;
+
     if (isDisabledProp) {
       return;
     }
-    /** A variable keeping track of the previous updates in order to restore them. */
 
-    /** @type {Function[]} */
+    const defaultView = node === null || node === void 0 ? void 0 : (_node$ownerDocument = node.ownerDocument) === null || _node$ownerDocument === void 0 ? void 0 : _node$ownerDocument.defaultView;
+
+    if (!defaultView) {
+      return;
+    }
+    /** A variable keeping track of the previous updates in order to restore them. */
 
 
     const updates = [];
 
     const disable = () => {
-      if (node.style.getPropertyValue('user-select') !== 'none') {
-        const previousValue = node.style.getPropertyValue('user-select');
-        node.style.setProperty('user-select', 'none');
-        node.style.setProperty('-webkit-user-select', 'none');
-        updates.push(() => {
-          if (!node.isConnected) {
-            return;
-          }
-
-          node.style.setProperty('user-select', previousValue);
-          node.style.setProperty('-webkit-user-select', previousValue);
-        });
-      }
-
-      external_wp_dom_namespaceObject.focus.focusable.find(node).forEach(focusable => {
-        var _node$ownerDocument$d;
-
-        if ((0,external_lodash_namespaceObject.includes)(DISABLED_ELIGIBLE_NODE_NAMES, focusable.nodeName) && // @ts-ignore
-        !focusable.disabled) {
-          focusable.setAttribute('disabled', '');
-          updates.push(() => {
-            if (!focusable.isConnected) {
-              return;
-            } // @ts-ignore
-
-
-            focusable.disabled = false;
-          });
+      node.childNodes.forEach(child => {
+        if (!(child instanceof defaultView.HTMLElement)) {
+          return;
         }
 
-        if (focusable.nodeName === 'A' && focusable.getAttribute('tabindex') !== '-1') {
-          const previousValue = focusable.getAttribute('tabindex');
-          focusable.setAttribute('tabindex', '-1');
+        if (!child.getAttribute('inert')) {
+          child.setAttribute('inert', 'true');
           updates.push(() => {
-            if (!focusable.isConnected) {
-              return;
-            }
-
-            if (!previousValue) {
-              focusable.removeAttribute('tabindex');
-            } else {
-              focusable.setAttribute('tabindex', previousValue);
-            }
-          });
-        }
-
-        const tabIndex = focusable.getAttribute('tabindex');
-
-        if (tabIndex !== null && tabIndex !== '-1') {
-          focusable.removeAttribute('tabindex');
-          updates.push(() => {
-            if (!focusable.isConnected) {
-              return;
-            }
-
-            focusable.setAttribute('tabindex', tabIndex);
-          });
-        }
-
-        if (focusable.hasAttribute('contenteditable') && focusable.getAttribute('contenteditable') !== 'false') {
-          focusable.setAttribute('contenteditable', 'false');
-          updates.push(() => {
-            if (!focusable.isConnected) {
-              return;
-            }
-
-            focusable.setAttribute('contenteditable', 'true');
-          });
-        }
-
-        if ((_node$ownerDocument$d = node.ownerDocument.defaultView) !== null && _node$ownerDocument$d !== void 0 && _node$ownerDocument$d.HTMLElement && focusable instanceof node.ownerDocument.defaultView.HTMLElement) {
-          const previousValue = focusable.style.getPropertyValue('pointer-events');
-          focusable.style.setProperty('pointer-events', 'none');
-          updates.push(() => {
-            if (!focusable.isConnected) {
-              return;
-            }
-
-            focusable.style.setProperty('pointer-events', previousValue);
+            child.removeAttribute('inert');
           });
         }
       });
@@ -4046,7 +4371,7 @@ function useDisabled() {
     // additional mutations which should be ignored.
 
 
-    const debouncedDisable = (0,external_lodash_namespaceObject.debounce)(disable, undefined, {
+    const debouncedDisable = debounce(disable, 0, {
       leading: true
     });
     disable();
@@ -4054,9 +4379,7 @@ function useDisabled() {
 
     const observer = new window.MutationObserver(debouncedDisable);
     observer.observe(node, {
-      childList: true,
-      attributes: true,
-      subtree: true
+      childList: true
     });
     return () => {
       if (observer) {
@@ -4171,7 +4494,6 @@ var mousetrap_global_bind = __webpack_require__(5538);
  */
 
 
-
 /**
  * WordPress dependencies
  */
@@ -4228,7 +4550,8 @@ shortcuts, callback) {
 
     /** @type {unknown} */
     document);
-    (0,external_lodash_namespaceObject.castArray)(shortcuts).forEach(shortcut => {
+    const shortcutsArray = Array.isArray(shortcuts) ? shortcuts : [shortcuts];
+    shortcutsArray.forEach(shortcut => {
       const keys = shortcut.split('+'); // Determines whether a key is a modifier by the length of the string.
       // E.g. if I add a pass a shortcut Shift+Cmd+M, it'll determine that
       // the modifiers are Shift and Cmd because they're not a single character.
@@ -4264,29 +4587,52 @@ shortcuts, callback) {
  */
 
 /**
+ * A new MediaQueryList object for the media query
+ *
+ * @param {string} [query] Media Query.
+ * @return {MediaQueryList|null} A new object for the media query
+ */
+
+function getMediaQueryList(query) {
+  if (query && typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+    return window.matchMedia(query);
+  }
+
+  return null;
+}
+/**
  * Runs a media query and returns its value when it changes.
  *
  * @param {string} [query] Media Query.
  * @return {boolean} return value of the media query.
  */
 
+
 function useMediaQuery(query) {
-  const [match, setMatch] = (0,external_wp_element_namespaceObject.useState)(() => !!(query && typeof window !== 'undefined' && window.matchMedia(query).matches));
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!query) {
-      return;
-    }
+  const source = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    const mediaQueryList = getMediaQueryList(query);
+    return {
+      /** @type {(onStoreChange: () => void) => () => void} */
+      subscribe(onStoreChange) {
+        if (!mediaQueryList) {
+          return () => {};
+        }
 
-    const updateMatch = () => setMatch(window.matchMedia(query).matches);
+        mediaQueryList.addEventListener('change', onStoreChange);
+        return () => {
+          mediaQueryList.removeEventListener('change', onStoreChange);
+        };
+      },
 
-    updateMatch();
-    const list = window.matchMedia(query);
-    list.addListener(updateMatch);
-    return () => {
-      list.removeListener(updateMatch);
+      getValue() {
+        var _mediaQueryList$match;
+
+        return (_mediaQueryList$match = mediaQueryList === null || mediaQueryList === void 0 ? void 0 : mediaQueryList.matches) !== null && _mediaQueryList$match !== void 0 ? _mediaQueryList$match : false;
+      }
+
     };
   }, [query]);
-  return !!query && match;
+  return (0,external_wp_element_namespaceObject.useSyncExternalStore)(source.subscribe, source.getValue, () => false);
 }
 
 ;// CONCATENATED MODULE: ./packages/compose/build-module/hooks/use-previous/index.js
@@ -4298,7 +4644,7 @@ function useMediaQuery(query) {
  * Use something's value from the previous render.
  * Based on https://usehooks.com/usePrevious/.
  *
- * @param  value The value to track.
+ * @param value The value to track.
  *
  * @return The value from the previous render.
  */
@@ -4550,6 +4896,7 @@ function useResizeObserver() {
 
   const didUnmount = (0,external_wp_element_namespaceObject.useRef)(false);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
+    didUnmount.current = false;
     return () => {
       didUnmount.current = true;
     };
@@ -4680,8 +5027,8 @@ const external_wp_priorityQueue_namespaceObject = window["wp"]["priorityQueue"];
 /**
  * Returns the first items from list that are present on state.
  *
- * @param  list  New array.
- * @param  state Current state.
+ * @param list  New array.
+ * @param state Current state.
  * @return First items present iin state.
  */
 function getFirstItemsPresentInState(list, state) {
@@ -4703,8 +5050,8 @@ function getFirstItemsPresentInState(list, state) {
  * React hook returns an array which items get asynchronously appended from a source array.
  * This behavior is useful if we want to render a list of items asynchronously for performance reasons.
  *
- * @param  list   Source array.
- * @param  config Configuration object.
+ * @param list   Source array.
+ * @param config Configuration object.
  *
  * @return Async array.
  */
@@ -4727,20 +5074,16 @@ function useAsyncList(list) {
     }
 
     setCurrent(firstItems);
-    let nextIndex = firstItems.length;
     const asyncQueue = (0,external_wp_priorityQueue_namespaceObject.createQueue)();
 
-    const append = () => {
-      if (list.length <= nextIndex) {
-        return;
-      }
+    for (let i = firstItems.length; i < list.length; i += step) {
+      asyncQueue.add({}, () => {
+        (0,external_wp_element_namespaceObject.flushSync)(() => {
+          setCurrent(state => [...state, ...list.slice(i, i + step)]);
+        });
+      });
+    }
 
-      setCurrent(state => [...state, ...list.slice(nextIndex, nextIndex + step)]);
-      nextIndex += step;
-      asyncQueue.add({}, append);
-    };
-
-    asyncQueue.add({}, append);
     return () => asyncQueue.reset();
   }, [list]);
   return current;
@@ -4849,16 +5192,18 @@ var useCallback = (/* unused pure expression or super */ null && (useCallbackOne
  * External dependencies
  */
 
-
 /**
  * WordPress dependencies
  */
 
 
-/* eslint-disable jsdoc/valid-types */
+/**
+ * Internal dependencies
+ */
+
 
 /**
- * Debounces a function with Lodash's `debounce`. A new debounced function will
+ * Debounces a function similar to Lodash's `debounce`. A new debounced function will
  * be returned and any scheduled calls cancelled if any of the arguments change,
  * including the function to debounce, so please wrap functions created on
  * render in components in `useCallback`.
@@ -4867,15 +5212,14 @@ var useCallback = (/* unused pure expression or super */ null && (useCallbackOne
  *
  * @template {(...args: any[]) => void} TFunc
  *
- * @param {TFunc}                             fn        The function to debounce.
- * @param {number}                            [wait]    The number of milliseconds to delay.
- * @param {import('lodash').DebounceSettings} [options] The options object.
- * @return {import('lodash').DebouncedFunc<TFunc>} Debounced function.
+ * @param {TFunc}                                          fn        The function to debounce.
+ * @param {number}                                         [wait]    The number of milliseconds to delay.
+ * @param {import('../../utils/debounce').DebounceOptions} [options] The options object.
+ * @return {import('../../utils/debounce').DebouncedFunc<TFunc>} Debounced function.
  */
 
 function useDebounce(fn, wait, options) {
-  /* eslint-enable jsdoc/valid-types */
-  const debounced = useMemoOne(() => (0,external_lodash_namespaceObject.debounce)(fn, wait, options), [fn, wait, options]);
+  const debounced = useMemoOne(() => debounce(fn, wait !== null && wait !== void 0 ? wait : 0, options), [fn, wait, options]);
   (0,external_wp_element_namespaceObject.useEffect)(() => () => debounced.cancel(), [debounced]);
   return debounced;
 }
@@ -4885,14 +5229,18 @@ function useDebounce(fn, wait, options) {
  * External dependencies
  */
 
-
 /**
  * WordPress dependencies
  */
 
 
 /**
- * Throttles a function with Lodash's `throttle`. A new throttled function will
+ * Internal dependencies
+ */
+
+
+/**
+ * Throttles a function similar to Lodash's `throttle`. A new throttled function will
  * be returned and any scheduled calls cancelled if any of the arguments change,
  * including the function to throttle, so please wrap functions created on
  * render in components in `useCallback`.
@@ -4901,14 +5249,14 @@ function useDebounce(fn, wait, options) {
  *
  * @template {(...args: any[]) => void} TFunc
  *
- * @param {TFunc}                             fn        The function to throttle.
- * @param {number}                            [wait]    The number of milliseconds to throttle invocations to.
- * @param {import('lodash').ThrottleSettings} [options] The options object. See linked documentation for details.
- * @return {import('lodash').DebouncedFunc<TFunc>} Throttled function.
+ * @param {TFunc}                                          fn        The function to throttle.
+ * @param {number}                                         [wait]    The number of milliseconds to throttle invocations to.
+ * @param {import('../../utils/throttle').ThrottleOptions} [options] The options object. See linked documentation for details.
+ * @return {import('../../utils/debounce').DebouncedFunc<TFunc>} Throttled function.
  */
 
 function useThrottle(fn, wait, options) {
-  const throttled = useMemoOne(() => (0,external_lodash_namespaceObject.throttle)(fn, wait, options), [fn, wait, options]);
+  const throttled = useMemoOne(() => throttle(fn, wait !== null && wait !== void 0 ? wait : 0, options), [fn, wait, options]);
   (0,external_wp_element_namespaceObject.useEffect)(() => () => throttled.cancel(), [throttled]);
   return throttled;
 }
@@ -5027,8 +5375,7 @@ function useDropZone(_ref) {
         return;
       }
 
-      isDragging = true;
-      ownerDocument.removeEventListener('dragenter', maybeDragStart); // Note that `dragend` doesn't fire consistently for file and
+      isDragging = true; // Note that `dragend` doesn't fire consistently for file and
       // HTML drag events where the drag origin is outside the browser
       // window. In Firefox it may also not fire if the originating
       // node is removed.
@@ -5081,6 +5428,8 @@ function useDropZone(_ref) {
       // leaving the drop zone, which means the `relatedTarget`
       // (element that has been entered) should be outside the drop
       // zone.
+      // Note: This is not entirely reliable in Safari due to this bug
+      // https://bugs.webkit.org/show_bug.cgi?id=66547
       if (isElementInZone(event.relatedTarget)) {
         return;
       }
@@ -5122,7 +5471,6 @@ function useDropZone(_ref) {
       }
 
       isDragging = false;
-      ownerDocument.addEventListener('dragenter', maybeDragStart);
       ownerDocument.removeEventListener('dragend', maybeDragEnd);
       ownerDocument.removeEventListener('mousemove', maybeDragEnd);
 
@@ -5140,12 +5488,6 @@ function useDropZone(_ref) {
 
     ownerDocument.addEventListener('dragenter', maybeDragStart);
     return () => {
-      onDropRef.current = null;
-      onDragStartRef.current = null;
-      onDragEnterRef.current = null;
-      onDragLeaveRef.current = null;
-      onDragEndRef.current = null;
-      onDragOverRef.current = null;
       delete element.dataset.isDropZone;
       element.removeEventListener('drop', onDrop);
       element.removeEventListener('dragenter', onDragEnter);
@@ -5153,12 +5495,16 @@ function useDropZone(_ref) {
       element.removeEventListener('dragleave', onDragLeave);
       ownerDocument.removeEventListener('dragend', maybeDragEnd);
       ownerDocument.removeEventListener('mousemove', maybeDragEnd);
-      ownerDocument.addEventListener('dragenter', maybeDragStart);
+      ownerDocument.removeEventListener('dragenter', maybeDragStart);
     };
   }, [isDisabled]);
 }
 
 ;// CONCATENATED MODULE: ./packages/compose/build-module/hooks/use-focusable-iframe/index.js
+/**
+ * External dependencies
+ */
+
 /**
  * Internal dependencies
  */
@@ -5167,7 +5513,7 @@ function useDropZone(_ref) {
  * Dispatches a bubbling focus event when the iframe receives focus. Use
  * `onFocus` as usual on the iframe or a parent element.
  *
- * @return {Object} Ref to pass to the iframe.
+ * @return Ref to pass to the iframe.
  */
 
 function useFocusableIframe() {
@@ -5187,7 +5533,6 @@ function useFocusableIframe() {
 
     function checkFocus() {
       if (ownerDocument && ownerDocument.activeElement === element) {
-        /** @type {HTMLElement} */
         element.focus();
       }
     }
@@ -5201,14 +5546,14 @@ function useFocusableIframe() {
 
 ;// CONCATENATED MODULE: ./packages/compose/build-module/hooks/use-fixed-window-list/index.js
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
 
 
+
+/**
+ * Internal dependencies
+ */
 
 
 const DEFAULT_INIT_WINDOW_SIZE = 30;
@@ -5298,7 +5643,7 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
     };
 
     measureWindow(true);
-    const debounceMeasureList = (0,external_lodash_namespaceObject.debounce)(() => {
+    const debounceMeasureList = debounce(() => {
       measureWindow();
     }, 16);
     scrollContainer === null || scrollContainer === void 0 ? void 0 : scrollContainer.addEventListener('scroll', debounceMeasureList);
@@ -5366,7 +5711,12 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
 
 ;// CONCATENATED MODULE: ./packages/compose/build-module/index.js
 // The `createHigherOrderComponent` helper and helper types.
- // Compose helper (aliased flowRight from Lodash)
+ // The `debounce` helper and its types.
+
+ // The `throttle` helper and its types.
+
+ // The `compose` and `pipe` helpers (inspired by `flowRight` and `flow` from Lodash).
+
 
  // Higher-order components.
 

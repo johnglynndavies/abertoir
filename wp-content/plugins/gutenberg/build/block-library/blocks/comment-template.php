@@ -16,6 +16,8 @@
  */
 function gutenberg_block_core_comment_template_render_comments( $comments, $block ) {
 	global $comment_depth;
+	$thread_comments       = get_option( 'thread_comments' );
+	$thread_comments_depth = get_option( 'thread_comments_depth' );
 
 	if ( empty( $comment_depth ) ) {
 		$comment_depth = 1;
@@ -23,13 +25,14 @@ function gutenberg_block_core_comment_template_render_comments( $comments, $bloc
 
 	$content = '';
 	foreach ( $comments as $comment ) {
-
-		$block_content = ( new WP_Block(
-			$block->parsed_block,
-			array(
-				'commentId' => $comment->comment_ID,
-			)
-		) )->render( array( 'dynamic' => false ) );
+		$comment_id           = $comment->comment_ID;
+		$filter_block_context = static function( $context ) use ( $comment_id ) {
+			$context['commentId'] = $comment_id;
+			return $context;
+		};
+		add_filter( 'render_block_context', $filter_block_context );
+		$block_content = $block->render( array( 'dynamic' => false ) );
+		remove_filter( 'render_block_context', $filter_block_context );
 
 		$children = $comment->get_children();
 
@@ -46,21 +49,27 @@ function gutenberg_block_core_comment_template_render_comments( $comments, $bloc
 
 		// If the comment has children, recurse to create the HTML for the nested
 		// comments.
-		if ( ! empty( $children ) ) {
-			$comment_depth += 1;
-			$inner_content  = gutenberg_block_core_comment_template_render_comments(
-				$children,
-				$block
-			);
-			$block_content .= sprintf( '<ol>%1$s</ol>', $inner_content );
-			$comment_depth -= 1;
+		if ( ! empty( $children ) && ! empty( $thread_comments ) ) {
+			if ( $comment_depth < $thread_comments_depth ) {
+				++$comment_depth;
+				$inner_content  = gutenberg_block_core_comment_template_render_comments(
+					$children,
+					$block
+				);
+				$block_content .= sprintf( '<ol>%1$s</ol>', $inner_content );
+				--$comment_depth;
+			} else {
+				$block_content .= gutenberg_block_core_comment_template_render_comments(
+					$children,
+					$block
+				);
+			}
 		}
 
 		$content .= sprintf( '<li id="comment-%1$s" %2$s>%3$s</li>', $comment->comment_ID, $comment_classes, $block_content );
 	}
 
 	return $content;
-
 }
 
 /**

@@ -527,6 +527,7 @@ __webpack_require__.d(__webpack_exports__, {
   "isValidQueryString": () => (/* reexport */ isValidQueryString),
   "normalizePath": () => (/* reexport */ normalizePath),
   "prependHTTP": () => (/* reexport */ prependHTTP),
+  "prependHTTPS": () => (/* reexport */ prependHTTPS),
   "removeQueryArgs": () => (/* reexport */ removeQueryArgs),
   "safeDecodeURI": () => (/* reexport */ safeDecodeURI),
   "safeDecodeURIComponent": () => (/* reexport */ safeDecodeURIComponent)
@@ -889,10 +890,28 @@ function isValidFragment(fragment) {
   return /^#[^\s#?\/]*$/.test(fragment);
 }
 
+;// CONCATENATED MODULE: ./packages/url/build-module/safe-decode-uri-component.js
+/**
+ * Safely decodes a URI component with `decodeURIComponent`. Returns the URI component unmodified if
+ * `decodeURIComponent` throws an error.
+ *
+ * @param {string} uriComponent URI component to decode.
+ *
+ * @return {string} Decoded URI component if possible.
+ */
+function safeDecodeURIComponent(uriComponent) {
+  try {
+    return decodeURIComponent(uriComponent);
+  } catch (uriComponentError) {
+    return uriComponent;
+  }
+}
+
 ;// CONCATENATED MODULE: ./packages/url/build-module/get-query-args.js
 /**
  * Internal dependencies
  */
+
 
 /** @typedef {import('./get-query-arg').QueryArgParsed} QueryArgParsed */
 
@@ -966,7 +985,7 @@ function getQueryArgs(url) {
   ).replace(/\+/g, '%20').split('&').reduce((accumulator, keyValue) => {
     const [key, value = ''] = keyValue.split('=') // Filtering avoids decoding as `undefined` for value, where
     // default is restored in destructuring assignment.
-    .filter(Boolean).map(decodeURIComponent);
+    .filter(Boolean).map(safeDecodeURIComponent);
 
     if (key) {
       const segments = key.replace(/\]/g, '').split('[');
@@ -1171,23 +1190,6 @@ function safeDecodeURI(uri) {
   }
 }
 
-;// CONCATENATED MODULE: ./packages/url/build-module/safe-decode-uri-component.js
-/**
- * Safely decodes a URI component with `decodeURIComponent`. Returns the URI component unmodified if
- * `decodeURIComponent` throws an error.
- *
- * @param {string} uriComponent URI component to decode.
- *
- * @return {string} Decoded URI component if possible.
- */
-function safeDecodeURIComponent(uriComponent) {
-  try {
-    return decodeURIComponent(uriComponent);
-  } catch (uriComponentError) {
-    return uriComponent;
-  }
-}
-
 ;// CONCATENATED MODULE: ./packages/url/build-module/filter-url-for-display.js
 /**
  * Returns a URL for display.
@@ -1267,7 +1269,8 @@ function cleanForSlug(string) {
   return remove_accents_default()(string) // Convert each group of whitespace, periods, and forward slashes to a hyphen.
   .replace(/[\s\./]+/g, '-') // Remove anything that's not a letter, number, underscore or hyphen.
   .replace(/[^\p{L}\p{N}_-]+/gu, '') // Convert to lowercase
-  .toLowerCase() // Remove any remaining leading or trailing hyphens.
+  .toLowerCase() // Replace multiple hyphens with a single one.
+  .replace(/-+/g, '-') // Remove any remaining leading or trailing hyphens.
   .replace(/(^-+)|(-+$)/g, '');
 }
 
@@ -1327,7 +1330,42 @@ function normalizePath(path) {
   .join('&');
 }
 
+;// CONCATENATED MODULE: ./packages/url/build-module/prepend-https.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Prepends "https://" to a url, if it looks like something that is meant to be a TLD.
+ *
+ * Note: this will not replace "http://" with "https://".
+ *
+ * @param {string} url The URL to test.
+ *
+ * @example
+ * ```js
+ * const actualURL = prependHTTPS( 'wordpress.org' ); // https://wordpress.org
+ * ```
+ *
+ * @return {string} The updated URL.
+ */
+
+function prependHTTPS(url) {
+  if (!url) {
+    return url;
+  } // If url starts with http://, return it as is.
+
+
+  if (url.startsWith('http://')) {
+    return url;
+  }
+
+  url = prependHTTP(url);
+  return url.replace(/^http:/, 'https:');
+}
+
 ;// CONCATENATED MODULE: ./packages/url/build-module/index.js
+
 
 
 

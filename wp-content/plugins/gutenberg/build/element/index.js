@@ -1,7 +1,53 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
+/******/ 	var __webpack_modules__ = ({
+
+/***/ 4470:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+
+var m = __webpack_require__(1850);
+if (true) {
+  exports.s = m.createRoot;
+  exports.a = m.hydrateRoot;
+} else { var i; }
+
+
+/***/ }),
+
+/***/ 1850:
+/***/ ((module) => {
+
+module.exports = window["ReactDOM"];
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
@@ -34,6 +80,8 @@
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
@@ -51,29 +99,38 @@ __webpack_require__.d(__webpack_exports__, {
   "createContext": () => (/* reexport */ external_React_namespaceObject.createContext),
   "createElement": () => (/* reexport */ external_React_namespaceObject.createElement),
   "createInterpolateElement": () => (/* reexport */ create_interpolate_element),
-  "createPortal": () => (/* reexport */ external_ReactDOM_namespaceObject.createPortal),
+  "createPortal": () => (/* reexport */ external_ReactDOM_.createPortal),
   "createRef": () => (/* reexport */ external_React_namespaceObject.createRef),
-  "findDOMNode": () => (/* reexport */ external_ReactDOM_namespaceObject.findDOMNode),
+  "createRoot": () => (/* reexport */ client/* createRoot */.s),
+  "findDOMNode": () => (/* reexport */ external_ReactDOM_.findDOMNode),
+  "flushSync": () => (/* reexport */ external_ReactDOM_.flushSync),
   "forwardRef": () => (/* reexport */ external_React_namespaceObject.forwardRef),
-  "hydrate": () => (/* reexport */ external_ReactDOM_namespaceObject.hydrate),
+  "hydrate": () => (/* reexport */ external_ReactDOM_.hydrate),
+  "hydrateRoot": () => (/* reexport */ client/* hydrateRoot */.a),
   "isEmptyElement": () => (/* reexport */ isEmptyElement),
   "isValidElement": () => (/* reexport */ external_React_namespaceObject.isValidElement),
   "lazy": () => (/* reexport */ external_React_namespaceObject.lazy),
   "memo": () => (/* reexport */ external_React_namespaceObject.memo),
-  "render": () => (/* reexport */ external_ReactDOM_namespaceObject.render),
+  "render": () => (/* reexport */ external_ReactDOM_.render),
   "renderToString": () => (/* reexport */ serialize),
+  "startTransition": () => (/* reexport */ external_React_namespaceObject.startTransition),
   "switchChildrenNodeName": () => (/* reexport */ switchChildrenNodeName),
-  "unmountComponentAtNode": () => (/* reexport */ external_ReactDOM_namespaceObject.unmountComponentAtNode),
+  "unmountComponentAtNode": () => (/* reexport */ external_ReactDOM_.unmountComponentAtNode),
   "useCallback": () => (/* reexport */ external_React_namespaceObject.useCallback),
   "useContext": () => (/* reexport */ external_React_namespaceObject.useContext),
   "useDebugValue": () => (/* reexport */ external_React_namespaceObject.useDebugValue),
+  "useDeferredValue": () => (/* reexport */ external_React_namespaceObject.useDeferredValue),
   "useEffect": () => (/* reexport */ external_React_namespaceObject.useEffect),
+  "useId": () => (/* reexport */ external_React_namespaceObject.useId),
   "useImperativeHandle": () => (/* reexport */ external_React_namespaceObject.useImperativeHandle),
+  "useInsertionEffect": () => (/* reexport */ external_React_namespaceObject.useInsertionEffect),
   "useLayoutEffect": () => (/* reexport */ external_React_namespaceObject.useLayoutEffect),
   "useMemo": () => (/* reexport */ external_React_namespaceObject.useMemo),
   "useReducer": () => (/* reexport */ external_React_namespaceObject.useReducer),
   "useRef": () => (/* reexport */ external_React_namespaceObject.useRef),
-  "useState": () => (/* reexport */ external_React_namespaceObject.useState)
+  "useState": () => (/* reexport */ external_React_namespaceObject.useState),
+  "useSyncExternalStore": () => (/* reexport */ external_React_namespaceObject.useSyncExternalStore),
+  "useTransition": () => (/* reexport */ external_React_namespaceObject.useTransition)
 });
 
 ;// CONCATENATED MODULE: external "React"
@@ -174,9 +231,9 @@ function createFrame(element, tokenStart, tokenLength, prevOffset, leadingTextSt
  * }
  * ```
  *
- * @param {string} interpolatedString The interpolation string to be parsed.
- * @param {Object} conversionMap      The map used to convert the string to
- *                                    a react element.
+ * @param {string}                    interpolatedString The interpolation string to be parsed.
+ * @param {Record<string, WPElement>} conversionMap      The map used to convert the string to
+ *                                                       a react element.
  * @throws {TypeError}
  * @return {WPElement}  A wp element.
  */
@@ -437,6 +494,13 @@ function closeOuterElement(endOffset) {
  */
 
 /**
+ * Object containing a React synthetic event.
+ *
+ * @template T
+ * @typedef {import('react').RefObject<T>} RefObject<T>
+ */
+
+/**
  * Object that provides utilities for dealing with React children.
  */
 
@@ -541,12 +605,27 @@ function closeOuterElement(endOffset) {
 
 
 /**
+ * @see https://reactjs.org/docs/hooks-reference.html#usedeferredvalue
+ */
+
+
+/**
  * @see https://reactjs.org/docs/hooks-reference.html#useeffect
  */
 
 
 /**
+ * @see https://reactjs.org/docs/hooks-reference.html#useid
+ */
+
+
+/**
  * @see https://reactjs.org/docs/hooks-reference.html#useimperativehandle
+ */
+
+
+/**
+ * @see https://reactjs.org/docs/hooks-reference.html#useinsertioneffect
  */
 
 
@@ -572,6 +651,21 @@ function closeOuterElement(endOffset) {
 
 /**
  * @see https://reactjs.org/docs/hooks-reference.html#usestate
+ */
+
+
+/**
+ * @see https://reactjs.org/docs/hooks-reference.html#usesyncexternalstore
+ */
+
+
+/**
+ * @see https://reactjs.org/docs/hooks-reference.html#usetransition
+ */
+
+
+/**
+ * @see https://reactjs.org/docs/react-api.html#starttransition
  */
 
 
@@ -639,12 +733,15 @@ function switchChildrenNodeName(children, nodeName) {
   });
 }
 
-;// CONCATENATED MODULE: external "ReactDOM"
-const external_ReactDOM_namespaceObject = window["ReactDOM"];
+// EXTERNAL MODULE: external "ReactDOM"
+var external_ReactDOM_ = __webpack_require__(1850);
+// EXTERNAL MODULE: ./node_modules/react-dom/client.js
+var client = __webpack_require__(4470);
 ;// CONCATENATED MODULE: ./packages/element/build-module/react-platform.js
 /**
  * External dependencies
  */
+
 
 /**
  * Creates a portal into which a component can be rendered.
@@ -665,25 +762,49 @@ const external_ReactDOM_namespaceObject = window["ReactDOM"];
 
 
 /**
+ * Forces React to flush any updates inside the provided callback synchronously.
+ *
+ * @param {Function} callback Callback to run synchronously.
+ */
+
+
+/**
  * Renders a given element into the target DOM node.
  *
- * @param {import('./react').WPElement} element Element to render.
- * @param {HTMLElement}                 target  DOM node into which element should be rendered.
+ * @deprecated since WordPress 6.2.0. Use `createRoot` instead.
+ * @see https://react.dev/reference/react-dom/render
  */
 
 
 /**
  * Hydrates a given element into the target DOM node.
  *
- * @param {import('./react').WPElement} element Element to hydrate.
- * @param {HTMLElement}                 target  DOM node into which element should be hydrated.
+ * @deprecated since WordPress 6.2.0. Use `hydrateRoot` instead.
+ * @see https://react.dev/reference/react-dom/hydrate
+ */
+
+
+/**
+ * Creates a new React root for the target DOM node.
+ *
+ * @since 6.2.0 Introduced in WordPress core.
+ * @see https://react.dev/reference/react-dom/client/createRoot
+ */
+
+
+/**
+ * Creates a new React root for the target DOM node and hydrates it with a pre-generated markup.
+ *
+ * @since 6.2.0 Introduced in WordPress core.
+ * @see https://react.dev/reference/react-dom/client/hydrateRoot
  */
 
 
 /**
  * Removes any mounted element from the target DOM node.
  *
- * @param {Element} target DOM node in which element is to be removed
+ * @deprecated since WordPress 6.2.0. Use `root.unmount()` instead.
+ * @see https://react.dev/reference/react-dom/unmountComponentAtNode
  */
 
 
@@ -1123,7 +1244,6 @@ const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 /**
  * Internal dependencies
  */
- // Disable reason: JSDoc linter doesn't seem to parse the union (`&`) correctly.
 
 /** @typedef {{children: string} & import('react').ComponentPropsWithoutRef<'div'>} RawHTMLProps */
 
@@ -1718,6 +1838,8 @@ function renderStyle(style) {
 
 
 
+
+})();
 
 (window.wp = window.wp || {}).element = __webpack_exports__;
 /******/ })()
