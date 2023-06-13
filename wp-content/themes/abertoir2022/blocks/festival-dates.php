@@ -76,6 +76,11 @@ function render_block_festival_dates( $attributes, $content ) {
 	// get date range from latest festival run
 	$festival_dates = '19 – 24 November 2023';
 
+	$option = get_option( 'film-festivals_name' );
+	if (empty($option['dateson']) || (!empty($option['dateson']) && $option['dateson'] != 'on')) {
+		return;
+	}
+
 	if ( ! $festival_dates ) {
 		return;
 	}

@@ -1,0 +1,9 @@
+.aber-footer {
+
+  @media screen and (max-width: 767px) {
+    .is-layout-flow > .alignleft.wp-block-image {
+      max-width: 40%;
+      margin-inline-end: 1.5em;
+    }
+  }     
+}
