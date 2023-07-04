@@ -1,0 +1,231 @@
+# Copyright (C) 2022 Phi Phan
+# This file is distributed under the same license as the Icon Separator plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Icon Separator 1.1.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/icon-separator\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-09-16T08:37:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: icon-separator\n"
+
+#. Plugin Name of the plugin
+msgid "Icon Separator"
+msgstr ""
+
+#. Description of the plugin
+msgid "A simple horizontal separator with icon."
+msgstr ""
+
+#. Author of the plugin
+msgid "Phi Phan"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://boldblocks.net"
+msgstr ""
+
+#: build/index.js:22
+msgid "Mobile"
+msgstr ""
+
+#: build/index.js:22
+msgid "Tablet"
+msgstr ""
+
+#: build/index.js:22
+msgid "Desktop"
+msgstr ""
+
+#: build/index.js:22
+msgid "Change device preview"
+msgstr ""
+
+#: build/index.js:26
+#: build/index.js:42
+msgid "Upload SVG"
+msgstr ""
+
+#: build/index.js:26
+msgid "Only support SVG format. Please upload a SVG file."
+msgstr ""
+
+#: build/index.js:26
+msgid "Max file size is 200K. Please upload a smaller SVG file."
+msgstr ""
+
+#: build/index.js:42
+msgid "Input SVG"
+msgstr ""
+
+#: build/index.js:42
+msgid "Or input SVG markup"
+msgstr ""
+
+#: build/index.js:42
+#: build/index.js:355
+#: src/edit.js:153
+msgid "Get icon from library"
+msgstr ""
+
+#: build/index.js:42
+msgid "You can upload an SVG file, input SVG markup directly or choose an icon from the library - a collection of icons from Dashicons, WordPress, Ionicons, Bootstrap Icons."
+msgstr ""
+
+#: build/index.js:82
+msgid "Custom value"
+msgstr ""
+
+#: build/index.js:136
+msgid "Unlink Sides"
+msgstr ""
+
+#: build/index.js:136
+msgid "Link Sides"
+msgstr ""
+
+#: build/index.js:189
+msgid "-Style-"
+msgstr ""
+
+#: build/index.js:189
+msgid "None"
+msgstr ""
+
+#: build/index.js:189
+msgid "Color"
+msgstr ""
+
+#: build/index.js:189
+msgid "Width"
+msgstr ""
+
+#: build/index.js:189
+msgid "Margin"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:130
+msgid "Icon library"
+msgstr ""
+
+#: build/index.js:355
+msgid "Close"
+msgstr ""
+
+#: build/index.js:355
+msgid "Search icon..."
+msgstr ""
+
+#: build/index.js:355
+msgid "Quick search:"
+msgstr ""
+
+#: build/index.js:355
+msgid "Loading..."
+msgstr ""
+
+#: build/index.js:355
+msgid "Cancel"
+msgstr ""
+
+#: build/index.js:355
+msgid "Insert icon"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:176
+msgid "Icon settings"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:184
+msgid "Input icon"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:185
+msgid "Upload SVG icon"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:186
+msgid "Or input SVG icon markup"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:188
+msgid "Input SVG markup…"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:192
+msgid "Icon width"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:205
+msgid "Icon spacing"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:217
+msgid "Icon position"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:229
+msgid "Icon color"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:237
+msgid "Fill color"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:242
+msgid "Stroke color"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:252
+msgid "Separator settings"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:258
+msgid "Separator width"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:284
+msgid "Top and Bottom"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:303
+msgid "Justify alignment"
+msgstr ""
+
+#: build/index.js:355
+#: src/edit.js:316
+msgid "Line style"
+msgstr ""
+
+#: build/block.json
+#: src/block.json
+msgctxt "block title"
+msgid "Icon Separator"
+msgstr ""
+
+#: build/block.json
+#: src/block.json
+msgctxt "block description"
+msgid "A simple horizontal separator with icon."
+msgstr ""
