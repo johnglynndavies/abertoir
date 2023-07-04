@@ -44,6 +44,15 @@ class Film_Festivals {
   protected $plugin_dir;
 
   /**
+   * The unique identifier of this plugin.
+   *
+   * @since    1.0.0
+   * @access   protected
+   * @var      Film_Festivals_Loader    $loader   Registers all actions and filters for the plugin.
+   */
+  protected $loader;
+
+  /**
    * Define the core functionality of the plugin.
    *
    * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -124,6 +133,7 @@ class Film_Festivals {
     $plugin_admin = new Film_Festivals_Admin( $this->get_plugin_name(), $this->get_version() );
 
     $this->loader->add_action( 'init', $plugin_admin, 'create_post_types', 0 );
+    $this->loader->add_action( 'init', $plugin_admin, 'create_meta_fields', 0 );
     $this->loader->add_action( 'init', $plugin_admin, 'add_terms', 0 );
     $this->loader->add_action( 'init', $plugin_admin, 'film_festivals_upload', 0 );
     $this->loader->add_filter( 'post_type_link', $plugin_admin, 'rewrite_permalinks', 10, 2 );
@@ -132,6 +142,10 @@ class Film_Festivals {
     $this->loader->add_action( 'admin_menu', $plugin_admin, 'setup_post_type_submenu');
     $this->loader->add_action( 'parent_file', $plugin_admin, 'tax_menu_correction');
     $this->loader->add_action( 'admin_notices', $plugin_admin, 'upload_completion_notice', 0, 1 );
+
+    // add meta boxes
+    $this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'add_film_festival_metaboxes');
+    $this->loader->add_action( 'save_post', $plugin_admin, 'save_film_festival_metaboxes', 1, 2);
 
     if ( ! class_exists( 'Film_Festivals_Admin_Page' ) ) {
       require_once $this->plugin_dir . 'admin/class-film-festivals-admin-page.php';

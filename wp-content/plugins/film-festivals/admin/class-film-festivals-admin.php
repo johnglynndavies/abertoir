@@ -84,6 +84,30 @@ class Film_Festivals_Admin {
   }
 
   /**
+   * Add custom metaboxes. 
+   */
+  public function add_film_festival_metaboxes() {
+    if ( ! class_exists( 'Film_Festivals_Metaboxes' ) ) {
+      require FILM_FESTIVALS_PLUGIN_DIR  . 'includes/class-film-festivals-metaboxes.php';
+    }
+
+    $film_festivals_metaboxes = new Film_Festivals_Metaboxes($this->plugin_name);
+    $film_festivals_metaboxes->add();
+  }
+
+  /**
+   * Add custom metaboxes. 
+   */
+  public function save_film_festival_metaboxes($post_id, $post) {
+    if ( ! class_exists( 'Film_Festivals_Metaboxes' ) ) {
+      require FILM_FESTIVALS_PLUGIN_DIR  . 'includes/class-film-festivals-metaboxes.php';
+    }
+
+    $film_festivals_metaboxes = new Film_Festivals_Metaboxes($this->plugin_name);
+    $film_festivals_metaboxes->save($post_id, $post);
+  }
+
+  /**
    * Create custom post types. 
    */
   public function create_post_types() {
@@ -173,25 +197,43 @@ class Film_Festivals_Admin {
 
   }
 
+  // register custom meta tag field
+  public function create_meta_fields() {
+    register_post_meta( 'exhibit', 'start_date', array(
+        'show_in_rest' => array(
+          'schema' => array(
+              'type'  => 'array',
+              'items' => array(
+                  'type' => 'object',
+                  'properties' => array(
+                    'start_time'    => array(
+                        'type' => 'string',
+                    ),
+                    'end_time' => array(
+                        'type'   => 'string',
+                    ),
+                ),
+              ),
+          ),
+        ),
+        'single' => true,
+        'type' => 'array',
+        'auth_callback' => function() {
+          return current_user_can('edit_posts');
+        }
+    ) );
+  }
+
   /**
    * Rewrite permalinks.
    */
   public function rewrite_permalinks($post_link, $post) {
     $post_types = ['exhibit'];
-    //error_log('post_link: '.$post_link);
 
     foreach($post_types as $post_type) {
       if ( is_object($post) && get_post_type($post) == $post_type ) {
-        $terms = wp_get_object_terms($post->ID, "{$post_type}_category");
-        $replacement = "%{$post_type}_category%";
-
-        // strip out unwanted base slug from events
-        if ($post_type == 'exhibit') {
-          $replacement = "%festival_category%";
-        }
-        
-        error_log(print_r($terms, true));
-
+        $terms = wp_get_object_terms($post->ID, "festival_category");
+        $replacement = "%festival_category%";      
 
         if ( $terms && (!$terms instanceof WP_Error)) {
           return str_replace($replacement , $terms[0]->slug, $post_link);
@@ -200,18 +242,6 @@ class Film_Festivals_Admin {
     }
 
     return $post_link;
-  }
-
-  /**
-   * Add rewrite rules.
-   */
-  function add_rewrite_rules() {
-    // rewrite rules to enable removal of unwanted base slug from events
-    $slugs = ['festival'];
-
-    foreach($slugs as $slug) {
-      add_rewrite_rule('^'.$slug.'/([^/]*)$', 'index.php?exhibit=$matches[1]', 'top');
-    }
   }
 
   /**
@@ -260,7 +290,7 @@ class Film_Festivals_Admin {
     if ( isset($_POST['film-festivals_upload']) ) {
       if (is_uploaded_file($_FILES['file']['tmp_name'])) {
         $mime_type = mime_content_type($_FILES['file']['tmp_name']);
-        $allowed_file_types = ['text/plain', 'text/csv', 'application/vnd.ms-excel'];
+        $allowed_file_types = ['text/plain'];
 
         if ( in_array($mime_type, $allowed_file_types) ) {
           define('MB', 1048576);
@@ -360,7 +390,6 @@ class Film_Festivals_Admin {
         error_log('$term: '.print_r($term, true));
 
         wp_set_object_terms( $post_id, $term, $taxonomy );
-        
         
         // Post was inserted successfully, do something else if needed
         // add to inserted array and post a msg on screen
