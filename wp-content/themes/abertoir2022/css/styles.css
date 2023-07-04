@@ -10,6 +10,10 @@ body {
   margin-top: 5rem;
 }
 
+.wp-block-embed {
+  margin-top: 1.5rem;
+}
+
 .p-relative {
   position: relative;
 }
@@ -26,11 +30,9 @@ body {
   .d-none-md {
     display: none;
   }
-
   .d-inline-md {
     display: inline;
   }
-
   .d-block-md {
     display: block;
   }
@@ -78,35 +80,51 @@ body {
 }
 @media screen and (min-width: 768px) {
   .aber-header {
-    margin-block-end: 55px;
+    -webkit-margin-after: 55px;
+            margin-block-end: 55px;
   }
 }
 @media screen and (max-width: 767px) {
   body:not(.home) .aber-header {
-    margin-block-end: 15%;
+    -webkit-margin-after: 15%;
+            margin-block-end: 15%;
   }
 }
 
 .aber-header__wrapper {
   position: relative;
-  margin-block-start: 0;
-  align-items: flex-start;
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 @media screen and (max-width: 767px) {
   .aber-header__wrapper {
     display: block !important;
     padding-bottom: var(--wp--custom--spacing--outer);
+    margin-left: -webkit-calc(-1 * var(--wp--custom--spacing--outer)) !important;
     margin-left: calc(-1 * var(--wp--custom--spacing--outer)) !important;
+    margin-right: -webkit-calc(-1 * var(--wp--custom--spacing--outer)) !important;
     margin-right: calc(-1 * var(--wp--custom--spacing--outer)) !important;
   }
 }
 
 @media screen and (max-width: 767px) {
   .aber-header__logo {
+    margin-left: -webkit-calc(-1 * var(--wp--custom--spacing--outer)) !important;
     margin-left: calc(-1 * var(--wp--custom--spacing--outer)) !important;
+    margin-right: -webkit-calc(-1 * var(--wp--custom--spacing--outer)) !important;
     margin-right: calc(-1 * var(--wp--custom--spacing--outer)) !important;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     background: var(--wp--preset--color--black-night);
   }
   .home .aber-header__logo {
@@ -120,11 +138,16 @@ body {
 @media screen and (min-width: 768px) {
   .aber-header__logo {
     margin-bottom: -55px !important;
+    width: 130px;
+  }
+  .aber-header__logo + div {
+    padding-top: 5rem;
   }
 }
 
 .aber-header__title {
   margin: 0;
+  font-family: var(--wp--preset--font-family--alegreya);
   font-size: 2.5rem;
   font-style: normal;
   font-weight: 600;
@@ -145,8 +168,52 @@ body {
 @media screen and (max-width: 767px) {
   .aber-footer .is-layout-flow > .alignleft.wp-block-image {
     max-width: 40%;
-    margin-inline-end: 1.5em;
+    -webkit-margin-end: 1.5em;
+            margin-inline-end: 1.5em;
   }
 }
 
-/*# sourceMappingURL=styles.css.map */
+.exhibit-template-default {
+  background-color: var(--wp--preset--color--black-night);
+  color: var(--wp--preset--color--white-bone);
+}
+.exhibit-template-default .wp-block-boldblocks-icon-separator {
+  fill: var(--wp--preset--color--white-bone);
+}
+
+@media screen and (min-width: 782px) {
+  .exhibit-content {
+    background: var(--wp--preset--color--black-night);
+    padding: 3rem 3rem 0;
+    margin-top: 0;
+    position: relative;
+    top: -2rem;
+  }
+}
+
+.wp-block-cover--exhibit-header {
+  color: var(--wp--preset--color--white-bone);
+}
+.wp-block-cover--exhibit-header .has-background-dim:not([class*=-background-color]) {
+  transition: background 0.2s ease;
+  -webkit-transition: background 0.2s ease;
+  -moz-transition: background 0.2s ease;
+  -ms-transition: background 0.2s ease;
+  -o-transition: background 0.2s ease;
+}
+@media screen and (min-width: 1024px) {
+  .wp-block-cover--exhibit-header .has-background-dim:not([class*=-background-color]) {
+    background: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0.5)), color-stop(40%, rgba(0, 0, 0, 0.5)), to(rgba(255, 255, 255, 0)));
+    background: -o-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 40%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 40%, rgba(255, 255, 255, 0) 100%);
+  }
+}
+@media screen and (min-width: 1024px) {
+  .wp-block-cover--exhibit-header .wp-block-cover__inner-container {
+    width: 60%;
+    margin-right: auto;
+  }
+}
+.wp-block-cover--exhibit-header h1 {
+  font-size: clamp(2rem, 1rem + 4vw, 4.5rem);
+}/*# sourceMappingURL=styles.css.map */

@@ -10,8 +10,8 @@ body {
   margin-top: 5rem;
 }
 
-.wp-site-blocks .wp-block-site-logo {
-  
+.wp-block-embed {
+  margin-top: 1.5rem;
 }
 
 .p-relative {
@@ -55,7 +55,7 @@ body {
   }
 }
 
-.main-nav .wp-block-navigation__responsive-container-open.always-shown, {
+.main-nav .wp-block-navigation__responsive-container-open.always-shown {
   top: var(--wp--preset--spacing--50);
 }
 
@@ -75,3 +75,5 @@ body {
 
 @import 'aber-header';
 @import 'aber-footer';
+@import 'exhibit-page';
+@import 'exhibit-header';

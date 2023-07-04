@@ -12,78 +12,61 @@
  *
  * @see https://wordpress.org/gutenberg/handbook/designers-developers/developers/tutorials/block-tutorial/applying-styles-with-stylesheets/
  */
-function festival_dates_block_init() {
+function exhibit_meta_block_init() {
 	// Skip block registration if Gutenberg is not enabled/merged.
 	if ( ! function_exists( 'register_block_type' ) ) {
 		return;
 	}
 	$dir = get_stylesheet_directory() . '/blocks';
 
-	$index_js = 'festival-dates/index.js';
+	$index_js = 'exhibit-meta/index.js';
 	wp_register_script(
-		'festival-dates-block-editor',
+		'exhibit-meta-block-editor',
 		get_stylesheet_directory_uri() . "/blocks/{$index_js}",
 		[
 			'wp-blocks',
 			'wp-i18n',
 			'wp-element',
+			'wp-block-editor',
 		],
 		filemtime( "{$dir}/{$index_js}" )
 	);
 
-	$editor_css = 'festival-dates/css/editor.min.css';
+	$editor_css = 'exhibit-meta/css/editor.min.css';
 	wp_register_style(
-		'festival-dates-block-editor',
+		'exhibit-meta-block-editor',
 		get_stylesheet_directory_uri() . "/blocks/{$editor_css}",
 		[],
 		filemtime( "{$dir}/{$editor_css}" )
 	);
 
-	$style_css = 'festival-dates/css/style.min.css';
+	$style_css = 'exhibit-meta/css/style.min.css';
 	wp_register_style(
-		'festival-dates-block',
+		'exhibit-meta-block',
 		get_stylesheet_directory_uri() . "/blocks/{$style_css}",
 		[],
 		filemtime( "{$dir}/{$style_css}" )
 	);
 
-	register_block_type( 'abertoir2022/festival-dates', [
-		'api_version' => 2,
+	register_block_type( 'abertoir2022/exhibit-meta', [
+		'api_version' => 3,
 		'attributes' => [
 			'className' => [
 				'type' => 'string',
 			],
-      'content' => [
-      	'type' => 'string',
-      	'source' => 'text',
-      ],
+		'content' => [
+			'type' => 'string',
+			'source' => 'text',
+		],
 		],
 		'supports' => [
 			'color' => ['background' => false, 'link' => false],
 			'align' => false,
 		],
-		'editor_script' => 'festival-dates-block-editor',
-		'editor_style'  => 'festival-dates-block-editor',
-		'style'         => 'festival-dates-block',
-		'render_callback' => 'render_block_festival_dates',
+		'editor_script' => 'exhibit-meta-block-editor',
+		'editor_style'  => 'exhibit-meta-block-editor',
+		'style'         => 'exhibit-meta-block',
 	] );
 }
 
-add_action( 'init', 'festival_dates_block_init' );
-
-function render_block_festival_dates( $attributes, $content ) {
-	$wrapper_attributes = get_block_wrapper_attributes();
-	// get date range from latest festival run
-	$festival_dates = '19 – 24 November 2023';
-
-	$option = get_option( 'film-festivals_name' );
-	if (empty($option['dateson']) || (!empty($option['dateson']) && $option['dateson'] != 'on')) {
-		return;
-	}
-
-	if ( ! $festival_dates ) {
-		return;
-	}
-
-	return sprintf('<p %1$s>%2$s</p>', 'class="aber-header__dates"', $festival_dates);
-}
+add_action( 'init', 'exhibit_meta_block_init' );

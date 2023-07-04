@@ -31,7 +31,7 @@ function lang_switcher_block_init() {
 		filemtime( "{$dir}/{$index_js}" )
 	);
 
-	$editor_css = 'lang-switcher/editor.css';
+	$editor_css = 'lang-switcher/css/editor.min.css';
 	wp_register_style(
 		'lang-switcher-block-editor',
 		get_stylesheet_directory_uri() . "/blocks/{$editor_css}",
@@ -39,7 +39,7 @@ function lang_switcher_block_init() {
 		filemtime( "{$dir}/{$editor_css}" )
 	);
 
-	$style_css = 'lang-switcher/style.css';
+	$style_css = 'lang-switcher/css/style.min.css';
 	wp_register_style(
 		'lang-switcher-block',
 		get_stylesheet_directory_uri() . "/blocks/{$style_css}",

@@ -1,0 +1,27 @@
+/**
+ * The following styles get applied both on the front of your site and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.aber-langswitcher {
+  position: absolute;
+  top: 30px;
+  color: #383838;
+  text-transform: uppercase;
+  font-family: var(--wp--preset--font-family--poppins);
+  font-weight: 600;
+  font-size: var(--wp--preset--font-size--small);
+}
+
+.aber-langswitcher a {
+  text-decoration: none;
+  color: var(--wp--preset--color--white-bone);
+}
+
+.aber-langswitcher .current-lang {
+  color: var(--wp--preset--color--text-subtle);
+}
+
+.aber-langswitcher abbr {
+  text-decoration: none;
+}/*# sourceMappingURL=style.css.map */

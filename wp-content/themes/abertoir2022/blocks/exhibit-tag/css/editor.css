@@ -1,0 +1,34 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+/**
+ * The following styles get applied both on the front of your site and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.exhibit-tags {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.exhibit-tags__tag {
+  padding: 0em 0.5em;
+  display: inline-block;
+  -webkit-margin-before: 0.5em !important;
+          margin-block-start: 0.5em !important;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.6rem;
+  background-color: var(--wp--preset--color--primary);
+}
+.exhibit-tags__tag + .exhibit-tags__tag {
+  -webkit-margin-start: 0.25em;
+          margin-inline-start: 0.25em;
+}/*# sourceMappingURL=editor.css.map */

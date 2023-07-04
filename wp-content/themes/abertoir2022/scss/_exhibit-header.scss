@@ -1,0 +1,26 @@
+.wp-block-cover--exhibit-header {
+    color: var(--wp--preset--color--white-bone);
+
+    .has-background-dim:not([class*=-background-color]) {
+        transition: background 0.2s ease;
+        -webkit-transition: background 0.2s ease;
+        -moz-transition: background 0.2s ease;
+        -ms-transition: background 0.2s ease;
+        -o-transition: background 0.2s ease;
+
+        @media screen and (min-width: 1024px) {
+            background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 40%, rgba(255,255,255,0) 100%);
+        }
+    }
+
+    .wp-block-cover__inner-container {
+        @media screen and (min-width: 1024px) {
+            width: 60%;
+            margin-right: auto;
+        }  
+    }
+
+    h1 {
+        font-size: clamp(2rem, 1rem + 4vw, 4.5rem);
+    }
+}

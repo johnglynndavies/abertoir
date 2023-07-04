@@ -1,0 +1,19 @@
+.exhibit-template-default {
+    background-color: var(--wp--preset--color--black-night);
+    color: var(--wp--preset--color--white-bone);
+
+    .wp-block-boldblocks-icon-separator {
+        fill: var(--wp--preset--color--white-bone);
+    }
+}
+
+.exhibit-content {
+    @media screen and (min-width: 782px) {
+        background: var(--wp--preset--color--black-night);
+        padding: 3rem 3rem 0;
+        margin-top: 0;
+        position: relative;
+        top: -2rem;
+    }
+}
+

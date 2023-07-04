@@ -38,6 +38,11 @@
                     "slug": "text-subtle",
                     "color": "#AEB39A",
                     "name": "Bone dry"
+                },
+                {
+                    "slug": "secondary",
+                    "color": "#1B331D",
+                    "name": "Dark slime green"
                 }
               ]
         },
@@ -148,10 +153,11 @@
         "elements": {
             "h1": {
                 "typography": {
-                    "fontFamily": "var(--wp--preset--font-family--alegreya)",
-                    "fontWeight": "700",
+                    "fontFamily": "var(--wp--preset--font-family--poppins)",
+                    "fontWeight": "800",
                     "lineHeight": "var(--wp--custom--typography--line-height--tiny)",
-                    "fontSize": "var(--wp--custom--typography--font-size--colossal)"
+                    "fontSize": "var(--wp--custom--typography--font-size--colossal)",
+                    "textTransform": "uppercase"
                 }
             },
             "h2": {
