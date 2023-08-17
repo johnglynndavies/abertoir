@@ -447,6 +447,32 @@ function isShallowEqual(a, b, fromIndex) {
  *
  * @param {Object} state Data state.
  *
+ * @example
+ * ```js
+ * import { __, sprintf } from '@wordpress/i18n';
+ * import { store as richTextStore } from '@wordpress/rich-text';
+ * import { useSelect } from '@wordpress/data';
+ *
+ * const ExampleComponent = () => {
+ *    const { getFormatTypes } = useSelect(
+ *        ( select ) => select( richTextStore ),
+ *        []
+ *    );
+ *
+ *    const availableFormats = getFormatTypes();
+ *
+ *    return availableFormats ? (
+ *        <ul>
+ *            { availableFormats?.map( ( format ) => (
+ *                <li>{ format.name }</li>
+ *           ) ) }
+ *        </ul>
+ *    ) : (
+ *        __( 'No Formats available' )
+ *    );
+ * };
+ * ```
+ *
  * @return {Array} Format types.
  */
 
@@ -456,6 +482,34 @@ const getFormatTypes = rememo(state => Object.values(state.formatTypes), state =
  *
  * @param {Object} state Data state.
  * @param {string} name  Format type name.
+ *
+ * @example
+ * ```js
+ * import { __, sprintf } from '@wordpress/i18n';
+ * import { store as richTextStore } from '@wordpress/rich-text';
+ * import { useSelect } from '@wordpress/data';
+ *
+ * const ExampleComponent = () => {
+ *    const { getFormatType } = useSelect(
+ *        ( select ) => select( richTextStore ),
+ *        []
+ *    );
+ *
+ *    const boldFormat = getFormatType( 'core/bold' );
+ *
+ *    return boldFormat ? (
+ *        <ul>
+ *            { Object.entries( boldFormat )?.map( ( [ key, value ] ) => (
+ *                <li>
+ *                    { key } : { value }
+ *                </li>
+ *           ) ) }
+ *       </ul>
+ *    ) : (
+ *        __( 'Not Found' )
+ *    ;
+ * };
+ * ```
  *
  * @return {Object?} Format type.
  */
@@ -470,6 +524,25 @@ function getFormatType(state, name) {
  * @param {Object} state              Data state.
  * @param {string} bareElementTagName The tag name of the element to find a
  *                                    format type for.
+ *
+ * @example
+ * ```js
+ * import { __, sprintf } from '@wordpress/i18n';
+ * import { store as richTextStore } from '@wordpress/rich-text';
+ * import { useSelect } from '@wordpress/data';
+ *
+ * const ExampleComponent = () => {
+ *    const { getFormatTypeForBareElement } = useSelect(
+ *        ( select ) => select( richTextStore ),
+ *        []
+ *    );
+ *
+ *    const format = getFormatTypeForBareElement( 'strong' );
+ *
+ *    return format && <p>{ sprintf( __( 'Format name: %s' ), format.name ) }</p>;
+ * }
+ * ```
+ *
  * @return {?Object} Format type.
  */
 
@@ -493,6 +566,25 @@ function getFormatTypeForBareElement(state, bareElementTagName) {
  * @param {Object} state            Data state.
  * @param {string} elementClassName The classes of the element to find a format
  *                                  type for.
+ *
+ * @example
+ * ```js
+ * import { __, sprintf } from '@wordpress/i18n';
+ * import { store as richTextStore } from '@wordpress/rich-text';
+ * import { useSelect } from '@wordpress/data';
+ *
+ * const ExampleComponent = () => {
+ *    const { getFormatTypeForClassName } = useSelect(
+ *        ( select ) => select( richTextStore ),
+ *        []
+ *    );
+ *
+ *    const format = getFormatTypeForClassName( 'has-inline-color' );
+ *
+ *    return format && <p>{ sprintf( __( 'Format name: %s' ), format.name ) }</p>;
+ * };
+ * ```
+ *
  * @return {?Object} Format type.
  */
 
@@ -512,6 +604,9 @@ function getFormatTypeForClassName(state, elementClassName) {
 /**
  * Returns an action object used in signalling that format types have been
  * added.
+ * Ignored from documentation as registerFormatType should be used instead from @wordpress/rich-text
+ *
+ * @ignore
  *
  * @param {Array|Object} formatTypes Format types received.
  *
@@ -525,6 +620,10 @@ function addFormatTypes(formatTypes) {
 }
 /**
  * Returns an action object used to remove a registered format type.
+ *
+ * Ignored from documentation as unregisterFormatType should be used instead from @wordpress/rich-text
+ *
+ * @ignore
  *
  * @param {string|Array} names Format name.
  *
@@ -860,6 +959,7 @@ function toFormat({
 
   if (!attributes) {
     return {
+      formatType,
       type: formatType.name,
       tagName
     };
@@ -891,7 +991,12 @@ function toFormat({
     unregisteredAttributes[name] = attributes[name];
   }
 
+  if (formatType.contentEditable === false) {
+    delete unregisteredAttributes.contenteditable;
+  }
+
   return {
+    formatType,
     type: formatType.name,
     tagName,
     attributes: registeredAttributes,
@@ -1206,7 +1311,23 @@ function createFromElement({
       attributes: getAttributes({
         element: node
       })
-    });
+    }); // When a format type is declared as not editable, replace it with an
+    // object replacement character and preserve the inner HTML.
+
+    if (format?.formatType?.contentEditable === false) {
+      delete format.formatType;
+      accumulateSelection(accumulator, node, range, createEmptyValue());
+      mergePair(accumulator, {
+        formats: [,],
+        replacements: [{ ...format,
+          innerHTML: node.innerHTML
+        }],
+        text: OBJECT_REPLACEMENT_CHARACTER
+      });
+      continue;
+    }
+
+    if (format) delete format.formatType;
 
     if (multilineWrapperTags && multilineWrapperTags.indexOf(tagName) !== -1) {
       const value = createFromMultilineElement({
@@ -2289,7 +2410,7 @@ function fromFormat({
   const formatType = get_format_type_getFormatType(type);
   let elementAttributes = {};
 
-  if (boundaryClass) {
+  if (boundaryClass && isEditableTree) {
     elementAttributes['data-rich-text-format-boundary'] = 'true';
   }
 
@@ -2327,10 +2448,16 @@ function fromFormat({
     } else {
       elementAttributes.class = formatType.className;
     }
+  } // When a format is declared as non editable, make it non editable in the
+  // editor.
+
+
+  if (isEditableTree && formatType.contentEditable === false) {
+    elementAttributes.contenteditable = 'false';
   }
 
   return {
-    type: formatType.tagName === '*' ? tagName : formatType.tagName,
+    type: tagName || formatType.tagName,
     object: formatType.object,
     attributes: restoreOnAttributes(elementAttributes, isEditableTree)
   };
@@ -2500,16 +2627,37 @@ function toTree({
     }
 
     if (character === OBJECT_REPLACEMENT_CHARACTER) {
-      if (!isEditableTree && replacements[i]?.type === 'script') {
+      const replacement = replacements[i];
+      if (!replacement) continue;
+      const {
+        type,
+        attributes,
+        innerHTML
+      } = replacement;
+      const formatType = get_format_type_getFormatType(type);
+
+      if (!isEditableTree && type === 'script') {
         pointer = append(getParent(pointer), fromFormat({
           type: 'script',
           isEditableTree
         }));
         append(pointer, {
-          html: decodeURIComponent(replacements[i].attributes['data-rich-text-script'])
+          html: decodeURIComponent(attributes['data-rich-text-script'])
         });
+      } else if (formatType?.contentEditable === false) {
+        // For non editable formats, render the stored inner HTML.
+        pointer = append(getParent(pointer), fromFormat({ ...replacement,
+          isEditableTree,
+          boundaryClass: start === i && end === i + 1
+        }));
+
+        if (innerHTML) {
+          append(pointer, {
+            html: innerHTML
+          });
+        }
       } else {
-        pointer = append(getParent(pointer), fromFormat({ ...replacements[i],
+        pointer = append(getParent(pointer), fromFormat({ ...replacement,
           object: true,
           isEditableTree
         }));
@@ -2641,6 +2789,10 @@ function getNodeByPath(node, path) {
 }
 
 function append(element, child) {
+  if (child.html !== undefined) {
+    return element.innerHTML += child.html;
+  }
+
   if (typeof child === 'string') {
     child = element.ownerDocument.createTextNode(child);
   }
@@ -3422,12 +3574,15 @@ function useBoundaryStyle({
 }) {
   const ref = (0,external_wp_element_namespaceObject.useRef)();
   const {
-    activeFormats = []
+    activeFormats = [],
+    replacements,
+    start
   } = record.current;
+  const activeReplacement = replacements[start];
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // There's no need to recalculate the boundary styles if no formats are
     // active, because no boundary styles will be visible.
-    if (!activeFormats || !activeFormats.length) {
+    if ((!activeFormats || !activeFormats.length) && !activeReplacement) {
       return;
     }
 
@@ -3461,7 +3616,7 @@ function useBoundaryStyle({
     if (globalStyle.innerHTML !== style) {
       globalStyle.innerHTML = style;
     }
-  }, [activeFormats]);
+  }, [activeFormats, activeReplacement]);
   return ref;
 }
 
@@ -3489,8 +3644,11 @@ function useCopyHandler(props) {
         multilineTag,
         preserveWhiteSpace
       } = propsRef.current;
+      const {
+        ownerDocument
+      } = element;
 
-      if (isCollapsed(record.current) || !element.contains(element.ownerDocument.activeElement)) {
+      if (isCollapsed(record.current) || !element.contains(ownerDocument.activeElement)) {
         return;
       }
 
@@ -3506,11 +3664,17 @@ function useCopyHandler(props) {
       event.clipboardData.setData('rich-text', 'true');
       event.clipboardData.setData('rich-text-multi-line-tag', multilineTag || '');
       event.preventDefault();
+
+      if (event.type === 'cut') {
+        ownerDocument.execCommand('delete');
+      }
     }
 
     element.addEventListener('copy', onCopy);
+    element.addEventListener('cut', onCopy);
     return () => {
       element.removeEventListener('copy', onCopy);
+      element.removeEventListener('cut', onCopy);
     };
   }, []);
 }
@@ -3642,7 +3806,7 @@ function useSelectObject() {
         target
       } = event; // If the child element has no text content, it must be an object.
 
-      if (target === element || target.textContent) {
+      if (target === element || target.textContent && target.isContentEditable) {
         return;
       }
 
@@ -3652,16 +3816,32 @@ function useSelectObject() {
       const {
         defaultView
       } = ownerDocument;
-      const range = ownerDocument.createRange();
-      const selection = defaultView.getSelection();
-      range.selectNode(target);
+      const selection = defaultView.getSelection(); // If it's already selected, do nothing and let default behavior
+      // happen. This means it's "click-through".
+
+      if (selection.containsNode(target)) return;
+      const range = ownerDocument.createRange(); // If the target is within a non editable element, select the non
+      // editable element.
+
+      const nodeToSelect = target.isContentEditable ? target : target.closest('[contenteditable]');
+      range.selectNode(nodeToSelect);
       selection.removeAllRanges();
       selection.addRange(range);
+      event.preventDefault();
+    }
+
+    function onFocusIn(event) {
+      // When there is incoming focus from a link, select the object.
+      if (event.relatedTarget && !element.contains(event.relatedTarget) && event.relatedTarget.tagName === 'A') {
+        onClick(event);
+      }
     }
 
     element.addEventListener('click', onClick);
+    element.addEventListener('focusin', onFocusIn);
     return () => {
       element.removeEventListener('click', onClick);
+      element.removeEventListener('focusin', onFocusIn);
     };
   }, []);
 }
@@ -4047,7 +4227,7 @@ function useSelectionChangeCompat() {
     const {
       defaultView
     } = ownerDocument;
-    const selection = defaultView.getSelection();
+    const selection = defaultView?.getSelection();
     let range;
 
     function getRange() {
@@ -4322,6 +4502,7 @@ function useRichText({
   const hadSelectionUpdate = (0,external_wp_element_namespaceObject.useRef)(false);
 
   if (!record.current) {
+    hadSelectionUpdate.current = isSelected;
     setRecordFromProps(); // Sometimes formats are added programmatically and we need to make
     // sure it's persisted to the block store / markup. If these formats
     // are not applied, they could cause inconsistencies between the data
