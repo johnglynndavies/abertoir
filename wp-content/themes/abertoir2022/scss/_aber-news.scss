@@ -1,0 +1,10 @@
+.aber-news__posts {
+    > li {
+        margin-block-end: var(--wp--preset--spacing--70);
+    }
+}
+.aber-news__post {
+    h2 {
+        font-size: var(--wp--custom--typography--font-size--gigantic);
+    }
+}

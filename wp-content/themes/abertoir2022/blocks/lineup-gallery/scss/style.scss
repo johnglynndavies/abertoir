@@ -1,0 +1,35 @@
+/**
+ * The following styles get applied both on the front of your site and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.lineup-gallery {
+  img {
+    width: 100%;
+  }
+
+  .flickity-page-dots .dot {
+    background-color: var(--wp--preset--color--red);
+  }
+
+
+    margin-bottom: 2em;
+  
+
+  img {
+    display: block;
+  }
+
+  figure {
+    margin: 0;
+  }
+}
+
+.lineup-gallery figcaption {
+  bottom: 0;
+  color: white;
+  width: 100%;
+  padding: 0.2em 1em;
+  position: absolute;
+  background: rgba(0,0,0,0.4);
+}

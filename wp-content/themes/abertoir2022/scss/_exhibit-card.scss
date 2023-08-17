@@ -1,0 +1,17 @@
+.exhibit-cards > li {
+    padding-left: var(--wp--preset--spacing--50);
+    padding-right: var(--wp--preset--spacing--50);
+    padding-bottom: var(--wp--preset--spacing--50);
+    background: var(--wp--preset--color--black-night);
+    color: var(--wp--preset--color--white-bone);
+
+    h2 {
+        font-size: var(--wp--custom--typography--font-size--huge);
+        font-weight: 600;
+    }
+
+    figure {
+        margin-left: calc(-1 * var(--wp--preset--spacing--50)) !important;
+        margin-right: calc(-1 * var(--wp--preset--spacing--50)) !important;
+    }
+}

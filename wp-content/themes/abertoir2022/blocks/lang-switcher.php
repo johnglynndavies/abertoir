@@ -50,10 +50,10 @@ function lang_switcher_block_init() {
 	register_block_type( 'abertoir2022/lang-switcher', [
 		'api_version' => 2,
 		'attributes' => [
-      'content' => [
-      	'type' => 'string',
-      	'source' => 'text',
-      ],
+		'content' => [
+			'type' => 'string',
+			'source' => 'text',
+		],
 		],
 		'supports' => [
 			'color' => ['background' => false, 'link' => true],

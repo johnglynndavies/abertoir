@@ -1,13 +1,44 @@
+:root {
+  --link-underline-colour: var(--wp--preset--color--primary);
+  --link-colour: var(--wp--preset--color--primary);
+}
+
+html {
+    font-size: 18px;
+
+    @media screen and (min-width: 992px) {
+      font-size: 20px;
+    }
+}
+
 body {
-  font-size: 1.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wp-block-query-title {
+  font-family: inherit;
+  font-weight: 800;
 }
 
 .wp-block-separator {
   border-bottom-color: var(--wp--preset--color--text-subtle);
 }
 
+.wp-block-post-title {
+  font-size: clamp(2vw, var(--wp--custom--typography--font-size--colossal), 12.5vw);
+}
+
+h2.wp-block-heading {
+  font-size: clamp(2vw, var(--wp--custom--typography--font-size--gigantic), 12.5vw);
+}
+
+h3.wp-block-heading {
+  font-size: clamp(2vw, var(--wp--custom--typography--font-size--huge), 12.5vw);
+}
+
 .wp-block-post-content h2 {
-  margin-top: 5rem;
+  margin-top: 3rem;
 }
 
 .wp-block-embed {
@@ -36,8 +67,20 @@ body {
   .d-block-md {
     display: block;
   }
-}
 
+  .col-md-6 {
+    flex-basis: 50% !important;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .col-lg-4 {
+    flex-basis: 33.333% !important;
+  }
+
+  .col-lg-8 {
+    flex-basis: 66.666% !important;
+  }
+}
 
 .main-nav {
   position: relative;
@@ -73,7 +116,150 @@ body {
   }
 }
 
+.breadcrumb__separator {
+  display: inline-block;
+  margin: 0 0.25em;
+  vertical-align: middle;
+
+  @at-root .exhibit-template-default & {
+    fill: var(--wp--preset--color--white-bone);
+  }
+  
+
+  svg {
+    display: block;
+    height: auto;
+    width: var(--bb--icon-width,1em);
+  }
+}
+
+.breadcrumb {
+  font-weight: 600;
+}
+
+.yoast-breadcrumbs {
+  [aria-current=page] {
+    display: none;
+  }
+}
+
+a {
+  text-underline-offset: 0.5ch;
+}
+
+.cta-link {
+
+  > a {
+    text-transform: uppercase;
+    font-size: var(--wp--preset--font-size--medium);
+    font-weight: 600;
+  }
+
+  &::after {
+    content: '\203A';
+    margin-left: 0.2em;
+    font-size: 2rem;
+    line-height: 0;
+    top: 3px;
+    position: relative;
+    color: var(--wp--preset--color--primary);
+  }
+}
+
+h1 {
+  margin-block-start: 0.25em;
+}
+
+h2 {
+  a {
+    text-underline-offset: 0.25ch;
+  }
+}
+
+.single-post h1.wp-block-post-title {
+  padding-block-end: 1.5rem;
+  border-bottom: 1px solid black;
+}
+
+.page h1.wp-block-post-title {
+  margin-bottom: 0!important;
+}
+
+a:where(:not(.wp-element-button)) {
+  color: var(--wp--preset--color--primary);
+  text-decoration: none;
+
+  &:hover, &:active, &:focus {
+    text-decoration: underline solid var(--wp--preset--color--primary) .15ch;
+  }
+}
+
+.wp-element-button, .wp-block-button__link {
+  color: var(--wp--preset--color--white) !important;
+}
+
+.wp-block-boldblocks-icon-separator__inner {
+  margin-block-start: 1.5rem;
+  margin-block-end: 2rem;
+}
+
+.aber-inline {
+  margin-block-start: 0.5em;
+
+  > * {
+    display: inline-block;
+    margin: 0;
+  }
+}
+
+:where(.wp-block-cover.is-light:not(.has-text-color)) {
+  color: var(--wp--preset--color--white-bone);
+}
+
+:where(body .is-layout-flex) {
+  gap: 2rem;
+}
+
+.home {
+  @media screen and (min-width: 768px) {
+    background-color: var(--wp--preset--color--black-night);
+  }
+
+  footer {
+    margin-block-start: 0;
+  }
+}
+
+.page {
+  .wp-site-blocks {
+    > header header {
+      position: relative;
+      z-index: 2;
+
+      + .wp-block-cover.alignfull {
+        
+        margin-top: calc(-15% - var(--wp--custom--spacing--outer));
+
+        @media screen and (min-width: 768px) {
+          margin-top: -56px;
+        }
+
+        .wp-block-cover__inner-container {
+          position: relative;
+          z-index: 3;
+        }
+      }
+
+    }
+  }
+}
+
+
 @import 'aber-header';
 @import 'aber-footer';
+@import 'aber-featured-news';
+@import 'aber-news';
+@import 'festival-schedule';
 @import 'exhibit-page';
 @import 'exhibit-header';
+@import 'exhibit-card';

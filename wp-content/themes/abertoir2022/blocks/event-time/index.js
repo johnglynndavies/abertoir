@@ -112,7 +112,7 @@
 				var startTimeFormatted = `${dayName} ${date} ${monthName} ${startTime.getHours()}:${startTime.getMinutes()}`;
 			}
 			else {
-				var startTimeFormatted = __('Start dates appear here', 'abertoir2022');
+				var startTimeFormatted = __('Set event date start and end times in sidebar', 'abertoir2022');
 			}
 
 			return el(

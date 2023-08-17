@@ -15,5 +15,14 @@
         position: relative;
         top: -2rem;
     }
+
+    .exhibit-trailer,
+    .exhibit-gallery,
+    .wp-block-embed,
+    .wp-block-gallery {
+        @media screen and (min-width: 782px) {
+            margin-right: calc(-1 * 3rem - var(--wp--custom--spacing--outer));
+        }
+    }
 }
 

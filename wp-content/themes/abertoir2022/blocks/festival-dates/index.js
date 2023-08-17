@@ -15,6 +15,10 @@
 	 */
 	var __ = wp.i18n.__;
 
+	// solution to remove taxonomy metabox panel
+	// @see https://github.com/WordPress/gutenberg/issues/13816
+	//wp.data.dispatch( 'core/edit-post' ).removeEditorPanel( 'taxonomy-panel-festival_category' );
+
 	/**
 	 * Every block starts by registering a new block type definition.
 	 * @see https://wordpress.org/gutenberg/handbook/designers-developers/developers/block-api/#registering-a-block

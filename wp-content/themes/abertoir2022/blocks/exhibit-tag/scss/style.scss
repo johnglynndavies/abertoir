@@ -3,20 +3,24 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
- .exhibit-tags {
+.post-type-exhibit .edit-post-visual-editor__post-title-wrapper {
+   /* display: none;*/
+}
+
+.exhibit-tags {
     padding: 0;
     margin: 0;
     list-style: none;
     display: flex;
- }
+}
 
- .exhibit-tags__tag {
+.exhibit-tags__tag {
     padding: 0em 0.5em;
     display: inline-block;
     margin-block-start: 0.5em !important;
     text-transform: uppercase;
-    font-weight: 700;
-    font-size: 1.6rem;
+    font-weight: 600;
+    font-size: var(--wp--custom--typography--font-size--medium);
     background-color: var(--wp--preset--color--primary);
 
     + .exhibit-tags__tag {

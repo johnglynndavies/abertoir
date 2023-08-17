@@ -5,9 +5,9 @@
  */
 
 .aber-header__dates {
-  font-size: 2rem;
-  font-style:normal;
-  font-weight:600;
+  font-size: 1.65rem;
+  font-style: normal;
+  font-weight: 500;
   line-height: 1;
   color: var(--wp--preset--color--white-bone) !important;
 }
@@ -15,7 +15,7 @@
 @media screen and (max-width: 767px) {
   .aber-header__dates {
     display: none;
-    font-size: 7.8vw;
+    font-size: 7.4vw;
     color: var(--wp--preset--color--black-night) !important;
   }
 }

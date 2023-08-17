@@ -1,0 +1,82 @@
+/**
+ * The following styles get applied both on the front of your site and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.lineup-exhibit__container {
+  gap: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  max-width: none !important;
+}
+
+.lineup-exhibit {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-align-content: flex-start;
+      -ms-flex-line-pack: start;
+          align-content: flex-start;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  gap: 20px;
+}
+@media screen and (min-width: 768px) {
+  .lineup-exhibit {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 -webkit-calc(50% - 20px);
+        -ms-flex: 1 1 calc(50% - 20px);
+            flex: 1 1 calc(50% - 20px);
+  }
+}
+
+.lineup-exhibit__picture {
+  max-width: 33.333%;
+}
+.lineup-exhibit__picture img {
+  max-width: 100%;
+  height: auto;
+}
+
+.lineup-exhibit__title {
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
+  -webkit-margin-after: 0.5em;
+          margin-block-end: 0.5em;
+  text-transform: uppercase;
+  font-size: var(--wp--custom--typography--font-size--medium);
+}
+.lineup-exhibit__title a:hover {
+  text-underline-offset: 0.1ch;
+}
+
+.lineup-exhibit__meta {
+  font-weight: 500;
+}
+
+.lineup-exhibit__content {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  min-width: 200px;
+}
+
+.lineup-exhibit__meta,
+.lineup-exhibit__excerpt {
+  -webkit-margin-before: 0.5em;
+          margin-block-start: 0.5em;
+  -webkit-margin-after: 0.5em;
+          margin-block-end: 0.5em;
+}/*# sourceMappingURL=style.css.map */

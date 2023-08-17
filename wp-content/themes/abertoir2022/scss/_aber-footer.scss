@@ -5,5 +5,25 @@
       max-width: 40%;
       margin-inline-end: 1.5em;
     }
-  }     
+  }
+  
+  .wp-block-navigation__container {
+    width: 100%;
+    display: block;
+    columns: 2 9em;
+    line-height: 1.4;
+  }
+
+  .wp-block-navigation-item {
+    margin-block-end: 0.5em;
+  }
+
+  .wp-block-social-links {
+    gap: 1rem;
+  }
+
+  .wp-block-social-link a {
+    flex-wrap: wrap;
+    line-height: inherit;
+  }
 }
