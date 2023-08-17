@@ -54,18 +54,18 @@ h3.wp-block-heading {
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
 
 @media screen and (min-width: 782px) {
   .d-none-md {
-    display: none;
+    display: none !important;
   }
   .d-inline-md {
-    display: inline;
+    display: inline !important;
   }
   .d-block-md {
-    display: block;
+    display: block !important;
   }
 
   .col-md-6 {
