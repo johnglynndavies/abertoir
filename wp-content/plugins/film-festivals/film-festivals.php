@@ -57,17 +57,16 @@ function run_film_festivals() {
 
 run_film_festivals();
 
-if ( ! function_exists( 'film_festivals_get_post_grid' ) ) {
+if ( ! function_exists( 'watershed_blocks_post_grid' ) ) {
   /**
-   * Prints grid HTML.
+   * Prints post grid HTML.
    *
    * @since 1.0.0
    */
-  function film_festivals_get_post_grid($args) {
-    require_once FILMACADEMY_CATEGORIES_PLUGIN_DIR . 'public/class-film-festivals-query.php';
-    $query = new Film_Festivals_Query($args);
-    $query->get_post_grid();
+  function film_festivals_post_grid($args, $type) {
+    require_once FILM_FESTIVALS_PLUGIN_DIR . 'public/class-film-festivals-post-grid.php';
+    $query = new Film_Festivals_Post_Grid($args, $type);
+    return $query->render();
   }
 }
-
 

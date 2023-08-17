@@ -38,6 +38,15 @@ class Film_Festivals_Metaboxes {
   private $event_dates_meta_key = 'start_date';
 
   /**
+   * Meta key.
+   *
+   * @since 1.0.0
+   * @access private
+   * @var str
+   */
+  private $event_date_meta_key = '_event_date';
+
+  /**
    * Initialize the class and set its properties.
    *
    * @since    1.0.0
@@ -60,6 +69,15 @@ class Film_Festivals_Metaboxes {
       'exhibit_event_dates',
       __( 'Event dates', $this->plugin_name ),
       [ $this, 'event_dates' ],
+      $this->post_type_name,
+      'side'
+    );
+
+     // add our meta box
+     add_meta_box(
+      'exhibit_event_date',
+      __( 'Event date', $this->plugin_name ),
+      [ $this, 'event_date' ],
       $this->post_type_name,
       'side'
     );
@@ -142,6 +160,43 @@ class Film_Festivals_Metaboxes {
   }
 
   /**
+   * Adds a meta box to exhibit edit screens.
+   *
+   * @since 1.0.0
+   *
+   * @param WP_Post $post The object for the current post/page
+   */
+  public function event_date($post)
+  {
+    // Use nonce for verification
+    wp_nonce_field( $this->event_date_meta_key, $this->event_date_meta_key.'_nonce' );
+
+    // set key
+    $db_key = $this->event_date_meta_key;
+    $timezone = new DateTimeZone('Europe/London');
+
+    // get value if the custom field already has one
+    if (!empty($val = $post->{$this->event_date_meta_key})) {
+      // append necessary to make format valid
+      // wp seems to omit this in certain circumstances...
+      if (substr_count($val, ':') === 1) {
+        $val .= ':00';
+      }
+      $event_date = DateTime::createFromFormat(DATE_ATOM, $val.'+00:00', $timezone);
+    } 
+    else {
+      $event_date = new DateTime();
+    }
+
+    echo '<style>.event-date {margin-bottom: 1em;}</style>';
+    echo '<div id="events">';
+    echo '<div class="event-date event_date"><label for="'.$this->event_date_meta_key.'">Event date:</label>';
+    echo '<input type="datetime-local" id="'.$this->event_date_meta_key.'_start" name="'.$this->event_date_meta_key.'" value="'.$event_date->format('Y-m-d H:i:s').'" min="'.date('Y-m-d H:i:s').'" max="'.date('Y-m-d H:i:s', strtotime('+ 1 year')).'"><br />';
+    echo '</div>';
+  }
+
+
+  /**
    * Stores our additional params.
    *
    * @since 1.0.0
@@ -155,6 +210,59 @@ class Film_Festivals_Metaboxes {
 
     // store our page meta data
     $result = $this->_save_event_dates( $post );
+    $result = $this->_save_event_date( $post );
+
+  }
+
+  /**
+   * When a post is saved, this also saves the metadata.
+   *
+   * @since 0.1
+   *
+   * @param WP_Post $post_obj The object for the post (or revision)
+   */
+  private function _save_event_date( $post_obj ) {
+
+    // if no post, kick out
+    if ( ! $post_obj ) return;
+
+    // authenticate
+    $nonce = isset( $_POST[$this->event_date_meta_key.'_nonce'] ) ? $_POST[$this->event_date_meta_key.'_nonce'] : '';
+    if ( ! wp_verify_nonce( $nonce, $this->event_date_meta_key ) ) return;
+
+    // is this an auto save routine?
+    if ( defined('DOING_AUTOSAVE') AND DOING_AUTOSAVE ) return;
+
+    // Check permissions
+    if ( ! current_user_can( 'edit_post', $post_obj->ID ) ) return;
+
+    // check for revision
+    if ( $post_obj->post_type == 'revision' ) {
+
+      // get parent
+      if ( $post_obj->post_parent != 0 ) {
+        $post = get_post( $post_obj->post_parent );
+      } else {
+        $post = $post_obj;
+      }
+
+    } else {
+      $post = $post_obj;
+    }
+
+    // bail if not specified post type
+    if ( $post->post_type != $this->post_type_name ) return;
+
+    // now process metadata
+
+    // define key
+    $db_key = $this->event_date_meta_key;
+
+    // get value
+    $event_date = ( isset( $_POST[$this->event_date_meta_key] ) ) ?  $_POST[$this->event_date_meta_key]  : '';
+
+    // save for this post
+    $this->_save_meta( $post, $db_key, esc_sql($event_date) );
 
   }
 

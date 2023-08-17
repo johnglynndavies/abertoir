@@ -51,7 +51,7 @@ class Film_Festivals_Public {
    */
   public function enqueue_styles() {
 
-    wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/film-festivals-public.css', array(), $this->version, 'all' );
+    //wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/film-festivals-public.css', array(), $this->version, 'all' );
 
   }
 
@@ -62,7 +62,7 @@ class Film_Festivals_Public {
    */
   public function enqueue_scripts() {
 
-    wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/film-festivals-public.js', array( 'jquery' ), $this->version, false );
+   // wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/film-festivals-public.js', array( 'jquery' ), $this->version, false );
 
   }
 
@@ -72,7 +72,7 @@ class Film_Festivals_Public {
   function set_custom_post_type_template($template, $type, $templates) {
     global $post;
     $template_types = ['single'];    
-    $post_types = ['faevents', 'faresources'];
+    $post_types = ['exhibit'];
 
     foreach ($template_types as $template_type) {
       if ($template_type == $type) {
@@ -92,8 +92,7 @@ class Film_Festivals_Public {
    * Set theme overrideable template for custom taxonomy pages.
    */
   public function set_template($template) {
-
-    $taxonomies = ['category', 'events_category', 'resources_category'];
+    $taxonomies = ['festival_category'];
 
     foreach ($taxonomies as $taxonomy) {
       //Check if the taxonomy is being viewed 
@@ -113,7 +112,7 @@ class Film_Festivals_Public {
 
     $template = basename($template_path);
 
-    //single-faresources.php || taxonomy-resources_category.php || taxonomy-resources_category-{term-slug}.php
+    //single-exhibit.php || taxonomy-festival_category.php || taxonomy-festival_category-{term-slug}.php
     if ( 1 == preg_match("/^".$template_type.($slug ? "-".$slug : "")."((-(\S*))?).php/", $template) ) {
       return true;
     }

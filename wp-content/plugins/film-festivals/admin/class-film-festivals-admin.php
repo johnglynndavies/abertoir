@@ -93,6 +93,13 @@ class Film_Festivals_Admin {
 
     $film_festivals_metaboxes = new Film_Festivals_Metaboxes($this->plugin_name);
     $film_festivals_metaboxes->add();
+
+    if ( ! class_exists( 'Film_Festivals_Taxonomy_Metaboxes' ) ) {
+      require FILM_FESTIVALS_PLUGIN_DIR  . 'includes/class-film-festivals-taxonomy-metaboxes.php';
+    }
+
+    $film_festivals_metaboxes = new Film_Festivals_Taxonomy_Metaboxes($this->plugin_name);
+   // $film_festivals_metaboxes->add();
   }
 
   /**
@@ -105,6 +112,13 @@ class Film_Festivals_Admin {
 
     $film_festivals_metaboxes = new Film_Festivals_Metaboxes($this->plugin_name);
     $film_festivals_metaboxes->save($post_id, $post);
+
+    if ( ! class_exists( 'Film_Festivals_Taxonomy_Metaboxes' ) ) {
+      require FILM_FESTIVALS_PLUGIN_DIR  . 'includes/class-film-festivals-taxonomy-metaboxes.php';
+    }
+
+    $film_festivals_metaboxes = new Film_Festivals_Taxonomy_Metaboxes($this->plugin_name);
+    //$film_festivals_metaboxes->save($post_id, $post);
   }
 
   /**
@@ -122,11 +136,14 @@ class Film_Festivals_Admin {
           'add_new_item' => __('Add New Programme'),
           'new_item_name' => __("New Programme")
         ],
-        'hierarchical' => false,
+        'hierarchical' => true,
         'public' => true,
         'show_in_rest' => true,
         'show_admin_column' => true,
-        'rewrite' => ['slug' => 'category', 'with_front' => false],
+        'show_in_quick_edit' => false,
+        'meta_box_cb' => false,
+        'query_var' => 'programme',
+        'rewrite' => ['slug' => 'programme', 'with_front' => false],
       ]
     );
 
@@ -166,38 +183,59 @@ class Film_Festivals_Admin {
         'show_ui' => true,
         'show_in_rest' => true,
         'show_in_menu'=> $this->plugin_name,
-        //'has_archive' => 'festival-category',
+        'hierarchical' => true,
+        'has_archive' => false,
         'publicaly_queryable' => true,
         'query_var' => true,
         'menu_position' => 5,
-        'supports' => ['title','editor','thumbnail','excerpt','custom-fields'],
+        'supports' => ['title','editor','thumbnail','excerpt','custom-fields','page-attributes'],
         //'menu_icon' => 'dashicons-media-video',
         'taxonomies' => ['festival_category', 'exhibit_tags'],
-        'rewrite' => ['slug' => '%festival_category%', 'with_front' => false],
+        'rewrite' => ['slug' => 'event'],
         /*'template' => [
           [
-            'core/columns', [], [
-              [ 
-                'core/column', ['width' => 15, 'className' => 'ws-flex-grow-sm-0 ws-flexbasis-sm-15'], []
-              ],
-              [ 
-                'core/column', [], [ 
-                  ['core/paragraph', ['placeholder' => 'Add an intro paragraph'], ],
-                  ['core/button', ['placeholder' => 'eg. Register'], ],
-                ]
-              ],
-            ]
-          ],
-          [
-            'core/paragraph', ['placeholder' => 'Add any further info...'], 
+            'core/pattern',
+            [
+              'slug' => 'abertoir2022/exhibit',
+            ],
           ],
         ],*/
       ]
     );
 
+    // register resources type
+   /* register_post_type(
+      'programmes', 
+      [
+        'labels' => [
+          'name' => __('Programmes'),
+          'singular_name' => __('Programme'),
+          'add_new' => __('Add Programme'),
+          'add_new_item' => __('Add Programme'),
+          'edit_item' => __('Edit Programme'),
+        ],
+        'public' => true,
+        //'show_in_nav_menus' => true,
+        'show_ui' => true,
+        'show_in_rest' => true,
+        'show_in_menu'=> $this->plugin_name,
+        'hierarchical' => true,
+        'has_archive' => 'false',
+        'publicaly_queryable' => true,
+        'query_var' => true,
+        'menu_position' => 4,
+        'supports' => ['title','editor','thumbnail','excerpt','custom-fields','page-attributes'],
+        //'menu_icon' => 'dashicons-media-video',
+        'taxonomies' => ['festival_category', 'exhibit_tags'],
+        'rewrite' => ['slug' => '%festival_category%'],
+      ]
+    );*/
+
   }
 
-  // register custom meta tag field
+  /**
+   * register custom meta tag field
+   */ 
   public function create_meta_fields() {
     register_post_meta( 'exhibit', 'start_date', array(
         'show_in_rest' => array(
@@ -222,6 +260,15 @@ class Film_Festivals_Admin {
           return current_user_can('edit_posts');
         }
     ) );
+
+    register_post_meta( 'exhibit', '_event_date', array(
+        'show_in_rest' => true,
+        'single' => true,
+        'type' => 'string',
+        'auth_callback' => function() {
+          return current_user_can('edit_posts');
+        }
+    ) );
   }
 
   /**
@@ -233,15 +280,70 @@ class Film_Festivals_Admin {
     foreach($post_types as $post_type) {
       if ( is_object($post) && get_post_type($post) == $post_type ) {
         $terms = wp_get_object_terms($post->ID, "festival_category");
-        $replacement = "%festival_category%";      
+        $replacement = "%programme%"; 
+        $slugs = [];
+
+        foreach($terms as $term) {
+         
+          $slugs[] = $this->rewriteSlug($term->slug);
+          $this->getParentTerms($term, $slugs);
+
+        }
+        
+        krsort($slugs);
+        $slugs = implode('/', $slugs);
 
         if ( $terms && (!$terms instanceof WP_Error)) {
-          return str_replace($replacement , $terms[0]->slug, $post_link);
+          return str_replace($replacement , $slugs, $post_link);
         }
       }
     }
 
     return $post_link;
+  }
+
+  /**
+   * Add rewrite rules.
+   */
+  function add_rewrite_rules() {
+    $terms = get_terms([
+      'taxonomy' => 'festival_category',
+      'hide_empty' => false,
+    ]);
+
+    foreach($terms as $term) {
+      $slugs = [];
+      $selected_slug = $term->slug;
+      $slug = $this->rewriteSlug($term->slug);
+      $slugs[] = $slug;
+      $this->getParentTerms($term, $slugs);
+      krsort($slugs);
+      $slugs = implode('\/', $slugs);
+
+      add_rewrite_rule('^'.$slugs.'/([^/]*)$', 'index.php?exhibit=$matches[1]&festival_category='.$selected_slug, 'top');
+    }
+  }
+
+  private function rewriteSlug($slug) {
+    if (preg_match("/(-\d{4})$/", $slug, $matches)) {
+      $year = $matches[0];
+      $slug = substr($slug, 0, strrpos($slug, $year));
+    }
+
+    return $slug;
+  }
+
+  private function getParentTerms($term, &$slugs) : void
+  {
+    if ($term->parent) {
+      $parent_term = get_term_by('term_id', $term->parent, 'festival_category');
+      $slug = $this->rewriteSlug($parent_term->slug);
+      $slugs[] = $slug;
+
+      if ($parent_term->parent) {
+        $this->getParentTerms($parent_term, $slugs);
+      }
+    }
   }
 
   /**
@@ -280,8 +382,6 @@ class Film_Festivals_Admin {
         $parent_file = $this->plugin_name;
     return $parent_file;
   }
-
-
 
   /**
    * Fix active menu for taxonomy submenu
@@ -353,6 +453,13 @@ class Film_Festivals_Admin {
        */
       $block_name = 'core/paragraph';
       $innerHTML  = 'Sample paragraph text.';
+      
+      $pattern =[
+        'core/pattern',
+        [
+          'slug' => 'abertoir2022/exhibit',
+        ],
+      ];
       $converted_block = new WP_Block_Parser_Block( $block_name, array(), array(), $innerHTML, array( $innerHTML ) );
       //error_log( print_r( $converted_block, true ) );
       $post_content .= serialize_block( (array) $converted_block );

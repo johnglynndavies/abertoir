@@ -136,14 +136,14 @@ class Film_Festivals {
     $this->loader->add_action( 'init', $plugin_admin, 'create_meta_fields', 0 );
     $this->loader->add_action( 'init', $plugin_admin, 'add_terms', 0 );
     $this->loader->add_action( 'init', $plugin_admin, 'film_festivals_upload', 0 );
-    $this->loader->add_filter( 'post_type_link', $plugin_admin, 'rewrite_permalinks', 10, 2 );
+    //$this->loader->add_filter( 'post_type_link', $plugin_admin, 'rewrite_permalinks', 10, 2 );
     //$this->loader->add_action( 'init', $plugin_admin, 'add_rewrite_rules', 500, 0 );
     $this->loader->add_action( 'admin_menu', $plugin_admin, 'create_film_festivals_admin', 0);
     $this->loader->add_action( 'admin_menu', $plugin_admin, 'setup_post_type_submenu');
     $this->loader->add_action( 'parent_file', $plugin_admin, 'tax_menu_correction');
     $this->loader->add_action( 'admin_notices', $plugin_admin, 'upload_completion_notice', 0, 1 );
 
-    // add meta boxes
+    // meta boxes
     $this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'add_film_festival_metaboxes');
     $this->loader->add_action( 'save_post', $plugin_admin, 'save_film_festival_metaboxes', 1, 2);
 
