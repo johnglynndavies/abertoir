@@ -3,8 +3,8 @@ Contributors:      Mr2P
 Tags:              block, separator, SVG, icon, divider, gutenberg
 Requires PHP:      7.0.0
 Requires at least: 5.9.0
-Tested up to:      6.2
-Stable tag:        1.1.5
+Tested up to:      6.3
+Stable tag:        1.1.6
 License:           GPL-3.0
 License URI:       https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -20,7 +20,7 @@ Features included:
 * Simple and easy to use but included full settings even with responsive width and responsive vertical margin.
 * An icon library included icons from "Bootstrap Icons", "Ionicons", "Dashicons" and new "WordPress Icons".
 
-Here are some [patterns](https://boldpatterns.net/keywords/separator/) using this block.
+Please take a look at [these custom block patterns](https://boldpatterns.net/keywords/separator?utm_source=wp.org&utm_campaign=readme&utm_medium=link&utm_content=Icon+Separator) that use this block to see how it can be applied to real-world sites.
 
 If this plugin is useful for you, please do a quick review and [rate it](https://wordpress.org/support/plugin/icon-separator/reviews/#new-post) on WordPress.org to help us spread the word. I would very much appreciate it.
 
@@ -68,6 +68,13 @@ Anyone can use this plugin.
 
 == Changelog ==
 
+= 1.1.6 =
+*Release Date - 09 August 2023*
+
+* DEV - Update the icon library popup style for WP 6.3
+* DEV - Add keywords
+* DEV - Refactor code
+
 = 1.1.5 =
 *Release Date - 11 March 2023*
 
@@ -83,7 +90,7 @@ Anyone can use this plugin.
 *Release Date - 23 October 2022*
 
 * DEV - Refactor SVG controls
-* DEV - Replace client caching by loading icon library from the REST API
+* DEV - Replace client caching by loading the icon library from the REST API
 
 = 1.1.2 =
 *Release Date - 18 September 2022*

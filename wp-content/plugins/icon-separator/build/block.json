@@ -1,10 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "boldblocks/icon-separator",
   "title": "Icon Separator",
   "category": "design",
   "description": "A simple horizontal separator with icon.",
+  "keywords": ["separator", "icon", "divider", "svg", "image"],
   "attributes": {
     "icon": {
       "type": "string"

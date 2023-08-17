@@ -4,7 +4,7 @@
  * Description:       A simple horizontal separator with icon.
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           1.1.5
+ * Version:           1.1.6
  * Author:            Phi Phan
  * Author URI:        https://boldblocks.net
  *
