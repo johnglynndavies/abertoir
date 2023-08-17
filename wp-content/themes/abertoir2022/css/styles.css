@@ -28,15 +28,15 @@ body {
 }
 
 .wp-block-post-title {
-  font-size: clamp(2vw, var(--wp--custom--typography--font-size--colossal), 12.5vw);
+  font-size: clamp(2vw, var(--wp--custom--typography--font-size--colossal), 8.5vw);
 }
 
 h2.wp-block-heading {
-  font-size: clamp(2vw, var(--wp--custom--typography--font-size--gigantic), 12.5vw);
+  font-size: clamp(2vw, var(--wp--custom--typography--font-size--gigantic), 9.5vw);
 }
 
 h3.wp-block-heading {
-  font-size: clamp(2vw, var(--wp--custom--typography--font-size--huge), 12.5vw);
+  font-size: clamp(2vw, var(--wp--custom--typography--font-size--huge), 9vw);
 }
 
 .wp-block-post-content h2 {
