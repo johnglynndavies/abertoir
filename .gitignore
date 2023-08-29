@@ -1,6 +1,24 @@
 # ignore everything in the root except the "wp-content" directory.
 /*
 !wp-content/
+!archive/
+archive/*
+!archive/component/
+!archive/festivals/
+!archive/special-events/
+!archive/templates/
+!archive/plugins/
+!archive/modules/
+!archive/media/
+archive/media/*
+!archive/media/djextensions/
+!archive/media/gantry5/
+!archive/media/jui/
+!archive/media/system/
+!archive/media/k2/
+archive/media/k2/*
+!archive/media/k2/assets/
+!archive/templates/
 
 # ignore everything in the "wp-content" directory, except:
 # "mu-plugins", "plugins", "themes" directory
