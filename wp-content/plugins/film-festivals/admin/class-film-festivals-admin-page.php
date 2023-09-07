@@ -219,28 +219,30 @@ class Film_Festivals_Admin_Page {
     $events = [];
     $custom_terms = get_terms('festival_category');
 
-    $args = array(
-      'post_type' => 'exhibit',
-      'tax_query' => array(             
-           array(
-              'taxonomy' => 'festival_category',
-              'field' => 'slug',
-              'terms' => $custom_terms[0]->slug,
+    if ( !empty($custom_terms) ) {
+      $args = array(
+        'post_type' => 'exhibit',
+        'tax_query' => array(             
+            array(
+                'taxonomy' => 'festival_category',
+                'field' => 'slug',
+                'terms' => $custom_terms[0]->slug,
+            ),
           ),
-        ),
-    );
+      );
 
-    $query = new WP_Query($args);
+      $query = new WP_Query($args);
 
-    if ($query->have_posts()) {
-      while ($query->have_posts()) {
-        $query->the_post();
+      if ($query->have_posts()) {
+        while ($query->have_posts()) {
+          $query->the_post();
 
-        $events[get_the_ID()] = get_the_title();
+          $events[get_the_ID()] = get_the_title();
+        }
       }
-    }
 
-    wp_reset_postdata();
+      wp_reset_postdata();
+    }
 
     return $events;
   }
