@@ -100,10 +100,12 @@ function render_block_lineup_gallery( $attributes, $content ) {
 
 		$pictures = [];
 
-		foreach($lineup as $id => $exhibit) {
-			if ($panoramic = lineup_gallery_image_from_post_id($id, 'panoramic')) {
-				if ($square = lineup_gallery_image_from_post_id($id, 'square_2x')) {
-					$pictures[] = lineup_gallery_block_figure($square[0], $panoramic[0], $panoramic['alt'], $panoramic['caption']);
+		if (!empty($lineup)) {
+			foreach($lineup as $id => $exhibit) {
+				if ($panoramic = lineup_gallery_image_from_post_id($id, 'panoramic')) {
+					if ($square = lineup_gallery_image_from_post_id($id, 'square_2x')) {
+						$pictures[] = lineup_gallery_block_figure($square[0], $panoramic[0], $panoramic['alt'], $panoramic['caption']);
+					}
 				}
 			}
 		}
@@ -118,7 +120,7 @@ function render_block_lineup_gallery( $attributes, $content ) {
 				if ($square = lineup_gallery_image($image['item'], 'square_2x')) {
 					$order = (int) (!empty($image['order']) || $image['order'] === '0' ? $image['order'] : $k);
 					$caption = $image['title'] ?: $panoramic['caption'];// allow caption override
-					
+
 					if (isset($pictures[$order])) {
 						$pictures[] = lineup_gallery_block_figure($square[0], $panoramic[0], $panoramic['alt'], $caption);
 					} else {
