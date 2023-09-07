@@ -116,15 +116,21 @@ function render_block_lineup_gallery( $attributes, $content ) {
 			
 			if ($panoramic = lineup_gallery_image($image['item'], 'panoramic')) {
 				if ($square = lineup_gallery_image($image['item'], 'square_2x')) {
-
-					$caption = $image['title'] ?? $panoramic['caption'];// allow caption override
-					$pictures[] = lineup_gallery_block_figure($square[0], $panoramic[0], $panoramic['alt'], $caption);
+					$order = (int) (!empty($image['order']) || $image['order'] === '0' ? $image['order'] : $k);
+					$caption = $image['title'] ?: $panoramic['caption'];// allow caption override
+					
+					if (isset($pictures[$order])) {
+						$pictures[] = lineup_gallery_block_figure($square[0], $panoramic[0], $panoramic['alt'], $caption);
+					} else {
+						$pictures[$order] = lineup_gallery_block_figure($square[0], $panoramic[0], $panoramic['alt'], $caption);
+					}
 				}
 			}
 		}
 	}
 
 	if (!empty($pictures)) {
+		ksort($pictures);
 		$gallery = "<div class=\"lineup-gallery alignfull\" data-flickity='{\"imagesLoaded\": true, \"autoPlay\": true}'>".implode('', $pictures).'</div>';
 
 		return html_entity_decode($gallery);

@@ -220,6 +220,14 @@ a:where(:not(.wp-element-button)) {
   gap: 2rem;
 }
 
+:where(.wp-site-blocks) > *:first-of-type {
+  margin-block-start: 0;
+}
+
+:where(.wp-block-group.has-background):has(div:first-child.lineup-gallery) {
+  padding-top: 0;
+}
+
 .home {
   @media screen and (min-width: 768px) {
     background-color: var(--wp--preset--color--black-night);
