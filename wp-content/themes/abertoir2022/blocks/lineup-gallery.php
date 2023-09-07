@@ -71,111 +71,105 @@ function lineup_gallery_block_init() {
 
 add_action( 'init', 'lineup_gallery_block_init' );
 
+/**
+ * Render lineup gallery.
+ */
 function render_block_lineup_gallery( $attributes, $content ) {
 	
 	$wrapper_attributes = get_block_wrapper_attributes();
 
+	// programme slider takes precedence
 	$option = get_option( 'film-festivals_name' );
-	if (empty($option['sliderselect'])) {
-		return;
-	}
 
-	$children = get_children([
-		'post_parent' => $option['sliderselect'],
-		'post_type' => 'exhibit',
-		'post_status' => 'publish',
-	]);
+	if (!empty($option['sliderselect'])) {
+		$children = get_children([
+			'post_parent' => $option['sliderselect'],
+			'post_type' => 'exhibit',
+			'post_status' => 'publish',
+		]);
 
-	foreach($children as $id => $child) {
-		if (get_page_template_slug($child) === "wp-custom-template-line-up") {
-			$lineup = get_children([
-				'post_parent' => $id,
-				'post_type' => 'exhibit',
-				'post_status' => 'publish',
-			]);
+		foreach($children as $id => $child) {
+			if (get_page_template_slug($child) === "wp-custom-template-line-up") {
+				$lineup = get_children([
+					'post_parent' => $id,
+					'post_type' => 'exhibit',
+					'post_status' => 'publish',
+				]);
+			}
 		}
-	}
 
-	$pictures = [];
+		$pictures = [];
 
-	foreach($lineup as $id => $exhibit) {
-		if ($panoramic = lineup_gallery_Image($id, 'panoramic')) {
-			if ($square = lineup_gallery_Image($id, 'square_2x')) {
-				$pictures[] = '<figure><picture class="carousel-cell">
-				<source srcset="'.$square[0].'" media="(max-width: 768px)">
-				<img alt="" src="'.$panoramic[0].'" />
-				</picture><figcaption>The Thing</figcaption></figure>';
+		foreach($lineup as $id => $exhibit) {
+			if ($panoramic = lineup_gallery_image_from_post_id($id, 'panoramic')) {
+				if ($square = lineup_gallery_image_from_post_id($id, 'square_2x')) {
+					$pictures[] = lineup_gallery_block_figure($square[0], $panoramic[0], $panoramic['alt'], $panoramic['caption']);
+				}
+			}
+		}
+	}// otherwise check for custom slider images
+	elseif (!empty(($images = get_option( 'film-festivals_image' )))) {
+		$pictures = [];
+
+		foreach($images as $k => $image) {
+			if (empty($image['item'])) continue;
+			
+			if ($panoramic = lineup_gallery_image($image['item'], 'panoramic')) {
+				if ($square = lineup_gallery_image($image['item'], 'square_2x')) {
+
+					$caption = $image['title'] ?? $panoramic['caption'];// allow caption override
+					$pictures[] = lineup_gallery_block_figure($square[0], $panoramic[0], $panoramic['alt'], $caption);
+				}
 			}
 		}
 	}
 
-	$gallery = "<div class=\"lineup-gallery alignfull\" data-flickity='{\"imagesLoaded\": true, \"autoPlay\": true}'>".implode('', $pictures).'</div>';
+	if (!empty($pictures)) {
+		$gallery = "<div class=\"lineup-gallery alignfull\" data-flickity='{\"imagesLoaded\": true, \"autoPlay\": true}'>".implode('', $pictures).'</div>';
 
-return html_entity_decode($gallery);
-
-	
-	
-	/**
-	 * @var WP_Post
-	 */
-	global $post;
-
-	$now = new DateTime();
-	$meta_compare = (!empty($_GET['upcoming']) ? '>=' : NULL);
-	$meta_value = (!empty($_GET['upcoming']) ? $now->format('Y-m-d H:i:s') : NULL);
-	$orderby = (!empty($_GET['schedule']) ? 'meta_value' : 'title');
-
-	$args = [
-		'post_type' => 'exhibit',
-        'tax_query' => NULL,
-        'meta_query' => NULL,
-        'meta_key' => '_event_date',
-        'meta_value' => $meta_value,
-		'meta_compare' => $meta_compare,
-        'post__in' => NULL,
-        'post__not_in' => NULL,
-		'post_parent__in' => [$post->ID],
-        'post_status' => 'publish',
-        'posts_per_page' => -1, 
-        'orderby' => $orderby, 
-        'order' => 'ASC', 
-	];
-
-	$loop = new WP_Query( $args );
-
-	if ($loop->have_posts()) {  
-		$gallery .= '<div class="lineup-exhibit__container">';
-		
-		while ( $loop->have_posts() ) : $loop->the_post();
-			$id = get_the_ID();
-
-			
-
-			//get_the_permalink()
-			//get_the_title()
-
-
-		
-		  	$gallery .= '<img src="" />';
-		endwhile; 
-  
-		$gallery .= '';
-	} 
-	  
-	wp_reset_postdata();
-
-	return $gallery;
+		return html_entity_decode($gallery);
+	}
 }
 
-
-function lineup_gallery_Image(int $post_id, string $size) {
+/**
+ * Get lineup gallery image array from post id.
+ */
+function lineup_gallery_image_from_post_id(int $post_id, string $size) {
 	$image = false;
 
 	if (has_post_thumbnail($post_id)) {
-		//$thumb = get_the_post_thumbnail( $post_id, 'thumbnail',$attributes );
-		$post_thumbnail_id 	= get_post_thumbnail_id($post_id);
-		$image = wp_get_attachment_image_src($post_thumbnail_id, $size);
+		if ($post_thumbnail_id 	= get_post_thumbnail_id($post_id)) {
+			return lineup_gallery_image($post_thumbnail_id, $size);
+		}
 	}
 
 	return $image;
+}
+
+/**
+ * Build lineup gallery image array.
+ */
+function lineup_gallery_image(int $post_thumbnail_id, string $size) {
+	$image = false;
+	
+	if ($image = wp_get_attachment_image_src($post_thumbnail_id, $size)) {
+		$image['alt'] = get_post_meta($post_thumbnail_id, '_wp_attachment_image_alt', TRUE);
+		$image['caption'] = wp_get_attachment_caption($post_thumbnail_id);
+	}
+
+	return $image;
+}
+
+/**
+ * Return figure markup for gallery.
+ */
+function lineup_gallery_block_figure($sm, $lg, $alt, $caption)
+{
+	return '<figure>
+		<picture class="carousel-cell">
+			<source srcset="'.$sm.'" media="(max-width: 768px)">
+			<img alt="'.$alt.'" src="'.$lg.'" />
+		</picture>
+		'.($caption ? '<figcaption>'.$caption.'</figcaption>' : '').'
+	</figure>';
 }

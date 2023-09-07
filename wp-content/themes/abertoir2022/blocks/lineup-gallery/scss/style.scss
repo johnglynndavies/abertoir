@@ -4,6 +4,8 @@
  * Replace them with your own styles or remove the file completely.
  */
 .lineup-gallery {
+  margin-bottom: 4em;
+
   img {
     width: 100%;
   }
@@ -11,10 +13,6 @@
   .flickity-page-dots .dot {
     background-color: var(--wp--preset--color--red);
   }
-
-
-    margin-bottom: 2em;
-  
 
   img {
     display: block;
@@ -29,7 +27,7 @@
   bottom: 0;
   color: white;
   width: 100%;
-  padding: 0.2em 1em;
+  padding: 0.5em var(--wp--custom--spacing--outer);;
   position: absolute;
   background: rgba(0,0,0,0.4);
 }
