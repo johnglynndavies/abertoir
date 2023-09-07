@@ -4,7 +4,7 @@ Tags:              block, separator, SVG, icon, divider, gutenberg
 Requires PHP:      7.0.0
 Requires at least: 5.9.0
 Tested up to:      6.3
-Stable tag:        1.1.6
+Stable tag:        1.1.7
 License:           GPL-3.0
 License URI:       https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,12 @@ Anyone can use this plugin.
 2. Change the separator's settings
 
 == Changelog ==
+
+= 1.1.7 =
+*Release Date - 02 September 2023*
+
+* DEV - Using the default SpacingSizesControl for margin
+* DEV - Add Unit and Range control for custom spacing
 
 = 1.1.6 =
 *Release Date - 09 August 2023*
