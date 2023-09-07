@@ -68,6 +68,7 @@ class Film_Festivals_Admin_Page {
   {
       // Register settings
       register_setting($this->plugin_name . '_settings', $this->plugin_name . '_name', [$this, 'sanitise']);
+      register_setting($this->plugin_name . '_gallery', $this->plugin_name . '_image', [$this, 'sanitise']);
 
       // Register section and field
       add_settings_section(
@@ -100,6 +101,21 @@ class Film_Festivals_Admin_Page {
         $this->plugin_name, 
         $this->plugin_name . '_settings'
       );
+
+      add_settings_section(
+        $this->plugin_name . '_gallery',
+        __('Custom Slider', $this->plugin_name),
+        array($this, 'render_gallery_settings'),
+        $this->plugin_name . '_gallerysettings',
+      );
+
+      add_settings_field(
+        $this->plugin_name . '_galleryimage', 
+        __('Homepage Slider Gallery', $this->plugin_name),
+        array($this, 'render_gallery'), 
+        $this->plugin_name . '_gallerysettings', 
+        $this->plugin_name . '_gallery'
+      );
       
   }
 
@@ -112,6 +128,11 @@ class Film_Festivals_Admin_Page {
     $this->render_template('components/settings');
   }
 
+  public function render_gallery_settings()
+  {
+    $this->render_template('components/gallery-settings');
+  }
+
   public function render_dateson()
   {
     $this->options = get_option( $this->plugin_name . '_name' );
@@ -122,6 +143,12 @@ class Film_Festivals_Admin_Page {
   {
     $this->options = get_option( $this->plugin_name . '_name' );
     $this->render_template('components/slider-select'); 
+  }
+
+  public function render_gallery()
+  {
+    $this->options = get_option( $this->plugin_name . '_image' );
+    $this->render_template('components/gallery'); 
   }
 
   /**
@@ -157,6 +184,8 @@ class Film_Festivals_Admin_Page {
 
       include $template_path;
   }
+
+
 
   public function categories()
   {
@@ -214,6 +243,39 @@ class Film_Festivals_Admin_Page {
     wp_reset_postdata();
 
     return $events;
+  }
+
+  public function load_scripts()
+  {
+    wp_enqueue_media();
+    wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/media-uploader.js', array( 'jquery' ), '1.0', false );
+
+    wp_register_style( 'custom_wp_admin_css', plugin_dir_url( __FILE__ ) . 'css/admin-page.min.css', false, '1.0.0' );
+    wp_enqueue_style( 'custom_wp_admin_css' );
+  }
+
+  public function default_image() {
+    return null;
+  }
+
+  public function gallery()
+  {
+    $gallery = [];
+    $galleryimages = $this->options ?? [];
+
+    if ( !empty($galleryimages) ) {
+      foreach($galleryimages as $k => $image) {
+        if (empty($image['item'])) continue;
+
+        $image_attributes = wp_get_attachment_image_src( $image['item'], array( 100, 100 ) );
+        $gallery[$k]['src'] = $image_attributes[0];
+        $gallery[$k]['value'] = $image['item'];
+        $gallery[$k]['title'] = $image['title'] ?? null;
+        $gallery[$k]['order'] = $image['order'] ?? null;
+      }
+    } 
+
+    return $gallery;
   }
   
 }

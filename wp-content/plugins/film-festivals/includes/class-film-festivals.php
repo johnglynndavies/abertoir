@@ -152,6 +152,7 @@ class Film_Festivals {
     }
     
     $admin_page = new Film_Festivals_Admin_Page( $this->get_plugin_name() );
+    $this->loader->add_action( 'admin_enqueue_scripts', $admin_page, 'load_scripts', 1, 1 );
     $this->loader->add_action( 'admin_init', $admin_page, 'configure');
 
   }

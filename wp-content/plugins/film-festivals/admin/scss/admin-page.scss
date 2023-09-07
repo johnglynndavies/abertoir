@@ -1,0 +1,40 @@
+.gallery-form {
+    th {
+        display: none;
+    }
+
+    label {
+        display: block;
+    }
+}
+
+.gallery-items {
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-item {
+    display: flex;
+    border-bottom: 1px solid hsl(0, 0%, 76%);
+    margin-bottom: 1em;
+}
+
+.gallery-item__image {
+    margin-right: 1em;
+}
+
+.gallery-item__meta {
+    textarea {
+        width: 100%;
+        margin-bottom: 1em;
+    }
+
+    input {
+        margin-bottom: 1em;
+    }
+}
+.gallery-item__btns {
+    display: flex;
+    justify-content: space-between;
+}

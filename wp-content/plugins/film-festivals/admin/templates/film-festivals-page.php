@@ -22,6 +22,14 @@
         <?php submit_button(__('Save')); ?>
     </form>
 
+    <div class="gallery-form">
+      <form action="options.php" method="POST">
+          <?php settings_fields($this->plugin_name . '_gallery'); ?>
+          <?php do_settings_sections($this->plugin_name . '_gallerysettings'); ?>
+          <?php submit_button(__('Save')); ?>
+      </form>
+    </div>
+    
     <h2>Create a Programme</h2>
     <p>When adding a Programme, remember to also add a translation for it so that any exhibit translations can be added to the translated programme later.</p>
     <table class="form-table" role="presentation">
