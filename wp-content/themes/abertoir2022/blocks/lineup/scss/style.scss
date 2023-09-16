@@ -4,10 +4,16 @@
  * Replace them with your own styles or remove the file completely.
  */
 .lineup-exhibit__container {
-  gap: 20px;
   display: flex;
   flex-wrap: wrap;
-  max-width: none !important;
+}
+
+.lineup-exhibit__controls {
+  font-size: var(--wp--preset--font-size--x-small);
+
+  @media screen and (min-width: 768px) {
+    text-align: center;
+  }
 }
 
 .lineup-exhibit {
@@ -15,18 +21,41 @@
   align-items: flex-start;
   align-content: flex-start;
   flex-wrap: wrap;
-  gap: 20px;
-  
+  border-bottom: 1px solid #eaeaea;
+  gap: 1em;
 
+  padding: 1.5em 0;
+  
   @media screen and (min-width: 768px) {
-    flex: 1 1 calc(50% - 20px);
+    padding: 1.5em;
+    flex: 0 0 calc(50% - 1.5em - 1px);
+    border-right: 1px solid #eaeaea;
+
+    &:nth-child(even) {
+      padding-right: 0;
+      border-right: none;
+    }
+
+    &:nth-child(odd) {
+      padding-left: 0;
+    }
+
+    &:nth-last-child(-n+2) {
+      border-bottom: none;
+    }
+
+    &:nth-last-child(2):has(+ :last-child:nth-child(odd)) {
+      border-bottom: 1px solid #eaeaea;
+    }
   }
+  
 }
 
 .lineup-exhibit__picture {
   max-width: 33.333%;
 
   img {
+    display: block;
     max-width: 100%;
     height: auto;
   }
@@ -37,10 +66,22 @@
   margin-block-end: 0.5em;
   text-transform: uppercase;
   font-size: var(--wp--custom--typography--font-size--medium);
+  font-weight: 600;
 
   a:hover {
     text-underline-offset: 0.1ch;
   }
+}
+
+.lineup-exhibit__tag {
+  padding: 0.25em 0.35em;
+  background: #000;
+  color: #fff;
+  transform: rotate(-5deg);
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1;
+  font-size: var(--wp--preset--font-size--small);
 }
 
 .lineup-exhibit__meta {
@@ -50,6 +91,10 @@
 .lineup-exhibit__content {
   flex: 1;
   min-width: 200px;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .lineup-exhibit__meta,

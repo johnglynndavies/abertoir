@@ -9,7 +9,7 @@
 <header class="wp-block-cover alignfull is-light" style="min-height:700px"><span aria-hidden="true" class="wp-block-cover__background has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:post-title {"level":1} /-->
 <!-- wp:abertoir2022/exhibit-tag /-->
 
-<!-- wp:abertoir2022/event-time /--></div></header>
+<!-- wp:abertoir2022/event-time {"lock":{"move":true,"remove":true}} /--></div></header>
 <!-- /wp:cover -->
 
 <!-- wp:columns {"align":"wide","className":"exhibit-content"} -->

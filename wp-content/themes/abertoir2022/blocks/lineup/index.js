@@ -66,7 +66,7 @@
 		 * @return {Element}       Element to render.
 		 */
 		edit: function( props ) {
-			var blockProps = wp.blockEditor.useBlockProps();
+			var blockProps = wp.blockEditor.useBlockProps.save({className: 'lineup-exhibit__container'});
 			var updateFieldValue = function( val ) {
 				props.setAttributes( { content: val } );
 			}

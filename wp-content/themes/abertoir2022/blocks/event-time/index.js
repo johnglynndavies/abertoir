@@ -88,6 +88,10 @@
 				type: 'string',
 				source: "text",
 			},
+			lock: {
+				remove: true,
+				move: true,
+			}
 		},
 
 		/**
@@ -101,25 +105,35 @@
 		edit: function( props ) {
 			var postType = props.context.postType;
 			var entityProp = useEntityProp( 'postType', postType, 'meta' );
+			var templateProp = useEntityProp( 'postType', postType, 'template' );
 			var meta = entityProp[0];
 			var blockProps = useBlockProps({className: 'exhibit-header__event-time'});
 
 			if (meta.start_date.length) {
-				var startTime = new Date(meta.start_date[0]['start_time']);
+				var startTime = new Date(meta._event_date);
 				var date = startTime.getDate();
 				var monthName = months[startTime.getMonth()];
 				var dayName = days[startTime.getDay()];
-				var startTimeFormatted = `${dayName} ${date} ${monthName} ${startTime.getHours()}:${startTime.getMinutes()}`;
+				var startTimeFormatted = `${dayName} ${date} ${monthName} ${startTime.getHours()}:${(startTime.getMinutes() < 10? '0' : '') + startTime.getMinutes()}`;
 			}
 			else {
 				var startTimeFormatted = __('Set event date start and end times in sidebar', 'abertoir2022');
 			}
 
-			return el(
-				'p',
-				blockProps,
-				startTimeFormatted,
-			);
+			var el_arr = [
+				el(
+					'p',
+					blockProps,
+					startTimeFormatted,
+				)
+			];
+
+			if (templateProp[0] == 'wp-custom-template-film') {
+				var hide_post_title_style = el('style',{},'.edit-post-visual-editor__post-title-wrapper {display: none;}');
+				el_arr.push(hide_post_title_style);
+			}
+
+			return el_arr;
 		}
 
 		/**

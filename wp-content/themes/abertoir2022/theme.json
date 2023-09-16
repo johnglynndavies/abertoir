@@ -21,7 +21,7 @@
                 },
                 {
                     "slug": "white-bone",
-                    "color": "#fffff5",
+                    "color": "#ffffff",
                     "name": "Bone white"
                 },
                 {
@@ -31,7 +31,7 @@
                 },
                 {
                     "slug": "primary",
-                    "color": "#E41212",
+                    "color": "#FF0000",
                     "name": "Blood red"
                 },
                 {
@@ -72,7 +72,7 @@
             "fontSizes": [
                 {
                     "slug": "x-small",
-                    "size": "0.75rem",
+                    "size": "0.8rem",
                     "name": "X-Small"
                 },
                 {

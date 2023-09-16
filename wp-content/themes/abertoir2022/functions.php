@@ -117,7 +117,7 @@ add_filter( 'rest_prepare_taxonomy', function( $response, $taxonomy, $request ){
             return $response;
     }, 10, 3 );*/
 
-    // Add second featured image
+// Add second featured image
 add_action( 'add_meta_boxes', 'listing_image_add_metabox' );
 function listing_image_add_metabox () {
     add_meta_box( 'listingimagediv', __( 'Onesheet Poster', 'abertoir2022' ), 'listing_image_metabox', 'exhibit', 'side', 'low');
@@ -176,6 +176,44 @@ add_action( 'admin_enqueue_scripts', 'wpdocs_selectively_enqueue_admin_script' )
 
 add_action( 'after_setup_theme', 'wpdocs_theme_setup' );
 function wpdocs_theme_setup() {
-	add_image_size( 'panoramic', 1600, 600, true ); 
-	add_image_size( 'square_2x', 600, 600, true );
+    add_image_size( 'square_2x', 600, 600, true );// 1 / 1
+    add_image_size( 'hd', 1920, 1080, true );// 16 / 9
+	add_image_size( 'panoramic', 1600, 600, true );// 8 / 3
+    add_image_size( 'onesheet', 240, 360, true );// 2 / 3
+    add_image_size( 'onesheet_2x', 480, 720, true );// 2 / 3
+    add_image_size( 'teaser', 340, 204, true );// 5 / 3
+    add_image_size( 'teaser_2x', 680, 408, true );// 5 / 3
+}
+
+// ensures that exhibits have the correct post template set based on the festival category 
+add_action('save_post','save_post_callback');
+function save_post_callback($post_id){
+    global $post; 
+
+    if ($post->post_type != 'exhibit'){
+        return;
+    }
+
+    $terms = get_the_terms($post, 'festival_category');
+    $template = get_page_template_slug( $post );
+
+    foreach($terms as $term) {
+        switch ($term->slug) {
+            case 'film':
+                if (!$template) {
+                    update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-film' );
+                }
+                break 2;
+            case 'festival':
+                if (!$template) {
+                    update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-festival' );
+                }
+                break 2;
+            case 'line-up':
+                if (!$template) {
+                    update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-line-up' );
+                }
+                break 2;
+        }
+    }
 }
