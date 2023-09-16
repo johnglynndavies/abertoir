@@ -1,0 +1,45 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main"} -->
+<main class="wp-block-group"><!-- wp:group {"layout":{"inherit":true,"type":"constrained"}} -->
+<div class="wp-block-group"><!-- wp:post-title {"level":1,"align":"wide","style":{"spacing":{"margin":{"bottom":"0.75em"}}}} /-->
+
+<!-- wp:abertoir2022/lineup-gallery {"align":"full"} /-->
+
+<!-- wp:post-content {"layout":{"inherit":true}} /-->
+
+<!-- wp:query {"queryId":2,"query":{"perPage":"4","pages":0,"offset":0,"postType":"exhibit","order":"asc","orderBy":"title","author":"","search":"","exclude":[],"sticky":"","inherit":false,"parents":[],"taxQuery":{"festival_category":[]}},"align":"wide","layout":{"type":"default"}} -->
+<div class="wp-block-query alignwide"><!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"className":"exhibit-cards","layout":{"type":"grid","columnCount":2}} -->
+<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3"} /-->
+
+<!-- wp:post-title {"isLink":true} /-->
+
+<!-- wp:post-excerpt {"excerptLength":66} /-->
+<!-- /wp:post-template -->
+
+<!-- wp:query-no-results -->
+<!-- wp:paragraph {"placeholder":"Add text or blocks that will display when a query returns no results."} -->
+<p>There are no events to display here yet.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results --></div>
+<!-- /wp:query --></div>
+<!-- /wp:group -->
+
+<!-- wp:spacer {"height":"0.75rem"} -->
+<div style="height:0.75rem" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"layout":{"type":"constrained"}} -->
+<div class="wp-block-group"><!-- wp:heading {"align":"wide"} -->
+<h2 class="wp-block-heading alignwide">Festival schedule</h2>
+<!-- /wp:heading -->
+
+<!-- wp:abertoir2022/schedule {"align":"wide"} /--></div>
+<!-- /wp:group -->
+
+<!-- wp:spacer {"height":"0.75rem"} -->
+<div style="height:0.75rem" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer --></main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
