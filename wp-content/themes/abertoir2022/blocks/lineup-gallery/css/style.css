@@ -19,11 +19,22 @@
   margin: 0;
 }
 
+.lineup-gallery figure {
+  width: 100%;
+}
 .lineup-gallery figcaption {
   bottom: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   color: white;
   width: 100%;
-  padding: 0.5em var(--wp--custom--spacing--outer);
+  padding: 1em var(--wp--custom--spacing--outer);
   position: absolute;
   background: rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+@media screen and (min-width: 782px) {
+  .lineup-gallery figcaption {
+    text-align: left;
+  }
 }/*# sourceMappingURL=style.css.map */

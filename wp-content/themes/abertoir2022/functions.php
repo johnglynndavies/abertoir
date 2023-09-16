@@ -41,6 +41,7 @@ include(__DIR__.'/blocks/exhibit-meta.php');
 include(__DIR__.'/blocks/schedule.php');
 include(__DIR__.'/blocks/lineup.php');
 include(__DIR__.'/blocks/lineup-gallery.php');
+include(__DIR__.'/blocks/aber-featured-image.php');
 
 if ( function_exists( 'register_block_pattern_category' ) ) {
 	register_block_pattern_category(
@@ -217,3 +218,16 @@ function save_post_callback($post_id){
         }
     }
 }
+
+/**
+ * Filter post featured image block and add the image caption.
+ */
+function include_feature_image_caption($block_content, $block){
+    if ( isset($block['attrs']['className']) && $block['attrs']['className'] === 'aber-featured-image') {
+        $caption = '<figcaption class="aber-featured-image__caption">' . get_the_post_thumbnail_caption() . '</figcaption>';
+        $block_content = str_replace('</figure>', $caption . '</figure>', $block_content);
+        return $block_content;
+    }
+    return $block_content;
+}
+add_filter( 'render_block_core/post-featured-image', 'include_feature_image_caption', 10, 2 );

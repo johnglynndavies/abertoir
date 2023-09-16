@@ -49,12 +49,7 @@ function lineup_gallery_block_init() {
 
 	register_block_type( 'abertoir2022/lineup-gallery', [
 		'api_version' => 2,
-		'attributes' => [
-			'content' => [
-				'type' => 'string',
-				'source' => 'text',
-			],
-		],
+		"uses_context" => [ "postId", "postType" ],
 		'supports' => [
 			'color' => ['background' => false],
 			'align' => true,
@@ -74,26 +69,33 @@ add_action( 'init', 'lineup_gallery_block_init' );
 /**
  * Render lineup gallery.
  */
-function render_block_lineup_gallery( $attributes, $content ) {
+function render_block_lineup_gallery( $attributes, $content, $block ) {
 	
 	$wrapper_attributes = get_block_wrapper_attributes();
 
 	// programme slider takes precedence
 	$option = get_option( 'film-festivals_name' );
 
-	if (!empty($option['sliderselect'])) {
+	$context_postId = !empty($block->context['postId']) && !empty($block->context['postType']) && $block->context['postType'] == 'exhibit' ? $block->context['postId'] : NULL;
+
+	if (!empty($option['sliderselect']) || $context_postId) {
+		$parent = $context_postId ? $context_postId : $option['sliderselect'];
+
 		$children = get_children([
-			'post_parent' => $option['sliderselect'],
+			'post_parent' => $parent,
 			'post_type' => 'exhibit',
 			'post_status' => 'publish',
 		]);
 
 		foreach($children as $id => $child) {
 			if (get_page_template_slug($child) === "wp-custom-template-line-up") {
+				// limit results and randomise
 				$lineup = get_children([
 					'post_parent' => $id,
 					'post_type' => 'exhibit',
 					'post_status' => 'publish',
+					'numberposts' => 6,
+					'orderby' => 'rand',
 				]);
 			}
 		}

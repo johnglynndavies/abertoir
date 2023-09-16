@@ -1,4 +1,4 @@
-.single-exhibit {
+.single-exhibit:not(.exhibit-template-wp-custom-template-line-up) {
     background-color: var(--wp--preset--color--black-night);
     color: var(--wp--preset--color--white-bone);
 

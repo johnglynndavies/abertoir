@@ -23,11 +23,23 @@
   }
 }
 
-.lineup-gallery figcaption {
-  bottom: 0;
-  color: white;
-  width: 100%;
-  padding: 0.5em var(--wp--custom--spacing--outer);;
-  position: absolute;
-  background: rgba(0,0,0,0.4);
+.lineup-gallery {
+  figure {
+    width: 100%;
+  }
+
+  figcaption {
+    bottom: 0;
+    box-sizing: border-box;
+    color: white;
+    width: 100%;
+    padding: 1em var(--wp--custom--spacing--outer);;
+    position: absolute;
+    background: rgba(0,0,0,0.4);
+    text-align: center;
+
+    @media screen and (min-width: 782px) {
+      text-align: left;
+    }
+  }
 }

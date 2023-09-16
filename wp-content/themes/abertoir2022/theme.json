@@ -20,6 +20,11 @@
                     "name": "Shady night"
                 },
                 {
+                    "slug": "dark-background-shade-2",
+                    "color": "#1e2227",
+                    "name": "Shady night 2"
+                },
+                {
                     "slug": "white-bone",
                     "color": "#ffffff",
                     "name": "Bone white"
@@ -36,7 +41,7 @@
                 },
                 {
                     "slug": "text-subtle",
-                    "color": "#AEB39A",
+                    "color": "#777777",
                     "name": "Bone dry"
                 },
                 {

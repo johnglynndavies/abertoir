@@ -35,6 +35,8 @@
 		 */
 		category: 'abertoir',
 
+		// get block context
+
 		/**
 		 * Optional block extended support features.
 		 */
@@ -49,14 +51,6 @@
 			alignWide: true
 		},
 
-		attributes: {
-			content: {
-				type: 'string',
-				source: 'text',
-			},
-			style: {},
-		},
-
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.
 		 * This represents what the editor will render when the block is used.
@@ -67,10 +61,11 @@
 		 */
 		edit: function( props ) {
 			var blockProps = wp.blockEditor.useBlockProps();
+
 			var updateFieldValue = function( val ) {
 				props.setAttributes( { content: val } );
 			}
-
+			
 			return el(
 				'div',
 				blockProps,

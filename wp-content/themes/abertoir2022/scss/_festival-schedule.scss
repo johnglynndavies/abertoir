@@ -22,8 +22,8 @@
 
 .festival-schedule__tag {
     padding: 0.25em 0.35em;
-    background: black;
-    color: white;
+    background: var(--wp--preset--color--blue);
+    color: black;
     transform: rotate(-5deg);
     display: inline-block;
     white-space: nowrap;
