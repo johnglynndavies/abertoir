@@ -65,13 +65,15 @@ class Film_Festivals_Metaboxes {
   public function add()
   {
     // add our meta box
-    add_meta_box(
+    // @todo: reinstate the multi date metabox, which on update/cron passes the next
+    // upcoming date onto a hidden field date value which is used for queries
+   /* add_meta_box(
       'exhibit_event_dates',
       __( 'Event dates', $this->plugin_name ),
       [ $this, 'event_dates' ],
       $this->post_type_name,
       'side'
-    );
+    );*/
 
      // add our meta box
      add_meta_box(

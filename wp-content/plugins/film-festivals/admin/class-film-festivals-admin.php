@@ -132,9 +132,9 @@ class Film_Festivals_Admin {
       'exhibit',
       [
         'labels' => [
-          'name' => __('Programmes'),
-          'add_new_item' => __('Add New Programme'),
-          'new_item_name' => __("New Programme")
+          'name' => __('Types'),
+          'add_new_item' => __('Add New Type'),
+          'new_item_name' => __("New Type")
         ],
         'hierarchical' => true,
         'public' => true,
