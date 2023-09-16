@@ -364,11 +364,18 @@ class Film_Festivals_Admin {
   function setup_post_type_submenu() {
     add_submenu_page(
       $this->plugin_name,
-      'Programmes',
-      'Programmes',
+      'Types',
+      'Types',
       'manage_categories',
       'edit-tags.php?taxonomy=festival_category&post_type=exhibit'
     );
+  }
+
+  /**
+   * Remove access to custom field panel.
+   */
+  function remove_customfield_metaboxes() {
+    remove_meta_box( 'postcustom' , 'exhibit' , 'normal' );
   }
 
   /**

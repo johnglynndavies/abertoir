@@ -140,6 +140,7 @@ class Film_Festivals {
     //$this->loader->add_action( 'init', $plugin_admin, 'add_rewrite_rules', 500, 0 );
     $this->loader->add_action( 'admin_menu', $plugin_admin, 'create_film_festivals_admin', 0);
     $this->loader->add_action( 'admin_menu', $plugin_admin, 'setup_post_type_submenu');
+    $this->loader->add_action( 'admin_menu', $plugin_admin, 'remove_customfield_metaboxes');
     $this->loader->add_action( 'parent_file', $plugin_admin, 'tax_menu_correction');
     $this->loader->add_action( 'admin_notices', $plugin_admin, 'upload_completion_notice', 0, 1 );
 
