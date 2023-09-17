@@ -175,6 +175,9 @@ function wpdocs_selectively_enqueue_admin_script( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'wpdocs_selectively_enqueue_admin_script' );
 
+/**
+ * Add image sizes.
+ */
 add_action( 'after_setup_theme', 'wpdocs_theme_setup' );
 function wpdocs_theme_setup() {
     add_image_size( 'square_2x', 600, 600, true );// 1 / 1
@@ -186,35 +189,50 @@ function wpdocs_theme_setup() {
     add_image_size( 'teaser_2x', 680, 408, true );// 5 / 3
 }
 
-// ensures that exhibits have the correct post template set based on the festival category 
+/**
+ * Ensures that exhibits have the correct post template set based on the festival category.
+ */
 add_action('save_post','save_post_callback');
 function save_post_callback($post_id){
-    global $post; 
+    $post = get_post($post_id); 
 
-    if ($post->post_type != 'exhibit'){
+    if (!$post || $post->post_type != 'exhibit'){
         return;
     }
 
+    $slugs = [];
     $terms = get_the_terms($post, 'festival_category');
-    $template = get_page_template_slug( $post );
+    $template = get_page_template_slug($post);
 
-    foreach($terms as $term) {
-        switch ($term->slug) {
-            case 'film':
-                if (!$template) {
-                    update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-film' );
-                }
-                break 2;
-            case 'festival':
-                if (!$template) {
-                    update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-festival' );
-                }
-                break 2;
-            case 'line-up':
-                if (!$template) {
-                    update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-line-up' );
-                }
-                break 2;
+    if ($terms) {
+        foreach($terms as $term) {
+            $slugs[] = $term->slug;
+        }
+
+        if (in_array('festival', $slugs)) {
+            if ($template !== 'wp-custom-template-festival') {
+                update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-festival' );
+            }
+        }
+        elseif (in_array('line-up', $slugs)) {
+            if ($template !== 'wp-custom-template-line-up') {
+                update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-line-up' );
+            }
+        }
+        elseif (in_array('film', $slugs)) {
+            if ($template !== 'wp-custom-template-film') {
+                update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-film' );
+            }
+        }
+        else {
+            if ($template !== 'single-exhibit') {
+                update_metadata('post',  $post_id, '_wp_page_template', 'single-exhibit' );
+            }
+        }
+    }
+    else {
+        if ($template !== 'single-exhibit') {
+            update_metadata('post',  $post_id, '_wp_page_template', 'single-exhibit' );
         }
     }
 }
@@ -231,3 +249,17 @@ function include_feature_image_caption($block_content, $block){
     return $block_content;
 }
 add_filter( 'render_block_core/post-featured-image', 'include_feature_image_caption', 10, 2 );
+
+/**
+ * Allow unpublished items to appear in list of parents on exhibit edit screen.
+ */
+add_filter('rest_exhibit_query', 'aber_exhibit_dropdown_pages_args', 10, 12);
+add_filter('quick_edit_dropdown_pages_args', 'aber_quick_edit_dropdown_pages_args', 1, 1);
+function aber_exhibit_dropdown_pages_args( $args, $request) {
+    $args['post_status'] = ['publish', 'draft'];
+    return $args;
+}
+function aber_quick_edit_dropdown_pages_args($dropdown_args) {
+    $dropdown_args['post_status'] = array('publish','draft');
+    return $dropdown_args;
+}

@@ -202,6 +202,11 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
           margin-block-end: 2rem;
 }
 
+.wp-block-image {
+  -webkit-margin-before: 1.5rem;
+          margin-block-start: 1.5rem;
+}
+
 .aber-inline {
   -webkit-margin-before: 0.5em;
           margin-block-start: 0.5em;
