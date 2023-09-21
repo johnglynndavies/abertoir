@@ -10,8 +10,7 @@
 <h2 class="wp-block-heading">The shortlist</h2>
 <!-- /wp:heading -->
 
-<!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:columns {"isStackedOnMobile":false,"className":"aber-short-film"} -->
+<!-- wp:columns {"isStackedOnMobile":false,"className":"aber-short-film"} -->
 <div class="wp-block-columns is-not-stacked-on-mobile aber-short-film"><!-- wp:column {"width":"33.33%"} -->
 <div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:image {"sizeSlug":"full","linkDestination":"none"} -->
 <figure class="wp-block-image size-full"><img alt=""/></figure>
@@ -40,5 +39,4 @@
   </g>
 </svg></div></div>
 <!-- /wp:boldblocks/icon-separator --></div>
-<!-- /wp:group --></div>
 <!-- /wp:group -->

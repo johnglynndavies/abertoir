@@ -5,8 +5,7 @@
 * Categories: abertoir
 */
 ?>
-<!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:columns {"isStackedOnMobile":false,"className":"aber-short-film"} -->
+<!-- wp:columns {"isStackedOnMobile":false,"className":"aber-short-film"} -->
 <div class="wp-block-columns is-not-stacked-on-mobile aber-short-film"><!-- wp:column {"width":"33.33%"} -->
 <div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:image {"id":"","aspectRatio":"2/3","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
 <figure class="wp-block-image size-full"><img alt=""/></figure>
@@ -34,5 +33,4 @@
     <path id="Union_1" data-name="Union 1" d="M97,464a8,8,0,0,1-8-8v-1a18.041,18.041,0,0,1-8-15v-1a18,18,0,0,1,18-18h10a18,18,0,0,1,18,18v1a18.041,18.041,0,0,1-8,15v1a8,8,0,0,1-8,8Zm14-10v6a4,4,0,0,0,4-4v-3l2-1a14.421,14.421,0,0,0,6-12v-1a13.671,13.671,0,0,0-14-14H99a13.671,13.671,0,0,0-14,14v1a14.422,14.422,0,0,0,6,12l2,1v3a4,4,0,0,0,4,4h2v-6a2,2,0,0,1,4,0v6h4v-6a2,2,0,0,1,4,0Zm-3-11a4,4,0,1,1,4,4A4,4,0,0,1,108,443Zm-15,0a4,4,0,1,1,4,4A4,4,0,0,1,93,443Z" transform="translate(767 -200)"></path>
   </g>
 </svg></div></div>
-<!-- /wp:boldblocks/icon-separator --></div>
-<!-- /wp:group -->
+<!-- /wp:boldblocks/icon-separator -->
