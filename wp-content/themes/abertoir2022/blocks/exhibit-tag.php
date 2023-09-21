@@ -72,8 +72,11 @@ add_action( 'init', 'exhibit_tag_block_init' );
 function render_block_exhibit_tag( $attributes, $content ) {
 	$wrapper_attributes = get_block_wrapper_attributes();
 	$output = [];
+
+	$post_id = get_the_ID();
+
 	// get tags from current exhibit
-	if (!$tags = get_terms('exhibit_tags')) {
+	if (!$tags = get_the_terms($post_id, 'exhibit_tags')) {
 		return;
 	}
 

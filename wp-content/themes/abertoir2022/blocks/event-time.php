@@ -71,23 +71,37 @@ function render_block_event_time( $attributes, $content ) {
 	$wrapper_attributes = get_block_wrapper_attributes();
 	// get event time from current exhibit
 	$post_id = get_the_ID();
+	$meta_value = get_post_meta($post_id, '_event_date', true);
 
-	if (!($vals = get_post_meta($post_id, 'start_date', true))) return;
+	if (!$meta_value) return;
 
-	$events = [];
 	$timezone = new DateTimeZone('Europe/London');
+	// sometimes wp seems to omit the below necessary for the format we are using
+	// so we add it when we need it...
+	if (substr_count($meta_value, ':') === 1) {
+		$meta_value .= ':00';
+	}
 
+	if (!$start_time = DateTime::createFromFormat(DATE_ATOM, $meta_value.'+00:00', $timezone)) {
+		return '';
+	}
+
+	$event_str = $start_time->format('D j M H:i');
+
+	/*
+	// handle multiple events
+	$events = [];
 	if (is_serialized($vals)) {
-    $vals = unserialize($vals);
-  }
-
-  foreach($vals as $val) {
-    if (!($start_time = DateTime::createFromFormat(DATE_ATOM, $val['start_time'].'+00:00', $timezone))) continue;
-    
-    $events[] = $start_time->format('D j M H:i');
-  }
-  
+    $vals = unserialize($vals)
+  	}
+	foreach($vals as $val) {
+		if (!($start_time = DateTime::createFromFormat(DATE_ATOM, $val['start_time'].'+00:00', $timezone))) continue;
+		
+		$events[] = $start_time->format('D j M H:i');
+	}
 	if ( empty($events) ) return;
 
-	return sprintf('<p %1$s>%2$s</p>', 'class="exhibit-header__event-time"', implode(', ', $events));
+	$event_str = implode(', ', $events);
+	;*/
+	return sprintf('<p %1$s>%2$s</p>', 'class="exhibit-header__event-time"', $event_str);
 }
