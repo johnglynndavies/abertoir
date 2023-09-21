@@ -169,7 +169,7 @@ h1 {
 }
 
 h2 a {
-  text-underline-offset: 0.25ch;
+  text-underline-offset: 0.2ch;
 }
 
 .single-post h1.wp-block-post-title {
@@ -262,6 +262,25 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
 
 :where(.wp-block-group.has-background):has(div:first-child.lineup-gallery) {
   padding-top: 0;
+}
+
+:where(.wp-block-group.has-background) {
+  padding: 2.375em;
+  -webkit-margin-before: 2.375em;
+          margin-block-start: 2.375em;
+}
+
+.wp-block-group .has-background > *:last-child {
+  -webkit-margin-after: 0 !important;
+          margin-block-end: 0 !important;
+}
+.wp-block-group .has-background > *:last-child > *:last-child {
+  -webkit-margin-after: 0 !important;
+          margin-block-end: 0 !important;
+}
+
+.wp-site-blocks > footer {
+  margin-top: 0;
 }
 
 @media screen and (min-width: 768px) {
@@ -397,6 +416,9 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
   display: block;
 }
 
+.aber-footer {
+  margin-top: 0;
+}
 @media screen and (max-width: 767px) {
   .aber-footer .is-layout-flow > .alignleft.wp-block-image {
     max-width: 40%;
@@ -478,14 +500,14 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
   left: 0;
   height: -webkit-calc(100% - 1em);
   height: calc(100% - 1em);
-  border-left: 15px solid #AF7DAB;
+  border-left: 15px solid var(--wp--preset--color--mauve);
 }
 
 .aber-featured-news__posts li:nth-child(2) .wp-block-cover__inner-container::before {
-  border-left-color: #6A87B4;
+  border-left-color: var(--wp--preset--color--blue);
 }
 .aber-featured-news__posts li:nth-child(3) .wp-block-cover__inner-container::before {
-  border-left-color: #DC343B;
+  border-left-color: var(--wp--preset--color--red);
 }
 
 .aber-news__posts > li {
@@ -494,7 +516,7 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
 }
 
 .aber-news__post h2 {
-  font-size: var(--wp--custom--typography--font-size--gigantic);
+  font-size: clamp(2vw, var(--wp--custom--typography--font-size--gigantic), 8.5vw);
 }
 
 .festival-schedule h3 {

@@ -5,6 +5,6 @@
 }
 .aber-news__post {
     h2 {
-        font-size: var(--wp--custom--typography--font-size--gigantic);
+        font-size: clamp(2vw,var(--wp--custom--typography--font-size--gigantic),8.5vw);
     }
 }

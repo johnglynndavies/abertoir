@@ -173,7 +173,7 @@ h1 {
 
 h2 {
   a {
-    text-underline-offset: 0.25ch;
+    text-underline-offset: 0.2ch;
   }
 }
 
@@ -266,6 +266,27 @@ a:where(:not(.wp-element-button)) {
   padding-top: 0;
 }
 
+:where(.wp-block-group.has-background) {
+  padding: 2.375em;
+  margin-block-start: 2.375em;
+}
+
+.wp-block-group .has-background {
+  > *:last-child {
+    margin-block-end: 0 !important;
+
+    > *:last-child {
+      margin-block-end: 0 !important;
+    }
+  }
+}
+
+.wp-site-blocks {
+  > footer {
+    margin-top: 0;
+  }
+}
+
 .home {
   @media screen and (min-width: 768px) {
     background-color: var(--wp--preset--color--black-night);
@@ -305,6 +326,7 @@ a:where(:not(.wp-element-button)) {
 @import 'aber-footer';
 @import 'aber-featured-news';
 @import 'aber-news';
+@import 'aber-short-film';
 @import 'festival-schedule';
 @import 'exhibit-page';
 @import 'exhibit-header';

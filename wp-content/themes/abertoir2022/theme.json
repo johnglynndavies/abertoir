@@ -51,7 +51,7 @@
                 },
                 {
                     "slug": "mauve",
-                    "color": "#1B331D",
+                    "color": "#AF7DAB",
                     "name": "Entrail mauve"
                 },
                 {
@@ -219,14 +219,14 @@
             "h2": {
                 "typography": {
                     "fontFamily": "var(--wp--preset--font-family--poppins)",
-                    "fontWeight": "600",
+                    "fontWeight": "500",
                     "lineHeight": "var(--wp--custom--typography--line-height--small)",
                     "fontSize": "var(--wp--custom--typography--font-size--gigantic)"
                 }
             },
             "h3": {
                 "typography": {
-                    "fontFamily": "var(--wp--preset--font-family--poppins)",
+                    "fontFamily": "var(--wp--preset--font-family--alegreya)",
                     "fontWeight": "500",
                     "lineHeight": "var(--wp--custom--typography--line-height--tiny)",
                     "fontSize": "var(--wp--custom--typography--font-size--huge)"

@@ -52,7 +52,7 @@
             top: 1em;
             left: 0;
             height: calc(100% - 1em);
-            border-left: 15px solid #AF7DAB;
+            border-left: 15px solid var(--wp--preset--color--mauve);
         }
     }
 }
@@ -61,13 +61,13 @@
     li {
         &:nth-child(2) {
             .wp-block-cover__inner-container::before {
-                border-left-color: #6A87B4;
+                border-left-color: var(--wp--preset--color--blue);
             }
         }
 
         &:nth-child(3) {
             .wp-block-cover__inner-container::before {
-                border-left-color: #DC343B;
+                border-left-color: var(--wp--preset--color--red);
             }
         }
     }
