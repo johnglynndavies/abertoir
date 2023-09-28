@@ -388,7 +388,7 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
 }
 @media screen and (min-width: 992px) {
   .aber-header__logo {
-    width: 144px;
+    width: 150px;
   }
 }
 
