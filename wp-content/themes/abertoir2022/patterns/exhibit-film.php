@@ -1,7 +1,7 @@
 <?php
  /**
-  * Title: Exhibit
-  * Slug: abertoir2022/exhibit
+  * Title: Exhibit Film
+  * Slug: abertoir2022/exhibit-film
   * Categories: abertoir
   */
 ?>
