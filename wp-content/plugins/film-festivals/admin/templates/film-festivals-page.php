@@ -30,13 +30,7 @@
       </form>
     </div>
     
-    <h2>Create a Programme</h2>
-    <p>When adding a Programme, remember to also add a translation for it so that any exhibit translations can be added to the translated programme later.</p>
-    <table class="form-table" role="presentation">
-        <tbody>
-        <tr>
-          <th>
-    <a href="<?php echo admin_url('edit-tags.php?taxonomy=festival_category&post_type=exhibit'); ?>" class="page-title-action show">Add New Programme</a>
+
   </th>
   </tr>
 </tbody>
