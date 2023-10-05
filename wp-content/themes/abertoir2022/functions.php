@@ -219,7 +219,7 @@ function save_post_callback($post_id){
                 update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-line-up' );
             }
         }
-        elseif (in_array('film', $slugs)) {
+        elseif (in_array('film', $slugs) || in_array('event', $slugs)) {
             if ($template !== 'wp-custom-template-film') {
                 update_metadata('post',  $post_id, '_wp_page_template', 'wp-custom-template-film' );
             }
