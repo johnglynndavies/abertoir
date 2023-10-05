@@ -35,16 +35,16 @@
 <!-- wp:embed {"url":"","type":"video","providerNameSlug":"youtube","responsive":true,"className":"exhibit-trailer"} /-->
 
 <!-- wp:gallery {"linkTo":"attachment","sizeSlug":"thumbnail"} -->
-<figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":499,"sizeSlug":"thumbnail","linkDestination":"attachment"} -->
-<figure class="wp-block-image size-thumbnail"><a href="http://abertoir.local/2023-festival/scream/im3/"><img src="http://abertoir.local/wp-content/uploads/2023/06/im3-150x150.jpeg" alt="test" class="wp-image-499"/></a></figure>
+<figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"sizeSlug":"thumbnail","linkDestination":"attachment"} -->
+<figure class="wp-block-image size-thumbnail"><img alt=""/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"id":500,"sizeSlug":"thumbnail","linkDestination":"attachment"} -->
-<figure class="wp-block-image size-thumbnail"><a href="http://abertoir.local/2023-festival/scream/im2/"><img src="http://abertoir.local/wp-content/uploads/2023/06/im2-150x150.jpeg" alt="ninja" class="wp-image-500"/></a></figure>
+<!-- wp:image {"sizeSlug":"thumbnail","linkDestination":"attachment"} -->
+<figure class="wp-block-image size-thumbnail"><img alt=""/></figure>
 <!-- /wp:image -->
 
-<!-- wp:image {"id":501,"sizeSlug":"thumbnail","linkDestination":"attachment"} -->
-<figure class="wp-block-image size-thumbnail"><a href="http://abertoir.local/2023-festival/scream/im1/"><img src="http://abertoir.local/wp-content/uploads/2023/06/im1-150x150.jpeg" alt="" class="wp-image-501"/></a></figure>
+<!-- wp:image {"sizeSlug":"thumbnail","linkDestination":"attachment"} -->
+<figure class="wp-block-image size-thumbnail"><img alt=""/></figure>
 <!-- /wp:image --></figure>
 <!-- /wp:gallery --></div>
 <!-- /wp:column --></div>
