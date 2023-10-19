@@ -203,6 +203,40 @@ class Film_Festivals_Admin {
       ]
     );
 
+    register_post_type(
+      'testimonial', 
+      [
+        'labels' => [
+          'name' => __('Testimonials'),
+          'singular_name' => __('Testimonial'),
+          'add_new' => __('Add Testimonial'),
+          'add_new_item' => __('Add Testimonial'),
+          'edit_item' => __('Edit Testimonial'),
+        ],
+        'public' => true,
+        'show_in_nav_menus' => true,
+        'show_ui' => true,
+        'show_in_rest' => true,
+        'show_in_menu'=> true,
+        //'hierarchical' => true,
+        'has_archive' => false,
+        'publicaly_queryable' => true,
+        'query_var' => true,
+        'menu_position' => 4,
+        'supports' => ['title','editor','thumbnail'],
+        'menu_icon' => 'dashicons-format-quote',
+        //'rewrite' => ['slug' => 'event'],
+        /*'template' => [
+          [
+            'core/pattern',
+            [
+              'slug' => 'abertoir2022/exhibit',
+            ],
+          ],
+        ],*/
+      ]
+    );
+
     // register resources type
    /* register_post_type(
       'programmes', 
@@ -391,7 +425,7 @@ class Film_Festivals_Admin {
   }
 
   /**
-   * Fix active menu for taxonomy submenu
+   * Upload programme CSV.
    */
   function film_festivals_upload() {
     if ( isset($_POST['film-festivals_upload']) ) {
@@ -557,11 +591,8 @@ class Film_Festivals_Admin {
   {
     require_once(ABSPATH . 'wp-admin/includes/screen.php');
     $screen = get_current_screen();
-
-    //var_dump($screen);
   
     if ($screen->id === 'toplevel_page_film-festivals"') {
-              
         if (!empty($arg)) : ?>
           
           <div class="notice notice-success is-dismissible">
