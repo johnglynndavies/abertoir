@@ -203,48 +203,37 @@ class Film_Festivals_Admin_Page {
     return $categories;
   }
 
-  public function main_events()
+  /**
+   * Gather list of festivals to use as options for slider select.
+   */
+  public function festivals()
   {
-    $categories = [];
-    $all_categories = get_categories(['taxonomy' => 'festival_category', 'orderby' => 'id', 'order' => 'DESC', "hide_empty" => false]);
-
-    foreach($all_categories as $category) {
-      // only display default language options. 
-      $lang = pll_get_term_language($category->term_id, 'slug');
-      if ($lang !== pll_default_language('slug')) continue;
-
-      $categories[$category->term_id] = $category->name;
-    }
-
-    $events = [];
-    $custom_terms = get_terms('festival_category');
-
-    if ( !empty($custom_terms) ) {
-      $args = array(
-        'post_type' => 'exhibit',
-        'tax_query' => array(             
-            array(
-                'taxonomy' => 'festival_category',
-                'field' => 'slug',
-                'terms' => $custom_terms[0]->slug,
-            ),
+    $festivals = [];
+    $args = array(
+      'post_type' => 'exhibit',
+      'post_status' => 'publish',
+      'tax_query' => array(             
+          array(
+              'taxonomy' => 'festival_category',
+              'field' => 'slug',
+              'terms' => ['festival'],
           ),
-      );
+        ),
+    );
 
-      $query = new WP_Query($args);
+    $query = new WP_Query($args);
 
-      if ($query->have_posts()) {
-        while ($query->have_posts()) {
-          $query->the_post();
+    if ($query->have_posts()) {
+      while ($query->have_posts()) {
+        $query->the_post();
 
-          $events[get_the_ID()] = get_the_title();
-        }
+        $festivals[get_the_ID()] = get_the_title();
       }
-
-      wp_reset_postdata();
     }
 
-    return $events;
+    wp_reset_postdata();
+
+    return $festivals;
   }
 
   public function load_scripts()
