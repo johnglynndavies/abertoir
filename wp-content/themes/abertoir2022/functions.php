@@ -42,6 +42,7 @@ include(__DIR__.'/blocks/schedule.php');
 include(__DIR__.'/blocks/lineup.php');
 include(__DIR__.'/blocks/lineup-gallery.php');
 include(__DIR__.'/blocks/aber-featured-image.php');
+include(__DIR__.'/blocks/testimonials.php');
 
 if ( function_exists( 'register_block_pattern_category' ) ) {
 	register_block_pattern_category(

@@ -1,0 +1,70 @@
+/**
+ * The following styles get applied both on the front of your site and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.testimonials {
+  color: var(--wp--preset--color--white-bone);
+
+  .flickity-prev-next-button.previous {
+    left: calc(-1 * var(--wp--custom--spacing--outer) + 0.5rem);
+  }
+
+  .flickity-prev-next-button.next {
+    right: calc(-1 * var(--wp--custom--spacing--outer) + 0.5rem);
+  }
+
+  .flickity-page-dots .dot {
+    width: 13px;
+    height: 13px;
+    opacity: 1;
+    background-color: var(--wp--preset--color--text-subtle);
+
+    &.is-selected {
+      background-color: var(--wp--preset--color--red);
+    }
+  }
+
+  img {
+    display: block;
+  }
+
+}
+
+.testimonial {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding: 0 1rem;
+  text-align: center;
+  font-family: var(--wp--preset--font-family--alegreya);
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.25;
+
+  p {
+    &::before {
+      content: '\201C';
+    }
+
+    &::after {
+      content: '\201D';
+    }
+  }
+
+  img {
+    border-radius: 50%;
+    aspect-ratio: 1;
+  }
+
+  footer {
+    font-size: 1rem;
+
+    &::before {
+      content: '\2014';
+      margin-right: 1ch; 
+    }
+  }
+}
