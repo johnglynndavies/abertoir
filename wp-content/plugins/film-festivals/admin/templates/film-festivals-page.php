@@ -36,7 +36,7 @@
 </tbody>
 </table>
 
-    <h2><?php echo __('Import exhibit list'); ?></h2>
+  <!--  <h2><?php echo __('Import exhibit list'); ?></h2>
     <ol>
     <li>Build your exhibit list in a spreadsheet application like Excel with 4 columns that represent: "id" "title" "language" "start datetime,end datetime". </li>
     <li>Export your list as a Tab-delimited Text (.txt) file</li>
@@ -69,5 +69,5 @@
         </tr>
       </tbody>
   </table>
-    </form>
+    </form>-->
 </div>

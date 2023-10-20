@@ -79,6 +79,14 @@ class Film_Festivals_Admin_Page {
       );
 
       add_settings_field(
+        $this->plugin_name . '_festivaldates', 
+        __('Festival dates', $this->plugin_name),
+        array($this, 'render_festivaldates'), 
+        $this->plugin_name, 
+        $this->plugin_name . '_settings'
+      );
+
+      add_settings_field(
           $this->plugin_name . '_dateson', 
           __('Festival Dates On/Off', $this->plugin_name),
           array($this, 'render_dateson'), 
@@ -89,14 +97,22 @@ class Film_Festivals_Admin_Page {
       add_settings_field(
         $this->plugin_name . '_submissions', 
         __('Submissions callout On/Off', $this->plugin_name),
-        array($this, 'render_dateson'), 
+        array($this, 'render_submissions'), 
+        $this->plugin_name, 
+        $this->plugin_name . '_settings'
+      );
+
+      add_settings_field(
+        $this->plugin_name . '_promoteselect', 
+        __('Promote event', $this->plugin_name),
+        array($this, 'render_promote_select'), 
         $this->plugin_name, 
         $this->plugin_name . '_settings'
       );
 
       add_settings_field(
         $this->plugin_name . '_sliderselect', 
-        __('Homepage programme slider select', $this->plugin_name),
+        __('Homepage lineup slider', $this->plugin_name),
         array($this, 'render_slider_select'), 
         $this->plugin_name, 
         $this->plugin_name . '_settings'
@@ -104,7 +120,7 @@ class Film_Festivals_Admin_Page {
 
       add_settings_section(
         $this->plugin_name . '_gallery',
-        __('Custom Slider', $this->plugin_name),
+        __('Homepage custom slider', $this->plugin_name),
         array($this, 'render_gallery_settings'),
         $this->plugin_name . '_gallerysettings',
       );
@@ -139,10 +155,28 @@ class Film_Festivals_Admin_Page {
     $this->render_template('components/dateson'); 
   }
 
+  public function render_submissions()
+  {
+    $this->options = get_option( $this->plugin_name . '_name' );
+    $this->render_template('components/submissions'); 
+  }
+
+  public function render_festivaldates()
+  {
+    $this->options = get_option( $this->plugin_name . '_name' );
+    $this->render_template('components/dates-select'); 
+  }
+
   public function render_slider_select()
   {
     $this->options = get_option( $this->plugin_name . '_name' );
     $this->render_template('components/slider-select'); 
+  }
+
+  public function render_promote_select()
+  {
+    $this->options = get_option( $this->plugin_name . '_name' );
+    $this->render_template('components/promote-select'); 
   }
 
   public function render_gallery()
@@ -202,24 +236,30 @@ class Film_Festivals_Admin_Page {
 
     return $categories;
   }
+  
 
   /**
-   * Gather list of festivals to use as options for slider select.
+   * Gather list of programmes.
+   * 
+   * @param array $types
+   *  The event types to allow.
    */
-  public function festivals()
+  public function main_events(array $opts = [])
   {
     $festivals = [];
     $args = array(
       'post_type' => 'exhibit',
       'post_status' => 'publish',
-      'tax_query' => array(             
-          array(
-              'taxonomy' => 'festival_category',
-              'field' => 'slug',
-              'terms' => ['festival'],
-          ),
-        ),
+      'tax_query' => [
+        [
+          'taxonomy' => 'festival_category',
+          'field' => 'slug',
+          'terms' => ['festival'],
+        ],
+      ],
     );
+
+    $args = array_merge($args, $opts);
 
     $query = new WP_Query($args);
 

@@ -47,6 +47,15 @@ class Film_Festivals_Metaboxes {
   private $event_date_meta_key = '_event_date';
 
   /**
+   * Meta key.
+   *
+   * @since 1.0.0
+   * @access private
+   * @var str
+   */
+  private $event_enddate_meta_key = '_event_enddate';
+
+  /**
    * Initialize the class and set its properties.
    *
    * @since    1.0.0
@@ -67,7 +76,7 @@ class Film_Festivals_Metaboxes {
     // add our meta box
     // @todo: reinstate the multi date metabox, which on update/cron passes the next
     // upcoming date onto a hidden field date value which is used for queries
-   /* add_meta_box(
+     /* add_meta_box(
       'exhibit_event_dates',
       __( 'Event dates', $this->plugin_name ),
       [ $this, 'event_dates' ],
@@ -83,6 +92,7 @@ class Film_Festivals_Metaboxes {
       $this->post_type_name,
       'side'
     );
+    
   }
 
   /**
@@ -195,8 +205,47 @@ class Film_Festivals_Metaboxes {
     echo '<div class="event-date event_date"><label for="'.$this->event_date_meta_key.'">Event date:</label>';
     echo '<input type="datetime-local" id="'.$this->event_date_meta_key.'_start" name="'.$this->event_date_meta_key.'" value="'.$event_date->format('Y-m-d H:i:s').'" min="'.date('Y-m-d H:i:s').'" max="'.date('Y-m-d H:i:s', strtotime('+ 1 year')).'"><br />';
     echo '</div>';
-  }
 
+    global $post;
+
+    if ($post) {
+      $terms = get_the_terms($post, 'festival_category');
+
+      if ($terms) {
+        $slugs = [];
+
+        foreach($terms as $term) {
+            $slugs[] = $term->slug;
+        }
+
+        if (in_array('festival', $slugs)) {
+          wp_nonce_field( $this->event_enddate_meta_key, $this->event_enddate_meta_key.'_nonce' );
+
+          // set key
+          $timezone = new DateTimeZone('Europe/London');
+
+          // get value if the custom field already has one
+          if (!empty($val = $post->{$this->event_enddate_meta_key})) {
+            // append necessary to make format valid
+            // wp seems to omit this in certain circumstances...
+            if (substr_count($val, ':') === 1) {
+              $val .= ':00';
+            }
+            $event_enddate = DateTime::createFromFormat(DATE_ATOM, $val.'+00:00', $timezone);
+          } 
+          else {
+            $event_enddate = new DateTime();
+          }
+
+          echo '<style>.event-date {margin-bottom: 1em;}</style>';
+          echo '<div id="events">';
+          echo '<div class="event-date event_date"><label for="'.$this->event_enddate_meta_key.'">Event end date:</label>';
+          echo '<input type="datetime-local" id="'.$this->event_enddate_meta_key.'_start" name="'.$this->event_enddate_meta_key.'" value="'.$event_enddate->format('Y-m-d H:i:s').'" min="'.date('Y-m-d H:i:s').'" max="'.date('Y-m-d H:i:s', strtotime('+ 1 year')).'"><br />';
+          echo '</div>';
+        }
+      }
+    }
+  }
 
   /**
    * Stores our additional params.
@@ -265,6 +314,13 @@ class Film_Festivals_Metaboxes {
 
     // save for this post
     $this->_save_meta( $post, $db_key, esc_sql($event_date) );
+
+    if (isset( $_POST[$this->event_enddate_meta_key] )) {
+      $event_date = $_POST[$this->event_enddate_meta_key];
+      $db_key = $this->event_enddate_meta_key;
+
+      $this->_save_meta( $post, $db_key, esc_sql($event_date) );
+    }
 
   }
 
