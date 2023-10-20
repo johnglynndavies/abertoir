@@ -82,7 +82,6 @@ function render_block_testimonials( $attributes, $content, $block ) {
 
 	$loop = new WP_Query( $args );
 	
-
 	if ($loop->have_posts()) {
 		while ( $loop->have_posts() ) {
 			$post = $loop->the_post();
@@ -92,6 +91,8 @@ function render_block_testimonials( $attributes, $content, $block ) {
 			$slides[] = sprintf("<blockquote class=\"testimonial\"><div class=\"testimonial__img\">%s</div>%s<footer>%s</footer></blockquote>", $img, $content, $title);
 		}
 	}
+
+	wp_reset_postdata();
 
 	if (!empty($slides)) {
 		$slider = "<div class=\"testimonials\" data-flickity='{\"imagesLoaded\": true, \"autoPlay\": true, \"prevNextButtons\": false, \"adaptiveHeight\": true}'>".implode('', $slides).'</div>';

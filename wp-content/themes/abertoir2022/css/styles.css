@@ -345,10 +345,10 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
 }
 @media screen and (min-width: 768px) {
   .aber-header .aber-header__wrapper {
-    -webkit-box-align: start;
-    -webkit-align-items: flex-start;
-        -ms-flex-align: start;
-            align-items: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
 }
 
@@ -378,6 +378,9 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
 }
 @media screen and (min-width: 768px) {
   .aber-header__logo {
+    -webkit-align-self: flex-start;
+        -ms-flex-item-align: start;
+            align-self: flex-start;
     margin-bottom: -2.5em !important;
     width: 130px;
   }

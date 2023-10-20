@@ -73,17 +73,46 @@ add_action( 'init', 'festival_dates_block_init' );
 
 function render_block_festival_dates( $attributes, $content ) {
 	$wrapper_attributes = get_block_wrapper_attributes();
-	// get date range from latest festival run
-	$festival_dates = '19 – 24 November 2023';
 
 	$option = get_option( 'film-festivals_name' );
 	if (empty($option['dateson']) || (!empty($option['dateson']) && $option['dateson'] != 'on')) {
 		return;
 	}
 
-	if ( ! $festival_dates ) {
+	// get date range from latest festival exhibit
+	if (($festival = $option['festivaldates'] ?? NULL)) {
+		$timezone = new DateTimeZone('Europe/London');
+		$post = get_post($festival);
+
+		if ($date = get_post_meta($festival, '_event_date', true)) {
+			sanitise_festival_date($date);
+			$date = DateTime::createFromFormat(DATE_ATOM, $date.'+00:00', $timezone);
+		}
+
+		if ($enddate = get_post_meta($festival, '_event_enddate', true)) {
+			sanitise_festival_date($enddate);
+			$enddate = DateTime::createFromFormat(DATE_ATOM, $enddate.'+00:00', $timezone);
+		}
+		
+		if ($date && $enddate) {
+			$date_format = $date->format('m') != $enddate->format('m') ? 'j M' : 'j';
+			$enddate_format = $date->format('m') != $enddate->format('m') ? 'j M Y' : 'j F Y';
+			$festival_dates = sprintf("%s – %s", $date->format($date_format), $enddate->format($enddate_format));
+		}
+	}
+
+	if ( empty($festival_dates) ) {
 		return;
 	}
 
 	return sprintf('<p %1$s>%2$s</p>', 'class="aber-header__dates"', $festival_dates);
+}
+
+function sanitise_festival_date(string &$date) 
+{
+	if (substr_count($date, ':') === 1) {
+    	$date .= ':00';
+    }
+
+	return $date;
 }

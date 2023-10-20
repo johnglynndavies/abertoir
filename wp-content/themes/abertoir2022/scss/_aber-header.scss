@@ -31,7 +31,7 @@
   @media screen and (min-width: 768px) {
     @at-root {
       .aber-header & {
-        align-items: flex-start;
+        align-items: center;
       }
     }
     
@@ -58,6 +58,7 @@
   }
 
   @media screen and (min-width: 768px) {
+    align-self: flex-start;
     margin-bottom: -2.5em !important;
     width: 130px;
 
