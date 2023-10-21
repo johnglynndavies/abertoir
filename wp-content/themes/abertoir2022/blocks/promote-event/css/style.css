@@ -4,9 +4,15 @@
  * Replace them with your own styles or remove the file completely.
  */
 .aber-event-promo {
-  width: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   background: var(--wp--preset--color--black-night);
   container-type: inline-size;
+}
+.aber-event-promo.aber-event-promo--wide {
+  background: var(--wp--preset--color--dark-background-shade-2);
 }
 @media screen and (max-width: 767px) {
   .wp-site-blocks .aber-event-promo.alignfull.aber-event-promo--slide {
@@ -15,6 +21,12 @@
   }
 }
 @media screen and (min-width: 768px) {
+  .aber-event-promo.aber-event-promo--wide a {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
   .aber-event-promo.alignfull.aber-event-promo--slide {
     position: relative;
     margin-left: -webkit-calc(-1 * var(--wp--custom--spacing--outer)) !important;
@@ -35,16 +47,18 @@
   text-decoration: underline;
   text-underline-offset: 0.1em;
 }
-.has-background .aber-event-promo:not(.aber-event-promo--slide) {
+.has-background .aber-event-promo:not(.aber-event-promo--slide), .single-exhibit:not(.exhibit-template-wp-custom-template-line-up, .exhibit-template-wp-custom-template-film) .aber-event-promo {
   background: var(--wp--preset--color--white-bone);
 }
 .has-background .aber-event-promo:not(.aber-event-promo--slide) p,
-.has-background .aber-event-promo:not(.aber-event-promo--slide) .wp-block-read-more {
+.has-background .aber-event-promo:not(.aber-event-promo--slide) .wp-block-read-more, .single-exhibit:not(.exhibit-template-wp-custom-template-line-up, .exhibit-template-wp-custom-template-film) .aber-event-promo p,
+.single-exhibit:not(.exhibit-template-wp-custom-template-line-up, .exhibit-template-wp-custom-template-film) .aber-event-promo .wp-block-read-more {
   color: var(--wp--preset--color--black-night);
 }
 @media screen and (min-width: 768px) {
   .has-background .aber-event-promo:not(.aber-event-promo--slide) p.aber-event-promo--slide,
-  .has-background .aber-event-promo:not(.aber-event-promo--slide) .wp-block-read-more.aber-event-promo--slide {
+  .has-background .aber-event-promo:not(.aber-event-promo--slide) .wp-block-read-more.aber-event-promo--slide, .single-exhibit:not(.exhibit-template-wp-custom-template-line-up, .exhibit-template-wp-custom-template-film) .aber-event-promo p.aber-event-promo--slide,
+  .single-exhibit:not(.exhibit-template-wp-custom-template-line-up, .exhibit-template-wp-custom-template-film) .aber-event-promo .wp-block-read-more.aber-event-promo--slide {
     color: var(--wp--preset--color--white-bone);
   }
 }
@@ -55,6 +69,17 @@
   height: auto;
 }
 @media screen and (min-width: 768px) {
+  .aber-event-promo--wide .aber-event-promo__image {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 50%;
+        -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+  }
+  .aber-event-promo--wide .aber-event-promo__image img {
+    -o-object-fit: cover;
+       object-fit: cover;
+    height: 100%;
+  }
   .aber-event-promo--slide .aber-event-promo__image {
     aspect-ratio: 8/3;
     width: 100%;
@@ -128,6 +153,9 @@
   }
 }
 @media screen and (min-width: 768px) {
+  .aber-event-promo--wide .aber-event-promo__content h3 {
+    font-size: max(1.5em, 1.23em + 1cqi);
+  }
   .aber-event-promo--slide .aber-event-promo__content h3 {
     font-size: clamp(2vw, var(--wp--custom--typography--font-size--colossal), 8.5vw);
     text-align: center;

@@ -602,6 +602,12 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
   fill: var(--wp--preset--color--white-bone);
 }
 
+.exhibit-content {
+  /*@media screen and (max-width: 781px) {
+      flex-direction: column-reverse;
+      flex-wrap: nowrap !important;
+  }*/
+}
 @media screen and (min-width: 782px) {
   .exhibit-content {
     background: var(--wp--preset--color--black-night);
@@ -615,9 +621,27 @@ a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):activ
   .exhibit-content .exhibit-trailer,
   .exhibit-content .exhibit-gallery,
   .exhibit-content .wp-block-embed,
-  .exhibit-content .wp-block-gallery {
+  .exhibit-content .wp-block-gallery,
+  .exhibit-content .pop-out-right {
     margin-right: -webkit-calc(-3rem - var(--wp--custom--spacing--outer));
     margin-right: calc(-3rem - var(--wp--custom--spacing--outer));
+  }
+}
+
+.exhibit-content-bottom {
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
+  margin-bottom: 3rem !important;
+}
+@media screen and (min-width: 782px) {
+  .exhibit-content-bottom {
+    padding: 0 3rem 0;
+  }
+}
+@media screen and (min-width: 782px) {
+  .exhibit-content-bottom .pop-out-left {
+    margin-left: -webkit-calc(-3rem - var(--wp--custom--spacing--outer));
+    margin-left: calc(-3rem - var(--wp--custom--spacing--outer));
   }
 }
 

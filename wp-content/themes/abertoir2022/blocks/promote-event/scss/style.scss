@@ -5,9 +5,13 @@
  */
 
 .aber-event-promo {
-  width: 100%;
+  flex: 1;
   background: var(--wp--preset--color--black-night);
   container-type: inline-size;
+
+  &.aber-event-promo--wide {
+    background: var(--wp--preset--color--dark-background-shade-2);
+  }
 
   @media screen and (max-width:767px) {
     @at-root .wp-site-blocks &.alignfull.aber-event-promo--slide {
@@ -17,6 +21,12 @@
   }
 
   @media screen and (min-width:768px) {
+    &.aber-event-promo--wide {
+      a {
+        display: flex;
+      }
+    }
+
     @at-root &.alignfull.aber-event-promo--slide {
       position: relative;
       margin-left: calc(-1 * var(--wp--custom--spacing--outer)) !important;
@@ -47,7 +57,8 @@
     }
   }
 
-  @at-root .has-background &:not(.aber-event-promo--slide) {
+  @at-root .has-background &:not(.aber-event-promo--slide),
+  .single-exhibit:not(.exhibit-template-wp-custom-template-line-up, .exhibit-template-wp-custom-template-film) & {
     background: var(--wp--preset--color--white-bone);
 
     p,
@@ -71,6 +82,16 @@
   }
 
   @media screen and (min-width:768px) {
+
+    @at-root .aber-event-promo--wide & {
+      flex: 0 0 50%;
+
+      img {
+        object-fit: cover;
+        height: 100%;
+      }
+    }
+
     @at-root .aber-event-promo--slide & {
       aspect-ratio: 8 / 3;
       width: 100%;
@@ -132,6 +153,10 @@
     }
 
     @media screen and (min-width:768px) {
+      @at-root .aber-event-promo--wide & {
+        font-size: max(1.5em, 1.23em + 1cqi);
+      }
+
       @at-root .aber-event-promo--slide & {
         font-size: clamp(2vw,var(--wp--custom--typography--font-size--colossal),8.5vw);
         text-align: center;

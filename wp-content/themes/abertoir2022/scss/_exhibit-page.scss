@@ -16,13 +16,33 @@
         top: -2rem;
     }
 
+    /*@media screen and (max-width: 781px) {
+        flex-direction: column-reverse;
+        flex-wrap: nowrap !important;
+    }*/
+
     .exhibit-trailer,
     .exhibit-gallery,
     .wp-block-embed,
-    .wp-block-gallery {
+    .wp-block-gallery,
+    .pop-out-right {
         @media screen and (min-width: 782px) {
             margin-right: calc(-1 * 3rem - var(--wp--custom--spacing--outer));
         }
     }
 }
 
+.exhibit-content-bottom {
+    margin-block-start: 0;
+    margin-bottom: 3rem !important;
+
+    @media screen and (min-width: 782px) {
+        padding: 0 3rem 0;
+    }
+
+    .pop-out-left {
+        @media screen and (min-width: 782px) {
+            margin-left: calc(-1 * 3rem - var(--wp--custom--spacing--outer));
+        }
+    }
+}

@@ -100,7 +100,13 @@ function render_block_promote_event($attributes, $content, $block) {
 		return 'none';
 	}
 
-	return sprintf('<div %1$s>%2$s</div>', 'class="aber-event-promo"', $promo);
+	$class = ['aber-event-promo'];
+
+	if (!empty($attributes['className'])) {
+		$class[] = $attributes['className'];
+	}
+
+	return sprintf('<div class="%1$s">%2$s</div>', implode(' ', $class), $promo);
 }
 
 function get_festival_parent(&$post) {
