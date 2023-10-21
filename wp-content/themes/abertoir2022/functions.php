@@ -35,6 +35,7 @@ add_filter( 'block_categories_all', 'abertoir_block_category', 10, 2);
 // include custom blocks
 include(__DIR__.'/blocks/lang-switcher.php');
 include(__DIR__.'/blocks/festival-dates.php');
+include(__DIR__.'/blocks/promote-event.php');
 include(__DIR__.'/blocks/exhibit-tag.php');
 include(__DIR__.'/blocks/event-time.php');
 include(__DIR__.'/blocks/exhibit-meta.php');
@@ -77,6 +78,11 @@ add_filter( 'query_loop_block_query_vars', function ( $query ) {
         if ($tpl_slug === "wp-custom-template-festival") {
             // alter query so we only get direct children of the festival
             $query['post_parent__in'] = [$post->ID];
+        }
+        elseif ( $tpl_slug === 'wp-custom-template-line-up') {
+            $parent = get_post_parent($post);
+            $query['post_parent__in'] = [$parent->ID];
+            $query['post__not_in'] = [$post->ID];
         }
     }
 

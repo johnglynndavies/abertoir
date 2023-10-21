@@ -83,6 +83,24 @@ h3.wp-block-heading {
   }
 }
 
+.equal-height-cols {
+  > * {
+    display: flex;
+  }
+}
+
+.span-width {
+  width: 100%;
+}
+
+.flex-fill {
+  flex-grow: 1;
+}
+
+.align-items-stretch {
+  align-items: stretch !important;
+}
+
 .main-nav {
   position: relative;
 }
@@ -280,6 +298,16 @@ a:where(:not(.wp-element-button)) {
 .wp-site-blocks {
   > footer {
     margin-top: 0;
+  }
+}
+
+.wp-block-post-template-is-layout-grid {
+  container-type: inline-size;
+
+  &.columns-3 {
+    @media screen and (max-width: 840px) {
+      grid-template-columns: 1fr;
+    }
   }
 }
 

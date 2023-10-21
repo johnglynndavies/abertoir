@@ -1,6 +1,7 @@
 .exhibit-cards {
 
     .exhibit {
+        container-type: inline-size;
         padding-left: var(--wp--preset--spacing--50);
         padding-right: var(--wp--preset--spacing--50);
         padding-bottom: var(--wp--preset--spacing--50);
@@ -8,8 +9,12 @@
         color: var(--wp--preset--color--white-bone);
 
         h2 {
-            font-size: var(--wp--custom--typography--font-size--huge);
             font-weight: 600;
+            font-size: max(1.5em, 1.23em + 3cqi);
+
+            @container (min-width: 320px) {
+                font-size: clamp(5cqw, var(--wp--custom--typography--font-size--huge), 13cqw);
+            }
         }
 
         figure {

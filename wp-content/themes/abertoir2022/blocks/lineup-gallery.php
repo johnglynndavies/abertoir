@@ -43,7 +43,7 @@ function lineup_gallery_block_init() {
 	wp_register_style(
 		'lineup-gallery-block',
 		get_stylesheet_directory_uri() . "/blocks/{$style_css}",
-		[],
+		['promote-event-block'],
 		filemtime( "{$dir}/{$style_css}" )
 	);
 
@@ -134,6 +134,10 @@ function render_block_lineup_gallery( $attributes, $content, $block ) {
 	}
 
 	if (!empty($pictures)) {
+		if (is_front_page()) {
+			$pictures[-1] = lineup_gallery_promote_event();
+		}
+
 		ksort($pictures);
 		$gallery = "<div class=\"lineup-gallery alignfull\" data-flickity='{\"imagesLoaded\": true, \"autoPlay\": true}'>".implode('', $pictures).'</div>';
 
@@ -182,4 +186,26 @@ function lineup_gallery_block_figure($sm, $lg, $alt, $caption)
 		</picture>
 		'.($caption ? '<figcaption>'.$caption.'</figcaption>' : '').'
 	</figure>';
+}
+
+function lineup_gallery_promote_event() {
+	$wrapper_attributes = get_block_wrapper_attributes();
+
+	$option = get_option( 'film-festivals_name' );
+
+	if (($event = $option['promoteselect'] ?? NULL)) {
+		$post = get_post($event);
+
+		if ($post->post_status !== 'publish') return NULL;
+		$img = get_the_post_thumbnail($post, ['800', '450']);
+		$title = get_the_title($post);
+		$url = get_the_permalink($post);
+		$promo = sprintf("<a href=\"%s\"><div class=\"aber-event-promo__image\">%s</div><div class=\"aber-event-promo__content\"><h3>%s</h3><p>View the programme &gt;</p></div></a>", $url, $img, $title);
+	}
+
+	if ( empty($promo) ) {
+		return NULL;
+	}
+
+	return sprintf('<div %1$s>%2$s</div>', 'class="aber-event-promo aber-event-promo--slide alignfull"', $promo);
 }

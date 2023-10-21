@@ -82,7 +82,6 @@ function render_block_festival_dates( $attributes, $content ) {
 	// get date range from latest festival exhibit
 	if (($festival = $option['festivaldates'] ?? NULL)) {
 		$timezone = new DateTimeZone('Europe/London');
-		$post = get_post($festival);
 
 		if ($date = get_post_meta($festival, '_event_date', true)) {
 			sanitise_festival_date($date);

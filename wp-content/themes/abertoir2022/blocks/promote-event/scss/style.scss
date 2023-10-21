@@ -1,0 +1,158 @@
+/**
+ * The following styles get applied both on the front of your site and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.aber-event-promo {
+  width: 100%;
+  background: var(--wp--preset--color--black-night);
+  container-type: inline-size;
+
+  @media screen and (max-width:767px) {
+    @at-root .wp-site-blocks &.alignfull.aber-event-promo--slide {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  }
+
+  @media screen and (min-width:768px) {
+    @at-root &.alignfull.aber-event-promo--slide {
+      position: relative;
+      margin-left: calc(-1 * var(--wp--custom--spacing--outer)) !important;
+      margin-right: calc(-1 * var(--wp--custom--spacing--outer)) !important;
+      width: unset;
+    }
+  }
+
+  a {
+    &:hover,
+    &:focus {
+      text-decoration: none;
+
+      h3 {
+        text-decoration: underline;
+        text-underline-offset: 0.1em;
+      }
+    }
+  }
+
+  h3 {
+    a {
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+        text-underline-offset: 0.1em;
+      }
+    }
+  }
+
+  @at-root .has-background &:not(.aber-event-promo--slide) {
+    background: var(--wp--preset--color--white-bone);
+
+    p,
+    .wp-block-read-more {
+      color: var(--wp--preset--color--black-night);
+
+      @media screen and (min-width:768px) {
+        @at-root &.aber-event-promo--slide {
+          color: var(--wp--preset--color--white-bone);
+        }
+      }
+    }
+  }
+}
+
+.aber-event-promo__image {
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media screen and (min-width:768px) {
+    @at-root .aber-event-promo--slide & {
+      aspect-ratio: 8 / 3;
+      width: 100%;
+
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        background: rgba(0,0,0,0.56);
+      }
+
+      img {
+        object-fit: cover;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.aber-event-promo__content {
+  padding: 1rem;
+  margin: 0;
+
+  @media screen and (min-width:768px) {
+    padding: 1rem 1.25rem;
+
+    @at-root .aber-event-promo--slide & {
+      padding: var(--wp--custom--spacing--outer);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-content: center;
+      width: 100%;
+      max-width: var(--wp--style--global--wide-size);
+
+      > * {
+        flex-basis: 100%;
+      }
+    }
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--wp--preset--font-family--poppins);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: max(1.5em, 1.23em + 3cqi);
+
+    @container (min-width: 320px) {
+        font-size: clamp(5cqw, var(--wp--custom--typography--font-size--huge), 10cqw);
+    }
+
+    @media screen and (min-width:768px) {
+      @at-root .aber-event-promo--slide & {
+        font-size: clamp(2vw,var(--wp--custom--typography--font-size--colossal),8.5vw);
+        text-align: center;
+      }
+    }
+  }
+
+  p {
+    color: var(--wp--preset--color--white-bone);
+    margin-block-end: 0;
+
+    @media screen and (min-width:768px) {
+      @at-root .aber-event-promo--slide & {
+        text-align: center;
+      }
+    }
+  }
+
+  .wp-block-read-more {
+    margin: 1em 0 0 !important;
+    color: var(--wp--preset--color--white-bone);
+  }
+  
+}
