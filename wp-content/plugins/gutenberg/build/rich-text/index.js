@@ -1,48 +1,48 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
+/******/ 		__webpack_require__.n = function(module) {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 		__webpack_require__.d = function(exports, definition) {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
+/******/ 		__webpack_require__.r = function(exports) {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -51,60 +51,57 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "__UNSTABLE_LINE_SEPARATOR": () => (/* reexport */ LINE_SEPARATOR),
-  "__experimentalRichText": () => (/* reexport */ __experimentalRichText),
-  "__unstableCreateElement": () => (/* reexport */ createElement),
-  "__unstableFormatEdit": () => (/* reexport */ FormatEdit),
-  "__unstableInsertLineSeparator": () => (/* reexport */ insertLineSeparator),
-  "__unstableIsEmptyLine": () => (/* reexport */ isEmptyLine),
-  "__unstableToDom": () => (/* reexport */ toDom),
-  "__unstableUseRichText": () => (/* reexport */ useRichText),
-  "applyFormat": () => (/* reexport */ applyFormat),
-  "concat": () => (/* reexport */ concat),
-  "create": () => (/* reexport */ create),
-  "getActiveFormat": () => (/* reexport */ getActiveFormat),
-  "getActiveFormats": () => (/* reexport */ getActiveFormats),
-  "getActiveObject": () => (/* reexport */ getActiveObject),
-  "getTextContent": () => (/* reexport */ getTextContent),
-  "insert": () => (/* reexport */ insert),
-  "insertObject": () => (/* reexport */ insertObject),
-  "isCollapsed": () => (/* reexport */ isCollapsed),
-  "isEmpty": () => (/* reexport */ isEmpty),
-  "join": () => (/* reexport */ join),
-  "registerFormatType": () => (/* reexport */ registerFormatType),
-  "remove": () => (/* reexport */ remove),
-  "removeFormat": () => (/* reexport */ removeFormat),
-  "replace": () => (/* reexport */ replace_replace),
-  "slice": () => (/* reexport */ slice),
-  "split": () => (/* reexport */ split),
-  "store": () => (/* reexport */ store),
-  "toHTMLString": () => (/* reexport */ toHTMLString),
-  "toggleFormat": () => (/* reexport */ toggleFormat),
-  "unregisterFormatType": () => (/* reexport */ unregisterFormatType),
-  "useAnchor": () => (/* reexport */ useAnchor),
-  "useAnchorRef": () => (/* reexport */ useAnchorRef)
+  __experimentalRichText: function() { return /* reexport */ __experimentalRichText; },
+  __unstableCreateElement: function() { return /* reexport */ createElement; },
+  __unstableFormatEdit: function() { return /* reexport */ FormatEdit; },
+  __unstableToDom: function() { return /* reexport */ toDom; },
+  __unstableUseRichText: function() { return /* reexport */ useRichText; },
+  applyFormat: function() { return /* reexport */ applyFormat; },
+  concat: function() { return /* reexport */ concat; },
+  create: function() { return /* reexport */ create; },
+  getActiveFormat: function() { return /* reexport */ getActiveFormat; },
+  getActiveFormats: function() { return /* reexport */ getActiveFormats; },
+  getActiveObject: function() { return /* reexport */ getActiveObject; },
+  getTextContent: function() { return /* reexport */ getTextContent; },
+  insert: function() { return /* reexport */ insert; },
+  insertObject: function() { return /* reexport */ insertObject; },
+  isCollapsed: function() { return /* reexport */ isCollapsed; },
+  isEmpty: function() { return /* reexport */ isEmpty; },
+  join: function() { return /* reexport */ join; },
+  registerFormatType: function() { return /* reexport */ registerFormatType; },
+  remove: function() { return /* reexport */ remove; },
+  removeFormat: function() { return /* reexport */ removeFormat; },
+  replace: function() { return /* reexport */ replace_replace; },
+  slice: function() { return /* reexport */ slice; },
+  split: function() { return /* reexport */ split; },
+  store: function() { return /* reexport */ store; },
+  toHTMLString: function() { return /* reexport */ toHTMLString; },
+  toggleFormat: function() { return /* reexport */ toggleFormat; },
+  unregisterFormatType: function() { return /* reexport */ unregisterFormatType; },
+  useAnchor: function() { return /* reexport */ useAnchor; },
+  useAnchorRef: function() { return /* reexport */ useAnchorRef; }
 });
 
 // NAMESPACE OBJECT: ./packages/rich-text/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, {
-  "getFormatType": () => (getFormatType),
-  "getFormatTypeForBareElement": () => (getFormatTypeForBareElement),
-  "getFormatTypeForClassName": () => (getFormatTypeForClassName),
-  "getFormatTypes": () => (getFormatTypes)
+  getFormatType: function() { return getFormatType; },
+  getFormatTypeForBareElement: function() { return getFormatTypeForBareElement; },
+  getFormatTypeForClassName: function() { return getFormatTypeForClassName; },
+  getFormatTypes: function() { return getFormatTypes; }
 });
 
 // NAMESPACE OBJECT: ./packages/rich-text/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
-  "addFormatTypes": () => (addFormatTypes),
-  "removeFormatTypes": () => (removeFormatTypes)
+  addFormatTypes: function() { return addFormatTypes; },
+  removeFormatTypes: function() { return removeFormatTypes; }
 });
 
 ;// CONCATENATED MODULE: external ["wp","data"]
-const external_wp_data_namespaceObject = window["wp"]["data"];
+var external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/store/reducer.js
 /**
  * WordPress dependencies
@@ -135,7 +132,7 @@ function formatTypes(state = {}, action) {
   }
   return state;
 }
-/* harmony default export */ const reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
+/* harmony default export */ var reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
   formatTypes
 }));
 
@@ -872,11 +869,6 @@ function createElement({
 
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/special-characters.js
 /**
- * Line separator character, used for multiline text.
- */
-const LINE_SEPARATOR = '\u2028';
-
-/**
  * Object replacement character, used as a placeholder for objects.
  */
 const OBJECT_REPLACEMENT_CHARACTER = '\ufffc';
@@ -983,10 +975,8 @@ function toFormat({
 /**
  * Create a RichText value from an `Element` tree (DOM), an HTML string or a
  * plain text string, with optionally a `Range` object to set the selection. If
- * called without any input, an empty value will be created. If
- * `multilineTag` is provided, any content of direct children whose type matches
- * `multilineTag` will be separated by two newlines. The optional functions can
- * be used to filter out content.
+ * called without any input, an empty value will be created. The optional
+ * functions can be used to filter out content.
  *
  * A value will have the following shape, which you are strongly encouraged not
  * to modify without the use of helper functions:
@@ -1013,12 +1003,8 @@ function toFormat({
  * @param {string}  [$1.text]                     Text to create value from.
  * @param {string}  [$1.html]                     HTML to create value from.
  * @param {Range}   [$1.range]                    Range to create value from.
- * @param {string}  [$1.multilineTag]             Multiline tag if the structure is
- *                                                multiline.
- * @param {Array}   [$1.multilineWrapperTags]     Tags where lines can be found if
- *                                                nesting is possible.
- * @param {boolean} [$1.preserveWhiteSpace]       Whether or not to collapse white
- *                                                space characters.
+ * @param {boolean} [$1.preserveWhiteSpace]       Whether or not to collapse
+ *                                                white space characters.
  * @param {boolean} [$1.__unstableIsEditableTree]
  *
  * @return {RichTextValue} A rich text value.
@@ -1028,8 +1014,6 @@ function create({
   text,
   html,
   range,
-  multilineTag,
-  multilineWrapperTags,
   __unstableIsEditableTree: isEditableTree,
   preserveWhiteSpace
 } = {}) {
@@ -1048,19 +1032,9 @@ function create({
   if (typeof element !== 'object') {
     return createEmptyValue();
   }
-  if (!multilineTag) {
-    return createFromElement({
-      element,
-      range,
-      isEditableTree,
-      preserveWhiteSpace
-    });
-  }
-  return createFromMultilineElement({
+  return createFromElement({
     element,
     range,
-    multilineTag,
-    multilineWrapperTags,
     isEditableTree,
     preserveWhiteSpace
   });
@@ -1183,16 +1157,11 @@ function removeReservedCharacters(string) {
 /**
  * Creates a Rich Text value from a DOM element and range.
  *
- * @param {Object}  $1                        Named argements.
- * @param {Element} [$1.element]              Element to create value from.
- * @param {Range}   [$1.range]                Range to create value from.
- * @param {string}  [$1.multilineTag]         Multiline tag if the structure is
- *                                            multiline.
- * @param {Array}   [$1.multilineWrapperTags] Tags where lines can be found if
- *                                            nesting is possible.
- * @param {boolean} [$1.preserveWhiteSpace]   Whether or not to collapse white
- *                                            space characters.
- * @param {Array}   [$1.currentWrapperTags]
+ * @param {Object}  $1                      Named argements.
+ * @param {Element} [$1.element]            Element to create value from.
+ * @param {Range}   [$1.range]              Range to create value from.
+ * @param {boolean} [$1.preserveWhiteSpace] Whether or not to collapse white
+ *                                          space characters.
  * @param {boolean} [$1.isEditableTree]
  *
  * @return {RichTextValue} A rich text value.
@@ -1200,9 +1169,6 @@ function removeReservedCharacters(string) {
 function createFromElement({
   element,
   range,
-  multilineTag,
-  multilineWrapperTags,
-  currentWrapperTags = [],
   isEditableTree,
   preserveWhiteSpace
 }) {
@@ -1293,25 +1259,9 @@ function createFromElement({
       continue;
     }
     if (format) delete format.formatType;
-    if (multilineWrapperTags && multilineWrapperTags.indexOf(tagName) !== -1) {
-      const value = createFromMultilineElement({
-        element: node,
-        range,
-        multilineTag,
-        multilineWrapperTags,
-        currentWrapperTags: [...currentWrapperTags, format],
-        isEditableTree,
-        preserveWhiteSpace
-      });
-      accumulateSelection(accumulator, node, range, value);
-      mergePair(accumulator, value);
-      continue;
-    }
     const value = createFromElement({
       element: node,
       range,
-      multilineTag,
-      multilineWrapperTags,
       isEditableTree,
       preserveWhiteSpace
     });
@@ -1347,70 +1297,6 @@ function createFromElement({
         formats: Array.from(value.formats, mergeFormats)
       });
     }
-  }
-  return accumulator;
-}
-
-/**
- * Creates a rich text value from a DOM element and range that should be
- * multiline.
- *
- * @param {Object}  $1                        Named argements.
- * @param {Element} [$1.element]              Element to create value from.
- * @param {Range}   [$1.range]                Range to create value from.
- * @param {string}  [$1.multilineTag]         Multiline tag if the structure is
- *                                            multiline.
- * @param {Array}   [$1.multilineWrapperTags] Tags where lines can be found if
- *                                            nesting is possible.
- * @param {Array}   [$1.currentWrapperTags]   Whether to prepend a line
- *                                            separator.
- * @param {boolean} [$1.preserveWhiteSpace]   Whether or not to collapse white
- *                                            space characters.
- * @param {boolean} [$1.isEditableTree]
- *
- * @return {RichTextValue} A rich text value.
- */
-function createFromMultilineElement({
-  element,
-  range,
-  multilineTag,
-  multilineWrapperTags,
-  currentWrapperTags = [],
-  isEditableTree,
-  preserveWhiteSpace
-}) {
-  const accumulator = createEmptyValue();
-  if (!element || !element.hasChildNodes()) {
-    return accumulator;
-  }
-  const length = element.children.length;
-
-  // Optimise for speed.
-  for (let index = 0; index < length; index++) {
-    const node = element.children[index];
-    if (node.nodeName.toLowerCase() !== multilineTag) {
-      continue;
-    }
-    const value = createFromElement({
-      element: node,
-      range,
-      multilineTag,
-      multilineWrapperTags,
-      currentWrapperTags,
-      isEditableTree,
-      preserveWhiteSpace
-    });
-
-    // Multiline value text should be separated by a line separator.
-    if (index !== 0 || currentWrapperTags.length > 0) {
-      mergePair(accumulator, {
-        formats: [,],
-        replacements: currentWrapperTags.length > 0 ? [currentWrapperTags] : [,],
-        text: LINE_SEPARATOR
-      });
-    }
-    accumulateSelection(accumulator, node, range, value);
-    mergePair(accumulator, value);
   }
   return accumulator;
 }
@@ -1635,8 +1521,6 @@ function getActiveObject({
 
 /** @typedef {import('./types').RichTextValue} RichTextValue */
 
-const pattern = new RegExp(`[${OBJECT_REPLACEMENT_CHARACTER}${LINE_SEPARATOR}]`, 'g');
-
 /**
  * Get the textual content of a Rich Text value. This is similar to
  * `Element.textContent`.
@@ -1648,7 +1532,7 @@ const pattern = new RegExp(`[${OBJECT_REPLACEMENT_CHARACTER}${LINE_SEPARATOR}]`,
 function getTextContent({
   text
 }) {
-  return text.replace(pattern, c => c === OBJECT_REPLACEMENT_CHARACTER ? '' : '\n');
+  return text.replace(OBJECT_REPLACEMENT_CHARACTER, '');
 }
 
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/is-collapsed.js
@@ -1678,11 +1562,6 @@ function isCollapsed({
 }
 
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/is-empty.js
-/**
- * Internal dependencies
- */
-
-
 /** @typedef {import('./types').RichTextValue} RichTextValue */
 
 /**
@@ -1697,34 +1576,6 @@ function isEmpty({
   text
 }) {
   return text.length === 0;
-}
-
-/**
- * Check if the current collapsed selection is on an empty line in case of a
- * multiline value.
- *
- * @param {RichTextValue} value Value te check.
- *
- * @return {boolean} True if the line is empty, false if not.
- */
-function isEmptyLine({
-  text,
-  start,
-  end
-}) {
-  if (start !== end) {
-    return false;
-  }
-  if (text.length === 0) {
-    return true;
-  }
-  if (start === 0 && text.slice(0, 1) === LINE_SEPARATOR) {
-    return true;
-  }
-  if (start === text.length && text.slice(-1) === LINE_SEPARATOR) {
-    return true;
-  }
-  return text.slice(start - 1, end + 1) === `${LINE_SEPARATOR}${LINE_SEPARATOR}`;
 }
 
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/join.js
@@ -2061,43 +1912,6 @@ function replace_replace({
   });
 }
 
-;// CONCATENATED MODULE: ./packages/rich-text/build-module/insert-line-separator.js
-/**
- * Internal dependencies
- */
-
-
-
-
-/** @typedef {import('./types').RichTextValue} RichTextValue */
-
-/**
- * Insert a line break character into a Rich Text value at the given
- * `startIndex`. Any content between `startIndex` and `endIndex` will be
- * removed. Indices are retrieved from the selection if none are provided.
- *
- * @param {RichTextValue} value        Value to modify.
- * @param {number}        [startIndex] Start index.
- * @param {number}        [endIndex]   End index.
- *
- * @return {RichTextValue} A new value with the value inserted.
- */
-function insertLineSeparator(value, startIndex = value.start, endIndex = value.end) {
-  const beforeText = value.text.slice(0, startIndex);
-  const previousLineSeparatorIndex = beforeText.lastIndexOf(LINE_SEPARATOR);
-  const previousLineSeparatorFormats = value.replacements[previousLineSeparatorIndex];
-  let replacements = [,];
-  if (previousLineSeparatorFormats) {
-    replacements = [previousLineSeparatorFormats];
-  }
-  const valueToInsert = {
-    formats: [,],
-    replacements,
-    text: LINE_SEPARATOR
-  };
-  return insert(value, valueToInsert, startIndex, endIndex);
-}
-
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/insert-object.js
 /**
  * Internal dependencies
@@ -2167,8 +1981,6 @@ function slice(value, startIndex = value.start, endIndex = value.end) {
  * Internal dependencies
  */
 
-
-
 /** @typedef {import('./types').RichTextValue} RichTextValue */
 
 /**
@@ -2237,9 +2049,7 @@ function splitAtSelection({
     start: 0,
     end: 0
   };
-  return [
-  // Ensure newlines are trimmed.
-  replace_replace(before, /\u2028+$/, ''), replace_replace(after, /^\u2028+/, '')];
+  return [before, after];
 }
 
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/get-format-type.js
@@ -2382,7 +2192,6 @@ function isEqualUntil(a, b, index) {
 }
 function toTree({
   value,
-  multilineTag,
   preserveWhiteSpace,
   createEmpty,
   append,
@@ -2406,75 +2215,26 @@ function toTree({
   } = value;
   const formatsLength = formats.length + 1;
   const tree = createEmpty();
-  const multilineFormat = {
-    type: multilineTag
-  };
   const activeFormats = getActiveFormats(value);
   const deepestActiveFormat = activeFormats[activeFormats.length - 1];
-  let lastSeparatorFormats;
   let lastCharacterFormats;
   let lastCharacter;
-
-  // If we're building a multiline tree, start off with a multiline element.
-  if (multilineTag) {
-    append(append(tree, {
-      type: multilineTag
-    }), '');
-    lastCharacterFormats = lastSeparatorFormats = [multilineFormat];
-  } else {
-    append(tree, '');
-  }
+  append(tree, '');
   for (let i = 0; i < formatsLength; i++) {
     const character = text.charAt(i);
     const shouldInsertPadding = isEditableTree && (
     // Pad the line if the line is empty.
-    !lastCharacter || lastCharacter === LINE_SEPARATOR ||
+    !lastCharacter ||
     // Pad the line if the previous character is a line break, otherwise
     // the line break won't be visible.
     lastCharacter === '\n');
-    let characterFormats = formats[i];
-
-    // Set multiline tags in queue for building the tree.
-    if (multilineTag) {
-      if (character === LINE_SEPARATOR) {
-        characterFormats = lastSeparatorFormats = (replacements[i] || []).reduce((accumulator, format) => {
-          accumulator.push(format, multilineFormat);
-          return accumulator;
-        }, [multilineFormat]);
-      } else {
-        characterFormats = [...lastSeparatorFormats, ...(characterFormats || [])];
-      }
-    }
+    const characterFormats = formats[i];
     let pointer = getLastChild(tree);
-    if (shouldInsertPadding && character === LINE_SEPARATOR) {
-      let node = pointer;
-      while (!isText(node)) {
-        node = getLastChild(node);
-      }
-      append(getParent(node), ZWNBSP);
-    }
-
-    // Set selection for the start of line.
-    if (lastCharacter === LINE_SEPARATOR) {
-      let node = pointer;
-      while (!isText(node)) {
-        node = getLastChild(node);
-      }
-      if (onStartIndex && start === i) {
-        onStartIndex(tree, node);
-      }
-      if (onEndIndex && end === i) {
-        onEndIndex(tree, node);
-      }
-    }
     if (characterFormats) {
       characterFormats.forEach((format, formatIndex) => {
         if (pointer && lastCharacterFormats &&
         // Reuse the last element if all formats remain the same.
-        isEqualUntil(characterFormats, lastCharacterFormats, formatIndex) && (
-        // Do not reuse the last element if the character is a
-        // line separator.
-        character !== LINE_SEPARATOR || characterFormats.length - 1 !== formatIndex)) {
+        isEqualUntil(characterFormats, lastCharacterFormats, formatIndex)) {
           pointer = getLastChild(pointer);
           return;
         }
@@ -2484,7 +2244,7 @@ function toTree({
           attributes,
           unregisteredAttributes
         } = format;
-        const boundaryClass = isEditableTree && character !== LINE_SEPARATOR && format === deepestActiveFormat;
+        const boundaryClass = isEditableTree && format === deepestActiveFormat;
         const parent = getParent(pointer);
         const newNode = append(parent, fromFormat({
           type,
@@ -2499,13 +2259,6 @@ function toTree({
         }
         pointer = append(newNode, '');
       });
-    }
-
-    // No need for further processing if the character is a line separator.
-    if (character === LINE_SEPARATOR) {
-      lastCharacterFormats = characterFormats;
-      lastCharacter = character;
-      continue;
     }
 
     // If there is selection at 0, handle it before characters are inserted.
@@ -2708,7 +2461,6 @@ function to_dom_remove(node) {
 }
 function toDom({
   value,
-  multilineTag,
   prepareEditableTree,
   isEditableTree = true,
   placeholder,
@@ -2736,7 +2488,6 @@ function toDom({
   const createEmpty = () => createElement(doc, '');
   const tree = toTree({
     value,
-    multilineTag,
     createEmpty,
     append,
     getLastChild,
@@ -2765,13 +2516,11 @@ function toDom({
 
 /**
  * Create an `Element` tree from a Rich Text value and applies the difference to
- * the `Element` tree contained by `current`. If a `multilineTag` is provided,
- * text separated by two new lines will be wrapped in an `Element` of that type.
+ * the `Element` tree contained by `current`.
  *
  * @param {Object}        $1                       Named arguments.
  * @param {RichTextValue} $1.value                 Value to apply.
  * @param {HTMLElement}   $1.current               The live root node to apply the element tree to.
- * @param {string}        [$1.multilineTag]        Multiline tag.
  * @param {Function}      [$1.prepareEditableTree] Function to filter editorable formats.
  * @param {boolean}       [$1.__unstableDomOnly]   Only apply elements, no selection.
  * @param {string}        [$1.placeholder]         Placeholder text.
@@ -2779,7 +2528,6 @@ function toDom({
 function apply({
   value,
   current,
-  multilineTag,
   prepareEditableTree,
   __unstableDomOnly,
   placeholder
@@ -2790,7 +2538,6 @@ function apply({
     selection
   } = toDom({
     value,
-    multilineTag,
     prepareEditableTree,
     placeholder,
     doc: current.ownerDocument
@@ -2901,7 +2648,7 @@ function applySelection({
 }
 
 ;// CONCATENATED MODULE: external ["wp","escapeHtml"]
-const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
+var external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/to-html-string.js
 /**
  * WordPress dependencies
@@ -2918,12 +2665,10 @@ const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 /** @typedef {import('./types').RichTextValue} RichTextValue */
 
 /**
- * Create an HTML string from a Rich Text value. If a `multilineTag` is
- * provided, text separated by a line separator will be wrapped in it.
+ * Create an HTML string from a Rich Text value.
  *
  * @param {Object}        $1                      Named argements.
  * @param {RichTextValue} $1.value                Rich text value.
- * @param {string}        [$1.multilineTag]       Multiline tag.
  * @param {boolean}       [$1.preserveWhiteSpace] Whether or not to use newline
  *                                                characters for line breaks.
  *
@@ -2931,12 +2676,10 @@ const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
  */
 function toHTMLString({
   value,
-  multilineTag,
   preserveWhiteSpace
 }) {
   const tree = toTree({
     value,
-    multilineTag,
     preserveWhiteSpace,
     createEmpty,
     append: to_html_string_append,
@@ -3021,9 +2764,9 @@ function createChildrenHTML(children = []) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","a11y"]
-const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
+var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
-const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/toggle-format.js
 /**
  * WordPress dependencies
@@ -3101,9 +2844,9 @@ function unregisterFormatType(name) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","element"]
-const external_wp_element_namespaceObject = window["wp"]["element"];
+var external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","deprecated"]
-const external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
+var external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/use-anchor-ref.js
 /**
@@ -3202,8 +2945,16 @@ function useAnchorRef({
 function getFormatElement(range, editableContentElement, tagName, className) {
   let element = range.startContainer;
 
-  // If the caret is right before the element, select the next element.
-  element = element.nextElementSibling || element;
+  // Even if the active format is defined, the actualy DOM range's start
+  // container may be outside of the format's DOM element:
+  // `a‸<strong>b</strong>` (DOM) while visually it's `a<strong>‸b</strong>`.
+  // So at a given selection index, start with the deepest format DOM element.
+  if (element.nodeType === element.TEXT_NODE && range.startOffset === element.length && element.nextSibling) {
+    element = element.nextSibling;
+    while (element.firstChild) {
+      element = element.firstChild;
+    }
+  }
   if (element.nodeType !== element.ELEMENT_NODE) {
     element = element.parentElement;
   }
@@ -3319,13 +3070,17 @@ function useAnchor({
     }
     editableContentElement.addEventListener('focusin', attach);
     editableContentElement.addEventListener('focusout', detach);
-    return detach;
+    return () => {
+      detach();
+      editableContentElement.removeEventListener('focusin', attach);
+      editableContentElement.removeEventListener('focusout', detach);
+    };
   }, [editableContentElement, tagName, className]);
   return anchor;
 }
 
 ;// CONCATENATED MODULE: external ["wp","compose"]
-const external_wp_compose_namespaceObject = window["wp"]["compose"];
+var external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/use-default-style.js
 /**
  * WordPress dependencies
@@ -3444,7 +3199,6 @@ function useCopyHandler(props) {
     function onCopy(event) {
       const {
         record,
-        multilineTag,
         preserveWhiteSpace
       } = propsRef.current;
       const {
@@ -3455,15 +3209,10 @@ function useCopyHandler(props) {
       }
       const selectedRecord = slice(record.current);
       const plainText = getTextContent(selectedRecord);
-      const tagName = element.tagName.toLowerCase();
-      let html = toHTMLString({
+      const html = toHTMLString({
         value: selectedRecord,
-        multilineTag,
         preserveWhiteSpace
       });
-      if (tagName && tagName !== 'span' && tagName !== 'div') {
-        html = `<${tagName}>${html}</${tagName}>`;
-      }
       event.clipboardData.setData('text/plain', plainText);
       event.clipboardData.setData('text/html', html);
       event.clipboardData.setData('rich-text', 'true');
@@ -3482,7 +3231,7 @@ function useCopyHandler(props) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","keycodes"]
-const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
+var external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/use-format-boundaries.js
 /**
  * WordPress dependencies
@@ -4038,65 +3787,6 @@ function useSelectionChangeCompat() {
   }, []);
 }
 
-;// CONCATENATED MODULE: ./packages/rich-text/build-module/remove-line-separator.js
-/**
- * Internal dependencies
- */
-
-
-
-
-
-/** @typedef {import('./types').RichTextValue} RichTextValue */
-
-/**
- * Removes a line separator character, if existing, from a Rich Text value at
- * the current indices. If no line separator exists on the indices it will
- * return undefined.
- *
- * @param {RichTextValue} value    Value to modify.
- * @param {boolean}       backward Indicates if are removing from the start
- *                                 index or the end index.
- *
- * @return {RichTextValue|undefined} A new value with the line separator
- *                                   removed. Or undefined if no line separator
- *                                   is found on the position.
- */
-function removeLineSeparator(value, backward = true) {
-  const {
-    replacements,
-    text,
-    start,
-    end
-  } = value;
-  const collapsed = isCollapsed(value);
-  let index = start - 1;
-  let removeStart = collapsed ? start - 1 : start;
-  let removeEnd = end;
-  if (!backward) {
-    index = end;
-    removeStart = start;
-    removeEnd = collapsed ? end + 1 : end;
-  }
-  if (text[index] !== LINE_SEPARATOR) {
-    return;
-  }
-  let newValue;
-  // If the line separator that is about te be removed
-  // contains wrappers, remove the wrappers first.
-  if (collapsed && replacements[index] && replacements[index].length) {
-    const newReplacements = replacements.slice();
-    newReplacements[index] = replacements[index].slice(0, -1);
-    newValue = {
-      ...value,
-      replacements: newReplacements
-    };
-  } else {
-    newValue = remove(value, removeStart, removeEnd);
-  }
-  return newValue;
-}
-
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/use-delete.js
 /**
  * WordPress dependencies
@@ -4109,8 +3799,6 @@ function removeLineSeparator(value, backward = true) {
  * Internal dependencies
  */
 
-
-
 function useDelete(props) {
   const propsRef = (0,external_wp_element_namespaceObject.useRef)(props);
   propsRef.current = props;
@@ -4121,8 +3809,7 @@ function useDelete(props) {
       } = event;
       const {
         createRecord,
-        handleChange,
-        multilineTag
+        handleChange
       } = propsRef.current;
       if (event.defaultPrevented) {
         return;
@@ -4136,27 +3823,11 @@ function useDelete(props) {
         end,
         text
       } = currentValue;
-      const isReverse = keyCode === external_wp_keycodes_namespaceObject.BACKSPACE;
 
       // Always handle full content deletion ourselves.
       if (start === 0 && end !== 0 && end === text.length) {
         handleChange(remove(currentValue));
         event.preventDefault();
-        return;
-      }
-      if (multilineTag) {
-        let newValue;
-
-        // Check to see if we should remove the first item if empty.
-        if (isReverse && currentValue.start === 0 && currentValue.end === 0 && isEmptyLine(currentValue)) {
-          newValue = removeLineSeparator(currentValue, !isReverse);
-        } else {
-          newValue = removeLineSeparator(currentValue, isReverse);
-        }
-        if (newValue) {
-          handleChange(newValue);
-          event.preventDefault();
-        }
       }
     }
     element.addEventListener('keydown', onKeyDown);
@@ -4196,7 +3867,6 @@ function useRichText({
   preserveWhiteSpace,
   onSelectionChange,
   onChange,
-  __unstableMultilineTag: multilineTag,
   __unstableDisableFormats: disableFormats,
   __unstableIsSelected: isSelected,
   __unstableDependencies = [],
@@ -4218,8 +3888,6 @@ function useRichText({
     return create({
       element: ref.current,
       range,
-      multilineTag,
-      multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined,
       __unstableIsEditableTree: true,
       preserveWhiteSpace
     });
@@ -4230,8 +3898,6 @@ function useRichText({
     apply({
       value: newRecord,
       current: ref.current,
-      multilineTag,
-      multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined,
       prepareEditableTree: __unstableAddInvisibleFormats,
       __unstableDomOnly: domOnly,
       placeholder
@@ -4245,8 +3911,6 @@ function useRichText({
     _value.current = value;
     record.current = create({
       html: value,
-      multilineTag,
-      multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined,
       preserveWhiteSpace
     });
     if (disableFormats) {
@@ -4303,7 +3967,6 @@ function useRichText({
           ...newRecord,
           formats: __unstableBeforeSerialize(newRecord)
         } : newRecord,
-        multilineTag,
         preserveWhiteSpace
       });
     }
@@ -4333,7 +3996,6 @@ function useRichText({
         ...newRecord,
         formats: __unstableBeforeSerialize(newRecord)
       } : newRecord,
-      multilineTag,
       preserveWhiteSpace
     });
     const {
@@ -4377,15 +4039,13 @@ function useRichText({
     record
   }), useCopyHandler({
     record,
-    multilineTag,
     preserveWhiteSpace
   }), useSelectObject(), useFormatBoundaries({
     record,
     applyRecord
   }), useDelete({
     createRecord,
-    handleChange,
-    multilineTag
+    handleChange
   }), useInputAndSelection({
     record,
     applyRecord,
@@ -4411,6 +4071,8 @@ function useRichText({
 }
 function __experimentalRichText() {}
 
+;// CONCATENATED MODULE: external "React"
+var external_React_namespaceObject = window["React"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/format-edit.js
 
 /**
@@ -4437,7 +4099,7 @@ function FormatEdit({
     const isActive = activeFormat !== undefined;
     const activeObject = getActiveObject(value);
     const isObjectActive = activeObject !== undefined && activeObject.type === name;
-    return (0,external_wp_element_namespaceObject.createElement)(Edit, {
+    return (0,external_React_namespaceObject.createElement)(Edit, {
       key: name,
       isActive: isActive,
       activeAttributes: isActive ? activeFormat.attributes || {} : {},
@@ -4452,8 +4114,6 @@ function FormatEdit({
 }
 
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/index.js
-
-
 
 
 

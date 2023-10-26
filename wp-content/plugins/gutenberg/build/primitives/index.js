@@ -1,8 +1,8 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 4403:
-/***/ ((module, exports) => {
+/***/ (function(module, exports) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   Copyright (c) 2018 Jed Watson.
@@ -93,76 +93,76 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
+/******/ 		__webpack_require__.n = function(module) {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 		__webpack_require__.d = function(exports, definition) {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
+/******/ 		__webpack_require__.r = function(exports) {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
+!function() {
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "BlockQuotation": () => (/* reexport */ BlockQuotation),
-  "Circle": () => (/* reexport */ Circle),
-  "Defs": () => (/* reexport */ Defs),
-  "G": () => (/* reexport */ G),
-  "HorizontalRule": () => (/* reexport */ HorizontalRule),
-  "Line": () => (/* reexport */ Line),
-  "LinearGradient": () => (/* reexport */ LinearGradient),
-  "Path": () => (/* reexport */ Path),
-  "Polygon": () => (/* reexport */ Polygon),
-  "RadialGradient": () => (/* reexport */ RadialGradient),
-  "Rect": () => (/* reexport */ Rect),
-  "SVG": () => (/* reexport */ SVG),
-  "Stop": () => (/* reexport */ Stop),
-  "View": () => (/* reexport */ View)
+  BlockQuotation: function() { return /* reexport */ BlockQuotation; },
+  Circle: function() { return /* reexport */ Circle; },
+  Defs: function() { return /* reexport */ Defs; },
+  G: function() { return /* reexport */ G; },
+  HorizontalRule: function() { return /* reexport */ HorizontalRule; },
+  Line: function() { return /* reexport */ Line; },
+  LinearGradient: function() { return /* reexport */ LinearGradient; },
+  Path: function() { return /* reexport */ Path; },
+  Polygon: function() { return /* reexport */ Polygon; },
+  RadialGradient: function() { return /* reexport */ RadialGradient; },
+  Rect: function() { return /* reexport */ Rect; },
+  SVG: function() { return /* reexport */ SVG; },
+  Stop: function() { return /* reexport */ Stop; },
+  View: function() { return /* reexport */ View; }
 });
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
 var classnames = __webpack_require__(4403);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 ;// CONCATENATED MODULE: external ["wp","element"]
-const external_wp_element_namespaceObject = window["wp"]["element"];
+var external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: ./packages/primitives/build-module/svg/index.js
 /**
  * External dependencies
@@ -245,19 +245,19 @@ const LinearGradient = props => (0,external_wp_element_namespaceObject.createEle
  * @return {JSX.Element} Stop component
  */
 const Stop = props => (0,external_wp_element_namespaceObject.createElement)('stop', props);
-
+const SVG = (0,external_wp_element_namespaceObject.forwardRef)(
 /**
- *
- * @param {SVGProps} props isPressed indicates whether the SVG should appear as pressed.
- *                         Other props will be passed through to svg component.
+ * @param {SVGProps}                                    props isPressed indicates whether the SVG should appear as pressed.
+ *                                                            Other props will be passed through to svg component.
+ * @param {import('react').ForwardedRef<SVGSVGElement>} ref   The forwarded ref to the SVG element.
  *
  * @return {JSX.Element} Stop component
  */
-const SVG = ({
+({
   className,
   isPressed,
   ...props
-}) => {
+}, ref) => {
   const appliedProps = {
     ...props,
     className: classnames_default()(className, {
@@ -270,9 +270,11 @@ const SVG = ({
   // Disable reason: We need to have a way to render HTML tag for web.
   // eslint-disable-next-line react/forbid-elements
   return (0,external_wp_element_namespaceObject.createElement)("svg", {
-    ...appliedProps
+    ...appliedProps,
+    ref: ref
   });
-};
+});
+SVG.displayName = 'SVG';
 
 ;// CONCATENATED MODULE: ./packages/primitives/build-module/horizontal-rule/index.js
 const HorizontalRule = 'hr';
@@ -289,8 +291,7 @@ const View = 'div';
 
 
 
-})();
-
+}();
 (window.wp = window.wp || {}).primitives = __webpack_exports__;
 /******/ })()
 ;
