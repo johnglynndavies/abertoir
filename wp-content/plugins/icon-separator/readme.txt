@@ -1,10 +1,10 @@
 === Icon Separator ===
 Contributors:      Mr2P
-Tags:              block, separator, SVG, icon, divider, gutenberg
+Tags:              block, separator, SVG, icon, divider, Gutenberg
 Requires PHP:      7.0.0
-Requires at least: 5.9.0
+Requires at least: 6.3
 Tested up to:      6.3
-Stable tag:        1.1.7
+Stable tag:        1.1.8
 License:           GPL-3.0
 License URI:       https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,8 +14,10 @@ A simple, lightweight, accessibility-ready icon separator block.
 
 A simple, lightweight, accessibility-ready icon separator block.
 
-Features included:
+=== Key Features ===
 
+* Customize the icon width, spacing, color and position.
+* Customize the separator width, style, color and position.
 * Accessibility ready with 'separator' role.
 * Simple and easy to use but included full settings even with responsive width and responsive vertical margin.
 * An icon library included icons from "Bootstrap Icons", "Ionicons", "Dashicons" and new "WordPress Icons".
@@ -32,7 +34,7 @@ Please check out my other plugins if you're interested:
 * [Meta Field Block](https://wordpress.org/plugins/display-a-meta-field-as-block) - A block to display a meta field or an ACF field as a block. It can also be used in the Query Loop block.
 * [Counting Number Block](https://wordpress.org/plugins/counting-number-block) - A block to display a number that has the number-counting effect.
 * [Breadcrumb Block](https://wordpress.org/plugins/breadcrumb-block) - A simple breadcrumb trail block that supports JSON-LD structured data.
-* [Better Youtube Embed Block](https://wordpress.org/plugins/better-youtube-embed-block) - Embed Youtube videos without slowing down your site.
+* [Better Youtube Embed Block](https://wordpress.org/plugins/better-youtube-embed-block) - Embed YouTube videos without slowing down your site.
 
 The plugin is developed using @wordpress/create-block.
 
@@ -67,6 +69,12 @@ Anyone can use this plugin.
 2. Change the separator's settings
 
 == Changelog ==
+
+= 1.1.8 =
+*Release Date - 23 September 2023*
+
+* Updated - Using the default BorderControl for the line style
+* Updated - Update 'Requires at least' to 6.3 for new the spacing sizes control style
 
 = 1.1.7 =
 *Release Date - 02 September 2023*
