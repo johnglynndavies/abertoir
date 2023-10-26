@@ -2,10 +2,10 @@
 Contributors: Chouby, manooweb, raaaahman, marianne38, sebastienserre, greglone, hugod
 Donate link: https://polylang.pro
 Tags: multilingual, bilingual, translate, translation, language, multilanguage, international, localization
-Requires at least: 5.8
-Tested up to: 6.2
+Requires at least: 5.9
+Tested up to: 6.3
 Requires PHP: 7.0
-Stable tag: 3.4.5
+Stable tag: 3.5.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -54,7 +54,7 @@ Helps optimizing the time spent translating your site with some very useful extr
 * Translating WooCommerce e-mails and sending them to customers in their language.
 * Products metadata synchronization.
 * Compatibility with the native WooCommerce CSV import & export tool.
-* Compatibility with popular plugins such as WooCommerce Subscriptions, Product Bundles, WooCommerce Bookings, Shipment tracking and more.
+* Compatibility with popular plugins such as WooCommerce Subscriptions, Product Bundles, WooCommerce Bookings, Shipment Tracking and more.
 * Ability to use the WooCommerce REST API (available with Polylang Pro).
 * **Access to a Premium Support for personalized assistance.**
 
@@ -75,7 +75,7 @@ Wherever third party code has been used, credit has been given in the code’s c
 
 == Installation ==
 
-1. Make sure you are using WordPress 5.8 or later and that your server is running PHP 7.0 or later (same requirement as WordPress itself).
+1. Make sure you are using WordPress 5.9 or later and that your server is running PHP 7.0 or later (same requirement as WordPress itself).
 1. If you tried other multilingual plugins, deactivate them before activating Polylang, otherwise, you may get unexpected results!
 1. Install and activate the plugin as usual from the 'Plugins' menu in WordPress.
 1. The [setup wizard](https://polylang.pro/doc/setup-wizard/) is automatically launched to help you get started more easily with Polylang by configuring the main features.
@@ -103,6 +103,43 @@ Wherever third party code has been used, credit has been given in the code’s c
 4. The Edit Post screen with the Languages metabox
 
 == Changelog ==
+
+= 3.5.2 (2023-10-25) =
+
+* Pro: Fix terms not filtered by the current language in the block editor custom taxonomy component panel
+* Fix incorrect rewrite rules leading to error 404 for the main site on mutisite #1375
+
+= 3.5.1 (2023-10-17) =
+
+* Pro: Fix terms not filtered by the current language in the block editor custom taxonomy component panel
+* Pro: Fix fatal error when using plain permalinks on multisite
+* Pro: Fix rewrite rules incorrectly refreshed when saving strings translations
+* Fix incorrect rewrite rules leading to error 404 on mutisite #1366
+* Fix fatal error when using symlinked MU plugins that are not in open_basedir #1368
+
+= 3.5 (2023-10-09) =
+
+* Requires WordPress 5.9 as minimum version
+* Pro: Manage navigation blocks translations in the site editor (requires WP 6.3)
+* Pro: Manage pages translations in the site editor (requires WP 6.3)
+* Pro: Manage patterns translations in the site editor (requires WP 6.3)
+* Pro: Remove compatibility with the navigation screen removed from Gütenberg 15.1
+* Pro: Add filter 'pll_export_post_fields' to control post fields exported to XLIFF files
+* Pro: Do not set default translation option to "translate" for ACF fields created before Polylang Pro is activated
+* Pro: Fix Polylang not set as recently active when automatically deactivated by Polylang Pro
+* Don't output javascript type for themes supporting html5 #1332
+* Hook WP_Query automatic translation to 'parse_query' instead of 'pre_get_posts' #1339
+* Improve preload paths management for the block editor #1341
+* Fix rewrite rules in WP 6.4 #1345
+* Fix: always assign the default language to new posts and terms if no language is specified #1351
+* Fix 'polylang' option not correctly created when a new site is created on a multisite #1319
+* Fix front page display switched to "Your latest posts" when deleting a static home page translation #1311
+* Fix wrong language assigned to terms #1336
+* Fix error when updating a translated option while the blog is switched on a multisite #1342
+
+= 3.4.6 (2023-09-13) =
+
+* Pro: Security: Fix unsafe custom style injection in navigation language switcher block
 
 = 3.4.5 (2023-08-07) =
 
