@@ -36,13 +36,18 @@
   }
 
   a {
-    &:hover,
-    &:focus {
+    &:hover {
       text-decoration: none;
 
       h3 {
         text-decoration: underline;
         text-underline-offset: 0.1em;
+      }
+    }
+
+    &:focus {
+      h3 {
+        outline: 3px dotted var(--wp--preset--color--primary);
       }
     }
   }

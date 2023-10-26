@@ -1,6 +1,7 @@
 {
     "version": 3,
     "settings": {
+        "useRootPaddingAwareAlignments": false,
         "color": {
             "custom": false,
             "link": true,
@@ -77,18 +78,39 @@
             "fontSizes": [
                 {
                     "slug": "x-small",
-                    "size": "0.8rem",
-                    "name": "X-Small"
+                    "size": "0.8rem"
                 },
                 {
+                    "fluid": {
+						"min": "0.95rem",
+						"max": "1rem"
+					},
                     "slug": "small",
-                    "size": "1rem",
-                    "name": "Small"
+                    "size": "1rem"
                 },
                 {
+                    "fluid": {
+						"min": "1.25rem",
+						"max": "1.333rem"
+					},
                     "slug": "medium",
-                    "size": "1.333rem",
-                    "name": "Medium"
+                    "size": "1.333rem"
+                },
+                {
+                    "fluid": {
+                        "min": "2rem",
+                        "max": "2.369rem"
+                    },
+                    "slug": "huge",
+                    "size": "2.369rem"
+                },
+                {
+                    "fluid": {
+                        "min": "2rem",
+                        "max": "4.209rem"
+                    },
+                    "slug": "colossal",
+                    "size": "4.209rem"
                 }
             ],
             "fontFamilies": [
@@ -159,9 +181,50 @@
             "contentSize": "610px",
             "wideSize": "1240px"
         },
+        "spacing": {
+			"spacingSizes": [
+                {
+                    "size": "5.06rem",
+                    "slug": "80",
+                    "name": "7"
+                },
+                {
+                    "size": "3.38rem",
+                    "slug": "70",
+                    "name": "6"
+                },
+                {
+                    "size": "2.255rem",
+                    "slug": "60",
+                    "name": "5"
+                },
+                {
+                    "size": "1.5rem",
+                    "slug": "50",
+                    "name": "4"
+                },
+                {
+                    "size": "1rem",
+                    "slug": "40",
+                    "name": "3"
+                },
+                {
+                    "size": "0.67rem",
+                    "slug": "30",
+                    "name": "2"
+                },
+                {
+                    "size": "0.44rem",
+                    "slug": "20",
+                    "name": "1"
+                }
+            ]
+		},
         "custom": {
             "typography": {
                 "line-height": {
+                    "small": 1.2,
+                    "medium": 1.4,
                     "normal": 1.7,
                     "tiny": 1
                 },
@@ -174,11 +237,22 @@
                 }
             },
             "spacing": {
-                "small": "max(1rem, 5vw)"
+                "small": "max(1rem, 5vw)",
+                "medium": "clamp(2rem, 8vw, calc(4 * var(--wp--style--block-gap)))",
+                "large": "clamp(4rem, 10vw, 8rem)",
+                "outer": "var(--wp--custom--spacing--small, 1.25rem)"
             }
         }
     },
     "styles": {
+        "spacing": {
+            "padding": {
+                "top": "0px",
+                "bottom": "0px",
+                "right": "0px",
+                "left": "0px"
+            }
+        },
         "blocks": {
             "core/post-title": {
                 "typography": {

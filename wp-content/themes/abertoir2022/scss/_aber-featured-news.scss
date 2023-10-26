@@ -18,8 +18,13 @@
         color: white;
 
         &:hover, &:active, &:focus {
-            text-decoration: none;
+            text-decoration-line: none;
             background-color: rgba(0,0,0,0.5);
+        }
+
+        &:focus {
+            text-decoration: 0.1em underline solid;
+            text-underline-offset: 0.05em;
         }
     }
 

@@ -36,12 +36,15 @@
     width: unset;
   }
 }
-.aber-event-promo a:hover, .aber-event-promo a:focus {
+.aber-event-promo a:hover {
   text-decoration: none;
 }
-.aber-event-promo a:hover h3, .aber-event-promo a:focus h3 {
+.aber-event-promo a:hover h3 {
   text-decoration: underline;
   text-underline-offset: 0.1em;
+}
+.aber-event-promo a:focus h3 {
+  outline: 3px dotted var(--wp--preset--color--primary);
 }
 .aber-event-promo h3 a:hover, .aber-event-promo h3 a:focus {
   text-decoration: underline;
