@@ -271,23 +271,25 @@ h2 {
   margin-bottom: 0!important;
 }
 
-a:where(:not(.wp-element-button)) {
-  color: var(--wp--preset--color--primary);
-  text-decoration: none;
-
-  &:hover, &:active, &:focus {
-    text-decoration: underline solid var(--wp--preset--color--primary) .15ch;
-  }
-
-  &:active {
+.wp-block-post-content  {
+  a:where(:not(.wp-element-button)) {
     color: var(--wp--preset--color--primary);
-  }
+    text-decoration: none;
 
-  &:focus {
-    text-decoration-line: none;
+    &:hover, &:active, &:focus {
+      text-decoration: underline solid var(--wp--preset--color--primary) .15ch;
+    }
 
-    &:hover {
-      text-decoration-line: underline;
+    &:active {
+      color: var(--wp--preset--color--primary);
+    }
+
+    &:focus {
+      text-decoration-line: none;
+
+      &:hover {
+        text-decoration-line: underline;
+      }
     }
   }
 }
@@ -439,7 +441,7 @@ button {
 
         .wp-block-cover__inner-container {
           position: relative;
-          z-index: 3;
+          z-index: 1;
         }
       }
 

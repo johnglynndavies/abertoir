@@ -287,22 +287,22 @@ h2 a {
   margin-bottom: 0 !important;
 }
 
-a:where(:not(.wp-element-button)) {
+.wp-block-post-content a:where(:not(.wp-element-button)) {
   color: var(--wp--preset--color--primary);
   text-decoration: none;
 }
-a:where(:not(.wp-element-button)):hover, a:where(:not(.wp-element-button)):active, a:where(:not(.wp-element-button)):focus {
+.wp-block-post-content a:where(:not(.wp-element-button)):hover, .wp-block-post-content a:where(:not(.wp-element-button)):active, .wp-block-post-content a:where(:not(.wp-element-button)):focus {
   -webkit-text-decoration: underline solid var(--wp--preset--color--primary) 0.15ch;
           text-decoration: underline solid var(--wp--preset--color--primary) 0.15ch;
 }
-a:where(:not(.wp-element-button)):active {
+.wp-block-post-content a:where(:not(.wp-element-button)):active {
   color: var(--wp--preset--color--primary);
 }
-a:where(:not(.wp-element-button)):focus {
+.wp-block-post-content a:where(:not(.wp-element-button)):focus {
   -webkit-text-decoration-line: none;
           text-decoration-line: none;
 }
-a:where(:not(.wp-element-button)):focus:hover {
+.wp-block-post-content a:where(:not(.wp-element-button)):focus:hover {
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
 }
@@ -446,7 +446,7 @@ button:focus {
 }
 .page .wp-site-blocks > header header + .wp-block-cover.alignfull .wp-block-cover__inner-container {
   position: relative;
-  z-index: 3;
+  z-index: 1;
 }
 
 .aber-header {
