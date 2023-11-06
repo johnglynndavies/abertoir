@@ -320,6 +320,12 @@ button {
   color: var(--wp--preset--color--white) !important;
 }
 
+.wp-element-button:hover, .wp-block-button__link:hover,
+.wp-element-button:focus, .wp-block-button__link:focus {
+  opacity: 1;
+  background-color: var(--wp--preset--color--red);
+}
+
 .wp-block-boldblocks-icon-separator__inner {
   margin-block-start: 1.5rem;
   margin-block-end: 2rem;
