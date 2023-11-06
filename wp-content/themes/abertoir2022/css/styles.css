@@ -742,6 +742,7 @@ button:focus {
     margin-top: 0;
     position: relative;
     top: -2rem;
+    z-index: 200;
   }
 }
 @media screen and (min-width: 782px) {

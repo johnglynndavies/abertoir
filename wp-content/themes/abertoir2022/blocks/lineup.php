@@ -204,7 +204,8 @@ function render_block_lineup( $attributes, $content ) {
 
 			if ($tags = get_the_terms($id, 'exhibit_tags')) {
 				foreach($tags as $tag) {
-					$tags_str .= ' <span class="lineup-exhibit__tag">'.$tag->name.'</span>';
+					$tag_name = _aber_lineup_truncate_tag($tag->name);
+					$tags_str .= ' <span class="lineup-exhibit__tag">'.$tag_name.'</span>';
 				}
 			}
 
@@ -251,4 +252,15 @@ function abertoir2022_query_vars( $qvars ) {
     $qvars[] = 'lineup_filter';
     $qvars[] = 'lineup_type';
 	return $qvars;
+}
+
+function _aber_lineup_truncate_tag($tag) {
+	if (preg_match('/(\+?\s?Q&amp;A)/', $tag, $matches)) {
+		return $matches[0];
+	}
+	elseif (preg_match('/(\+?\s?Intro)/', $tag, $matches)) {
+		return $matches[0];
+	}
+
+	return $tag;
 }

@@ -142,7 +142,7 @@ function render_block_schedule( $attributes, $content ) {
 
 			if ($tags = get_the_terms($id, 'exhibit_tags')) {
 				foreach($tags as $tag) {
-					$tag_name = preg_match('/(\+?\s?Q&amp;A)/', $tag->name, $matches) ? $matches[0] : $tag->name;
+					$tag_name = _aber_schedule_truncate_tag($tag->name);
 					$tags_str .= ' <span class="festival-schedule__tag">'.$tag_name.'</span>';
 				}
 			}
@@ -159,4 +159,15 @@ function render_block_schedule( $attributes, $content ) {
 	wp_reset_postdata();
 
 	return $schedule;
+}
+
+function _aber_schedule_truncate_tag($tag) {
+	if (preg_match('/(\+?\s?Q&amp;A)/', $tag, $matches)) {
+		return $matches[0];
+	}
+	elseif (preg_match('/(\+?\s?Intro)/', $tag, $matches)) {
+		return $matches[0];
+	}
+
+	return $tag;
 }
