@@ -142,7 +142,8 @@ function render_block_schedule( $attributes, $content ) {
 
 			if ($tags = get_the_terms($id, 'exhibit_tags')) {
 				foreach($tags as $tag) {
-					$tags_str .= ' <span class="festival-schedule__tag">'.$tag->name.'</span>';
+					$tag_name = preg_match('/(\+?\s?Q&amp;A)/', $tag->name, $matches) ? $matches[0] : $tag->name;
+					$tags_str .= ' <span class="festival-schedule__tag">'.$tag_name.'</span>';
 				}
 			}
 		
