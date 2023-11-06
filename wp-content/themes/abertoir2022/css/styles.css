@@ -707,6 +707,7 @@ button:focus {
 
 .festival-schedule__time {
   font-weight: 500;
+  min-width: 4rem;
 }
 
 .festival-schedule__tag {

@@ -261,6 +261,9 @@ function _aber_lineup_truncate_tag($tag) {
 	elseif (preg_match('/(\+?\s?Intro)/', $tag, $matches)) {
 		return $matches[0];
 	}
+	elseif (preg_match('/(\+?\s?Presentation)/', $tag, $matches)) {
+		return $matches[0];
+	}
 
 	return $tag;
 }
