@@ -101,7 +101,7 @@ function render_block_schedule( $attributes, $content ) {
         'post__not_in' => NULL,
 		'post_parent__in' => $lineups,
         'post_status' => 'publish',
-        'posts_per_page' => NULL, 
+        'posts_per_page' => -1, 
         'orderby' => 'meta_value', 
         'order' => 'ASC', 
 	];
